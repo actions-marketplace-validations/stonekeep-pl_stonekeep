@@ -1,0 +1,1186 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Stonekeep: RODO dla małych zespołów i programistów</title>
+    <meta
+      name="description"
+      content="Stonekeep prowadzi małą firmę przez RODO: skanuje kod w poszukiwaniu danych osobowych, obsługuje wnioski klientów, pilnuje 72 godzin po wycieku i przygotowuje dokumenty po polsku. Start za darmo."
+    />
+    <meta name="theme-color" content="#04060d" />
+    <!--if:siteUrl--><link rel="canonical" href="{{siteUrl}}/" /><!--/if:siteUrl-->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:site_name" content="Stonekeep" />
+    <meta property="og:title" content="Stonekeep: RODO dla małych zespołów i programistów" />
+    <meta
+      property="og:description"
+      content="Skan kodu, wnioski osób, wycieki w 72 godziny i dokumenty po polsku. Bez działu prawnego. Start za darmo: npx @stonekeep/cli init"
+    />
+    <!--if:siteUrl--><meta property="og:url" content="{{siteUrl}}/" />
+    <meta property="og:image" content="{{siteUrl}}/og.png" /><!--/if:siteUrl-->
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Stonekeep: RODO dla małych zespołów. Skan kodu, wnioski, wycieki, dokumenty." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="preload" href="fonts/jost-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/bodoni-moda-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="fonts/fonts.css" />
+    <link rel="stylesheet" href="style.css" />
+    <!--if:analytics.src--><script defer src="{{analytics.src}}" data-domain="{{analytics.domain}}" data-website-id="{{analytics.websiteId}}"></script><!--/if:analytics.src-->
+    <!--jsonld-->
+  </head>
+  <body>
+    <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+    <header class="nav" id="nav">
+      <a class="brand" href="#top" aria-label="Stonekeep">Stonekeep</a>
+      <nav class="nav-links" aria-label="Sekcje">
+        <a href="#jak">Jak działa</a>
+        <a href="#funkcje">Funkcje</a>
+        <a href="#start" data-cta="nav-free">Za darmo</a>
+        <a href="#cennik">Cennik</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="nav-cta" href="#demo" data-cta="nav"><span>Zamów demo</span></a>
+    </header>
+
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <filter id="inkRough">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="1.8" />
+      </filter>
+    </svg>
+    <main id="top">
+      <!-- HERO -->
+      <section class="hero" id="hero">
+        <canvas id="rosette" aria-hidden="true"></canvas>
+        <div class="hero-grid">
+          <p class="meta meta-l"><span>RODO</span><span>dla małych zespołów</span></p>
+          <p class="meta meta-r"><span>N° 001</span><span>Polska · 2026</span></p>
+          <h1>
+            <span class="line"><span>Zgodność,</span></span>
+            <span class="line"
+              ><span>której <em>nie widać.</em></span></span
+            >
+          </h1>
+          <div class="hero-foot">
+            <p>
+              <strong class="hero-kw">RODO dla małych zespołów i programistów.</strong>
+              Stonekeep czyta Twój kod, obsługuje wnioski klientów i pilnuje 72 godzin po wycieku.
+              Po polsku. Bez prawnika w każdym kroku.
+            </p>
+            <div class="hero-ctas">
+              <a class="cta" href="#start" data-cta="hero-free">
+                <span class="cta-label">Uruchom za darmo</span>
+                <span class="cta-line" aria-hidden="true"></span>
+              </a>
+              <a class="cta cta-2" href="#demo" data-cta="hero">
+                <span class="cta-label">Zamów demo</span>
+              </a>
+            </div>
+          </div>
+          <a class="scroll" href="#stawka" aria-label="Przewiń w dół"><i></i></a>
+        </div>
+      </section>
+
+      <!-- STAWKA -->
+      <section class="stakes" id="stawka" aria-label="Stawka">
+        <div class="stake reveal">
+          <b><span class="num" data-n="72">72</span><small>godziny</small></b>
+          <p>na zgłoszenie wycieku do Prezesa UODO, licząc od jego stwierdzenia.</p>
+          <i>art. 33 RODO</i>
+        </div>
+        <div class="stake reveal">
+          <b><span class="num" data-n="1">1</span><small>miesiąc</small></b>
+          <p>na odpowiedź osobie, która pyta, jakie jej dane masz, albo prosi o ich usunięcie.</p>
+          <i>art. 12 ust. 3 RODO</i>
+        </div>
+        <div class="stake reveal">
+          <b><span class="num" data-n="20">20</span><small>mln €</small></b>
+          <p>albo 4% rocznego obrotu: górna granica kary za naruszenie praw osób.</p>
+          <i>art. 83 ust. 5 RODO</i>
+        </div>
+      </section>
+
+      <!-- JAK TO DZIAŁA -->
+      <section class="film" id="jak" aria-label="Jak działa Stonekeep">
+        <div class="film-track" id="filmTrack">
+          <div class="film-stage">
+            <div class="film-text">
+              <p class="label">I &nbsp; Jak to działa</p>
+              <ol class="film-tabs" id="filmTabs">
+                <li>
+                  <button type="button" class="on" data-i="0"><b>1</b> Rozpoznanie</button>
+                </li>
+                <li>
+                  <button type="button" data-i="1"><b>2</b> Operacja</button>
+                </li>
+                <li>
+                  <button type="button" data-i="2"><b>3</b> Alarm</button>
+                </li>
+                <li>
+                  <button type="button" data-i="3"><b>4</b> Całość</button>
+                </li>
+              </ol>
+              <div class="film-copy" id="filmCopy">
+                <article class="on">
+                  <p class="ph">Faza 1 z 4 · Rozpoznanie</p>
+                  <h2>Najpierw mapa.</h2>
+                  <p>
+                    Jedno polecenie czyta projekt i znajduje pola z danymi osobowymi: e-mail,
+                    telefon, PESEL, adres IP. Z tego powstaje mapa danych Twojej firmy.
+                  </p>
+                  <ul>
+                    <li>Każde pole dostaje kategorię</li>
+                    <li>Dane wrażliwe są oznaczone osobno</li>
+                    <li>Nowa kolumna bez wpisu zatrzymuje build w CI</li>
+                  </ul>
+                  <p class="nx">Dalej: obsługa wniosków klientów</p>
+                </article>
+                <article>
+                  <p class="ph">Faza 2 z 4 · Operacja</p>
+                  <h2>Potem wniosek.</h2>
+                  <p>
+                    Klient prosi o usunięcie danych. Stonekeep na podstawie mapy pokazuje, co
+                    dokładnie zniknie i z których systemów, a Ty zatwierdzasz.
+                  </p>
+                  <ul>
+                    <li>Plan przed wykonaniem</li>
+                    <li>Zatwierdza druga osoba</li>
+                    <li>Potwierdzenie dla klienta i wpis w rejestrze</li>
+                  </ul>
+                  <p class="nx">Dalej: co, gdy dane wyciekną</p>
+                </article>
+                <article>
+                  <p class="ph">Faza 3 z 4 · Alarm</p>
+                  <h2>Gdy dojdzie do wycieku.</h2>
+                  <p>
+                    Zegar rusza w chwili, gdy go stwierdzisz. Masz 72 godziny, a Stonekeep
+                    przygotowuje to, co trzeba zgłosić.
+                  </p>
+                  <ul>
+                    <li>Zakres, kategorie i liczba osób</li>
+                    <li>Projekt zgłoszenia do UODO</li>
+                    <li>Zawiadomienie osób, których to dotyczy</li>
+                  </ul>
+                  <p class="nx">Dalej: cała zgodność naraz</p>
+                </article>
+                <article>
+                  <p class="ph">Faza 4 z 4 · Całość</p>
+                  <h2>Zgodność ze wszystkich stron.</h2>
+                  <p>
+                    Sześć obszarów RODO to sześć płaszczyzn obrotu tesseraktu. Każdy domknięty
+                    obszar dodaje wymiar, aż widzisz całość.
+                  </p>
+                  <ul>
+                    <li>Każdy obszar pod osobną kontrolą</li>
+                    <li>Luka w jednym zatrzymuje build (CI)</li>
+                  </ul>
+                  <p class="nx">Także to, czego zwykle nie widać</p>
+                </article>
+              </div>
+            </div>
+
+            <div class="win" aria-hidden="true">
+              <div class="win-bar mc">
+                <span class="mc-brand">Stonekeep · przegląd zgodności</span>
+                <ol class="mc-phases" id="mcPhases">
+                  <li class="on"><b>1</b><span>Rozpoznanie</span></li>
+                  <li><b>2</b><span>Operacja</span></li>
+                  <li><b>3</b><span>Alarm</span></li>
+                  <li><b>4</b><span>Całość</span></li>
+                </ol>
+                <span class="mc-live"><i></i>Live</span>
+                <span id="winTitle" hidden></span>
+              </div>
+              <div class="win-body">
+                <!-- 0 scan -->
+                <div class="act on" data-act="0">
+                  <div class="scan">
+                    <div class="code">
+                      <span class="scanline"></span>
+                      <span class="ln">CREATE TABLE users (</span>
+                      <span class="ln"> id uuid PRIMARY KEY,</span>
+                      <span class="ln hit" style="--d: 0.7s"> email text NOT NULL,</span>
+                      <span class="ln hit" style="--d: 1s"> phone text,</span>
+                      <span class="ln hit" style="--d: 1.3s"> pesel char(11),</span>
+                      <span class="ln"> created_at timestamptz</span>
+                      <span class="ln">);</span>
+                      <span class="ln">CREATE TABLE orders (</span>
+                      <span class="ln hit" style="--d: 1.8s"> ip_address inet,</span>
+                      <span class="ln"> total numeric</span>
+                      <span class="ln">);</span>
+                      <span class="ln">CREATE TABLE patients (</span>
+                      <span class="ln hit" style="--d: 2.3s"> diagnosis text</span>
+                      <span class="ln">);</span>
+                    </div>
+                    <div class="found">
+                      <p class="cap">Znalezione dane osobowe <b id="foundN">0</b></p>
+                      <ul>
+                        <li style="--d: 0.8s">
+                          <code>users.email</code><span class="chip c1">kontakt</span>
+                        </li>
+                        <li style="--d: 1.1s">
+                          <code>users.phone</code><span class="chip c1">kontakt</span>
+                        </li>
+                        <li style="--d: 1.4s">
+                          <code>users.pesel</code><span class="chip c2">identyfikator</span>
+                        </li>
+                        <li style="--d: 1.9s">
+                          <code>orders.ip_address</code><span class="chip c3">dane online</span>
+                        </li>
+                        <li style="--d: 2.4s">
+                          <code>patients.diagnosis</code
+                          ><span class="chip c4">zdrowie, art. 9</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 1 wniosek -->
+                <div class="act" data-act="1">
+                  <div class="req-card">
+                    <span class="mono">DSR-2026-014</span>
+                    <b>Prośba o usunięcie danych</b>
+                    <small>Jan Kowalski · jan@przyklad.pl · dziś, 09:12</small>
+                  </div>
+                  <ol class="req-steps">
+                    <li style="--d: 0.4s">
+                      <b>1. Plan usunięcia</b>
+                      <ul class="sys">
+                        <li>PostgreSQL <em>7 tabel · 31 pól</em></li>
+                        <li>Stripe <em>1 klient</em></li>
+                        <li>Mailchimp <em>1 subskrybent</em></li>
+                        <li>PayU <em>2 zapisane karty</em></li>
+                      </ul>
+                      <small>Faktury zostają, bo wymaga tego prawo.</small>
+                    </li>
+                    <li style="--d: 1.6s">
+                      <b>2. Zatwierdzenie</b>
+                      <small>Druga osoba potwierdza numerem wniosku.</small>
+                      <span class="fake-btn">Zatwierdź usunięcie</span>
+                    </li>
+                    <li style="--d: 2.8s">
+                      <b>3. Wykonanie i potwierdzenie</b>
+                      <small>Wiadomość do klienta i wpis w rejestrze.</small>
+                    </li>
+                  </ol>
+                </div>
+
+                <!-- 2 wyciek -->
+                <div class="act" data-act="2">
+                  <div class="inc">
+                    <div class="inc-alert">
+                      <i></i><b>Wykryto naruszenie ochrony danych</b><span>dziś, 09:12</span>
+                    </div>
+                    <div class="inc-body">
+                      <div class="dialbox">
+                        <svg viewBox="-100 -100 200 200" aria-hidden="true">
+                          <g id="incTicks"></g>
+                          <g class="inc-sec">
+                            <path d="M0 8 L0 -80" />
+                            <circle cx="0" cy="-86" r="2.6" />
+                          </g>
+                        </svg>
+                        <div class="dial-c">
+                          <small>Zostało</small><b id="clock">71:42:00</b
+                          ><small>do zgłoszenia w UODO</small>
+                        </div>
+                      </div>
+                      <ul class="feed">
+                        <li style="--d: 0.5s">
+                          <time>09:12</time><span class="tg red">Alarm</span>
+                          <p>Nietypowy eksport z tabeli <code>users</code></p>
+                        </li>
+                        <li style="--d: 1.3s">
+                          <time>09:14</time><span class="tg">Zakres</span>
+                          <p>3 tabele, 12 480 rekordów</p>
+                        </li>
+                        <li style="--d: 2.1s">
+                          <time>09:15</time><span class="tg">Dane</span>
+                          <p>e-mail, telefon, PESEL</p>
+                        </li>
+                        <li style="--d: 2.9s">
+                          <time>09:21</time><span class="tg grn">Projekt</span>
+                          <p>Zgłoszenie do UODO gotowe <em>(art. 33 ust. 3)</em></p>
+                        </li>
+                        <li style="--d: 3.7s">
+                          <time>09:22</time><span class="tg amb">Osoby</span>
+                          <p>Zawiadomienie osób w toku <em>(art. 34)</em></p>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="inc-foot">
+                      <span>Termin: 72 godz. od 09:12</span><span class="inc-prog"><i></i></span
+                      ><span class="inc-step">kroki 3 z 4</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3 dokumenty -->
+                <div class="act" data-act="3">
+                  <div class="sx" id="sx">
+                    <canvas class="sx-cv" id="sxCv" aria-hidden="true"></canvas>
+                    <ul class="sx-areas" id="sxPoll">
+                      <li><b>XY</b><span>Informacja</span></li>
+                      <li><b>XZ</b><span>Rejestr</span></li>
+                      <li><b>XW</b><span>Wnioski</span></li>
+                      <li><b>YZ</b><span>Naruszenia</span></li>
+                      <li><b>YW</b><span>Dostępy</span></li>
+                      <li><b>ZW</b><span>Umowy</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FUNKCJE -->
+      <section class="comp" id="funkcje">
+        <header class="comp-head reveal">
+          <p class="label">II &nbsp; Funkcje</p>
+          <h2>Siedem narzędzi.<br /><em>Jedna konsola.</em></h2>
+        </header>
+        <ol class="comp-list" id="compList">
+          <li class="reveal">
+            <span class="rn">I</span>
+            <h3>Pulpit RODO</h3>
+            <p>
+              Jeden wskaźnik postępu, sześć kroków i porady z odwołaniem do artykułu. Wiesz, co jest
+              zrobione i co zrobić dziś. Wskaźnik pomaga w pracy, ale nie jest oceną prawną.
+            </p>
+            <span class="art">art. 24</span>
+          </li>
+          <li class="reveal">
+            <span class="rn">II</span>
+            <h3>Moja firma</h3>
+            <p>
+              Kreator pytań prostym językiem. Z odpowiedzi powstaje rejestr czynności przetwarzania.
+            </p>
+            <span class="art">art. 30</span>
+          </li>
+          <li class="reveal">
+            <span class="rn">III</span>
+            <h3>Wnioski osób</h3>
+            <p>
+              Dostęp, eksport, usunięcie. Plan przed wykonaniem i zatwierdzenie drugą parą oczu.
+            </p>
+            <span class="art">art. 12–22</span>
+          </li>
+          <li class="reveal">
+            <span class="rn">IV</span>
+            <h3>Wycieki</h3>
+            <p>Zakres, kategorie, liczba osób i projekt zgłoszenia do UODO w kilka minut.</p>
+            <span class="art">art. 33–34</span>
+          </li>
+          <li class="reveal">
+            <span class="rn">V</span>
+            <h3>Dokumenty po polsku</h3>
+            <p>Klauzule, procedury i pisma do klientów, uzupełnione danymi z Twojego rejestru.</p>
+            <span class="art">art. 13, 28, 29</span>
+          </li>
+          <li class="reveal">
+            <span class="rn">VI</span>
+            <h3>Połączone usługi</h3>
+            <p>
+              Usuwanie danych tam, gdzie naprawdę leżą: PostgreSQL, Stripe, PayU, Przelewy24,
+              Mailchimp, Auth0.
+            </p>
+            <span class="art">art. 17</span>
+          </li>
+          <li class="reveal">
+            <span class="rn">VII</span>
+            <h3>Rejestr zgód</h3>
+            <p>Kto, kiedy i na co się zgodził. Dowód zgody na żądanie.</p>
+            <span class="art">art. 7 ust. 1</span>
+          </li>
+        </ol>
+      </section>
+
+      <!-- TOURBILLON (signature) -->
+      <section class="tb" id="ruch" aria-label="Ciągły ruch">
+        <div class="tb-track" id="tbTrack">
+          <div class="tb-stage">
+            <span class="tb-word" aria-hidden="true">Ruch</span>
+            <div class="tb-wrap" id="tbWrap" aria-hidden="true">
+              <div class="tb-tilt" id="tbTilt"></div>
+              <div class="tb-glint"><i></i></div>
+            </div>
+            <div class="tb-cap">
+              <p class="label">Ciągły ruch</p>
+              <p>
+                Terminy i zmiany w kodzie pilnowane bez przerwy, żebyś nie musiał o nich pamiętać.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DLA KOGO -->
+      <section class="manifest" id="dla" aria-label="Dla kogo">
+        <!-- pinned like the tourbillon: the lines light up one by one with the scroll, so a fast
+             flick coming out of the previous pinned scene cannot carry the reader past this section -->
+        <div class="manifest-track" id="manifestTrack">
+          <div class="manifest-stage" id="manifestStage">
+            <div class="mf-bg" aria-hidden="true">
+              <canvas class="mf-dial" id="mfDial"></canvas>
+              <svg class="mf-face" viewBox="-100 -100 200 200">
+                <g class="mf-ticks" id="mfTicks"></g>
+                <circle class="mf-trail" id="mfTrail" r="88" pathLength="1" />
+                <g class="mf-hand" id="mfHand">
+                  <path d="M0 14 L0 -86" />
+                  <circle cy="-91" r="2.4" />
+                </g>
+                <circle class="mf-pin" r="2.2" />
+              </svg>
+            </div>
+            <p class="manifest-text" id="manifest">
+              <span>Dla ludzi,</span>
+              <span>którzy robią <em>produkt,</em></span>
+              <span>nie compliance.</span>
+            </p>
+            <p class="manifest-sub" id="manifestSub">
+              Jednoosobowy sklep. Studio z trzema programistami. SaaS bez działu prawnego.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- START ZA DARMO -->
+      <section class="sec" id="start" aria-labelledby="start-h">
+        <header class="sec-head reveal">
+          <p class="label">III &nbsp; Zacznij za darmo</p>
+          <h2 id="start-h">Pięć minut.<br /><em>Bez konta i bez serwera.</em></h2>
+          <p class="sec-lede">
+            Skaner, kontrola w CI i dokumenty po polsku są darmowe i open source (Apache-2.0). Działają lokalnie
+            na Twoim komputerze: czytają definicje tabel, nigdy wartości danych, i niczego nigdzie nie wysyłają.
+          </p>
+        </header>
+        <ol class="start-steps">
+          <li class="reveal">
+            <b>1</b>
+            <h3>Zmapuj dane w projekcie</h3>
+            <div class="cmd"><code data-copy-src>npx @stonekeep/cli init</code><button type="button" class="copy" data-copy>Kopiuj</button></div>
+            <p>Skanuje migracje SQL, Prisma, TypeORM, JSON Schema i OpenAPI. Zapisuje mapę danych, konfigurację, szablon rejestru czynności i workflow CI.</p>
+          </li>
+          <li class="reveal">
+            <b>2</b>
+            <h3>Dostań porady i dokumenty</h3>
+            <div class="cmd"><code data-copy-src>npx @stonekeep/cli porady</code><button type="button" class="copy" data-copy>Kopiuj</button></div>
+            <p>Porady dla Twojego projektu z odwołaniem do artykułów RODO, a <code class="inl">dokumenty</code> tworzy pakiet: klauzulę informacyjną, procedury, pisma i checklisty.</p>
+          </li>
+          <li class="reveal">
+            <b>3</b>
+            <h3>Pilnuj w każdym pull requeście</h3>
+            <div class="cmd"><code data-copy-src>npx @stonekeep/cli check</code><button type="button" class="copy" data-copy>Kopiuj</button></div>
+            <p>Nowa kolumna z danymi osobowymi bez wpisu w mapie zatrzymuje build. Działa w GitHub Actions i GitLab CI.</p>
+          </li>
+        </ol>
+        <p class="start-links reveal">
+          <!--if:links.github--><a href="{{links.github}}" data-cta="github" rel="noopener">Kod na GitHubie</a><!--/if:links.github-->
+          <!--if:links.npm--><a href="{{links.npm}}" data-cta="npm" rel="noopener">Pakiet npm</a><!--/if:links.npm-->
+          <!--if:links.docs--><a href="{{links.docs}}" data-cta="docs" rel="noopener">Dokumentacja</a><!--/if:links.docs-->
+          <span>Wymaga Node.js 20+</span>
+        </p>
+      </section>
+
+      <!-- CENNIK -->
+      <section class="sec sec-alt" id="cennik" aria-labelledby="cennik-h">
+        <header class="sec-head reveal">
+          <p class="label">IV &nbsp; Cennik</p>
+          <h2 id="cennik-h">Płacisz za wygodę,<br /><em>nie za prawo do zgodności.</em></h2>
+        </header>
+        <div class="plans">
+          <article class="plan reveal">
+            <p class="plan-k">Open source</p>
+            <p class="plan-p"><b>0 zł</b><small>na zawsze</small></p>
+            <ul>
+              <li>Skaner kodu i mapa danych osobowych</li>
+              <li>Kontrola w CI, adnotacje w pull requestach, SARIF</li>
+              <li>Porady i pakiet dokumentów po polsku</li>
+              <li>Eksport, usuwanie i anonimizacja danych osoby (PostgreSQL)</li>
+              <li>Rejestr czynności (art. 30) i projekt zgłoszenia wycieku (art. 33)</li>
+              <li>Licencja Apache-2.0, bez telemetrii</li>
+            </ul>
+            <a class="plan-cta" href="#start" data-cta="plan-free">Uruchom teraz</a>
+          </article>
+          <article class="plan plan-on reveal">
+            <p class="plan-k">Dla zespołów</p>
+            <p class="plan-p"><b>Wycena</b><small>po krótkiej rozmowie</small></p>
+            <ul>
+              <li>Wdrożenie konsoli i API na Twojej infrastrukturze</li>
+              <li>Konfiguracja połączeń: Stripe, PayU, Przelewy24, Mailchimp, Auth0</li>
+              <li>Obsługa wniosków z zatwierdzaniem przez drugą osobę</li>
+              <li>Rejestr zgód z dowodem na żądanie</li>
+              <li>Pomoc przy pierwszym wniosku lub incydencie</li>
+            </ul>
+            <a class="plan-cta" href="#demo" data-cta="plan-team">Zamów demo</a>
+          </article>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="sec" id="faq" aria-labelledby="faq-h">
+        <header class="sec-head reveal">
+          <p class="label">V &nbsp; Pytania</p>
+          <h2 id="faq-h">Zanim zapytasz.</h2>
+        </header>
+        <div class="faq">
+          <details class="faq-item">
+            <summary>Czy Stonekeep gwarantuje zgodność z RODO?</summary>
+            <div class="faq-a"><p>Nie. Stonekeep pomaga wypełniać obowiązki: znajduje dane osobowe, prowadzi przez wnioski i wycieki, przygotowuje dokumenty. Rozpoznawanie pól jest heurystyczne i wymaga przeglądu przez człowieka. Narzędzie nie zastępuje porady prawnej ani inspektora ochrony danych.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Czy moje dane trafiają do Stonekeep?</summary>
+            <div class="faq-a"><p>Nie. Skaner czyta tylko definicje tabel i schematy, nigdy wartości danych. Wszystko działa lokalnie, bez telemetrii. Polecenia na bazie danych łączą się wyłącznie z bazami wskazanymi w Twojej konfiguracji.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Czy Stonekeep może coś usunąć przez pomyłkę?</summary>
+            <div class="faq-a"><p>Polecenia, które zmieniają dane, domyślnie tylko pokazują plan. Usuwają dopiero z flagą <code>--apply</code>, w jednej transakcji, którą każdy błąd wycofuje. W konsoli usunięcie zatwierdza druga osoba, wpisując numer wniosku.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Jakie technologie obsługuje?</summary>
+            <div class="faq-a"><p>Skaner: migracje SQL, Prisma, TypeORM, JSON Schema i OpenAPI. Eksport, usuwanie i maskowanie: PostgreSQL. Usługi zewnętrzne: Stripe, PayU, Przelewy24, Mailchimp i Auth0. Rozpoznaje też polskie nazwy pól, takie jak pesel, nip, imie i nazwisko.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Co z danymi, które prawo każe przechowywać, na przykład fakturami?</summary>
+            <div class="faq-a"><p>W konfiguracji zaznaczasz tabele z obowiązkiem przechowywania. Przy usuwaniu takie wiersze zostają, ale są odłączone od osoby, a wskazane pola są anonimizowane (art. 17 ust. 3 RODO).</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Czy to zastępuje inspektora ochrony danych (IOD)?</summary>
+            <div class="faq-a"><p>Nie. Jeśli masz IOD, Stonekeep oszczędza mu czas: daje aktualną mapę danych, rejestr i gotowe projekty dokumentów. Jeśli nie musisz go mieć, pomaga zrozumieć i wykonać obowiązki samodzielnie.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Ile to kosztuje?</summary>
+            <div class="faq-a"><p>Skaner, kontrola w CI, porady i dokumenty są darmowe i open source. Za wdrożenie konsoli, połączenia z usługami i wsparcie dla zespołu ustalamy cenę po krótkiej rozmowie.</p></div>
+          </details>
+        </div>
+      </section>
+
+      <!--if:founder.name-->
+      <!-- KTO ZA TYM STOI -->
+      <section class="sec sec-alt" id="kto" aria-labelledby="kto-h">
+        <div class="who reveal">
+          <!--if:founder.photo--><img class="who-img" src="{{founder.photo}}" alt="{{founder.name}}" width="200" height="200" loading="lazy" /><!--/if:founder.photo-->
+          <div>
+            <p class="label">Kto za tym stoi</p>
+            <h2 id="kto-h">{{founder.name}}</h2>
+            <p class="who-role">{{founder.role}}</p>
+            <p class="who-bio">{{founder.bio}}</p>
+            <p class="who-links">
+              <!--if:founder.linkedin--><a href="{{founder.linkedin}}" rel="noopener" data-cta="founder-linkedin">LinkedIn</a><!--/if:founder.linkedin-->
+              <!--if:founder.github--><a href="{{founder.github}}" rel="noopener" data-cta="founder-github">GitHub</a><!--/if:founder.github-->
+              <!--if:contactEmail--><a href="mailto:{{contactEmail}}" data-cta="founder-email">{{contactEmail}}</a><!--/if:contactEmail-->
+            </p>
+          </div>
+        </div>
+      </section>
+      <!--/if:founder.name-->
+
+      <!-- VI. DEMO -->
+      <section class="demo" id="demo">
+        <div class="demo-in">
+          <div class="demo-left reveal">
+            <p class="label">VI &nbsp; Sprawdź na sobie</p>
+            <h2>Zobacz, gdzie<br /><em>zostają Twoje dane.</em></h2>
+            <p class="demo-lede">
+              Każda płatność kartą zostawia dane w kilku miejscach: w bazie klientów, bramce
+              płatniczej, newsletterze i księgowości. Wypełnij kartę, zapłać na terminalu i zobacz,
+              jak Stonekeep znajduje je wszystkie i usuwa na wniosek.
+            </p>
+
+            <div class="card-stage" id="cardStage">
+              <div class="scene" id="scene">
+                <div class="card" id="card">
+                  <div class="card-flip" id="cardFlip">
+                    <div class="face front" aria-hidden="true">
+                      <canvas id="cardArt"></canvas>
+                      <div class="card-iris"></div>
+                      <div class="card-sheen"></div>
+                      <div class="c-top">
+                        <span class="c-brand">
+                          <svg viewBox="0 0 32 32" width="16" height="16">
+                            <path
+                              d="M5 29V16a11 11 0 0 1 22 0v13h-6V16a5 5 0 0 0-10 0v13z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                          Stonekeep
+                        </span>
+                        <span class="serial" id="cSerial">N° 0000</span>
+                      </div>
+                      <div class="c-chiprow">
+                        <svg class="c-chip" viewBox="0 0 48 36">
+                          <defs>
+                            <linearGradient id="chipG" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0" stop-color="#f4f2ec" />
+                              <stop offset="0.5" stop-color="#9aa6c6" />
+                              <stop offset="1" stop-color="#e3e7f4" />
+                            </linearGradient>
+                          </defs>
+                          <rect x="1" y="1" width="46" height="34" rx="6" fill="url(#chipG)" />
+                          <path
+                            d="M1 12h14M1 24h14M33 12h14M33 24h14M15 1v34M33 1v34M15 12h18M15 24h18"
+                            stroke="#2a3150"
+                            stroke-width="0.8"
+                            fill="none"
+                          />
+                          <rect
+                            x="19"
+                            y="14"
+                            width="10"
+                            height="8"
+                            rx="2"
+                            fill="none"
+                            stroke="#2a3150"
+                            stroke-width="0.8"
+                          />
+                        </svg>
+                        <svg
+                          class="c-nfc"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.4"
+                          stroke-linecap="round"
+                        >
+                          <path d="M7 6a8 8 0 0 1 0 12" />
+                          <path d="M11 3.5a12 12 0 0 1 0 17" />
+                          <path d="M15 1a16 16 0 0 1 0 22" />
+                        </svg>
+                      </div>
+                      <div class="c-mid">
+                        <p class="c-label">Karta prezentacji dla</p>
+                        <p class="c-name" id="cName">Twoje imię</p>
+                        <p class="c-company" id="cCompany">Twoja firma lub projekt</p>
+                      </div>
+                      <div class="c-bot">
+                        <div>
+                          <p class="c-label">Zespół</p>
+                          <p id="cSize">Tylko ja</p>
+                        </div>
+                        <div class="c-scope">
+                          <p class="c-label">Zakres</p>
+                          <div class="c-tags" id="cScope"></div>
+                        </div>
+                        <div class="c-mono" aria-hidden="true">
+                          <svg viewBox="0 0 32 32">
+                            <path
+                              d="M5 29V16a11 11 0 0 1 22 0v13h-6V16a5 5 0 0 0-10 0v13z"
+                              fill="url(#chipG)"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div class="stamp" id="cStamp">Zamówiono</div>
+                    </div>
+                    <div class="face face-back">
+                      <div class="b-stripe">
+                        <span
+                          >STONEKEEP · PREZENTACJA · RODO · STONEKEEP · PREZENTACJA · RODO ·
+                          STONEKEEP</span
+                        >
+                      </div>
+                      <p class="c-label">Co dalej</p>
+                      <ol class="b-steps">
+                        <li><b>1</b><span>Wysyłasz kartę</span></li>
+                        <li><b>2</b><span>Odpowiadamy w 2 dni robocze</span></li>
+                        <li><b>3</b><span>20 minut rozmowy o Twoim projekcie</span></li>
+                        <li><b>4</b><span>Skan repo na żywo i lista porad</span></li>
+                      </ol>
+                      <div class="b-sign">
+                        <span class="sig">Tu nic nie zbieramy.</span>
+                        <button
+                          type="button"
+                          class="cvv"
+                          id="cvv"
+                          aria-label="Kod bezpieczeństwa karty, kliknij"
+                        >
+                          <span class="cvv-hint" aria-hidden="true">Kliknij</span><small>CVV</small
+                          ><b>072</b>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pos" id="pos" aria-hidden="true">
+                  <div class="pos-dev" id="posDev">
+                    <div class="pos-scene">
+                      <div class="pos-slab">
+                        <i class="sl" style="--n: 1"></i><i class="sl" style="--n: 2"></i
+                        ><i class="sl" style="--n: 3"></i><i class="sl" style="--n: 4"></i
+                        ><i class="sl" style="--n: 5"></i><i class="sl" style="--n: 6"></i
+                        ><i class="sl" style="--n: 7"></i><i class="sl" style="--n: 8"></i
+                        ><i class="sl" style="--n: 9"></i><i class="sl" style="--n: 10"></i
+                        ><i class="sl" style="--n: 11"></i><i class="sl" style="--n: 12"></i
+                        ><i class="sl" style="--n: 13"></i><i class="sl" style="--n: 14"></i
+                        ><i class="sl" style="--n: 15"></i><i class="sl" style="--n: 16"></i
+                        ><i class="cs" style="--n: 1"></i><i class="cs" style="--n: 2"></i
+                        ><i class="cs" style="--n: 3"></i><i class="cs" style="--n: 4"></i
+                        ><i class="cs" style="--n: 5"></i><i class="cs" style="--n: 6"></i
+                        ><i class="cs" style="--n: 7"></i><i class="cs" style="--n: 8"></i>
+                        <div class="pos-front">
+                          <div class="pos-cap">
+                            <div class="pos-leds"><i></i><i></i><i></i><i></i></div>
+                            <svg
+                              class="cap-nfc"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                            >
+                              <path d="M7 6a8 8 0 0 1 0 12" />
+                              <path d="M11 3.5a12 12 0 0 1 0 17" />
+                              <path d="M15 1a16 16 0 0 1 0 22" />
+                            </svg>
+                            <span class="cap-logo">Stonekeep</span>
+                          </div>
+                          <div class="pos-screen">
+                            <div class="scr scr-ready">
+                              <span class="scr-title">Do zapłaty</span>
+                              <b class="scr-amt">0,00<small>zł</small></b>
+                              <span class="scr-sub">Demo prezentacji · bezpłatne</span>
+                              <div class="scr-pulse">
+                                <svg
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.4"
+                                  stroke-linecap="round"
+                                >
+                                  <path d="M7 6a8 8 0 0 1 0 12" />
+                                  <path d="M11 3.5a12 12 0 0 1 0 17" />
+                                  <path d="M15 1a16 16 0 0 1 0 22" />
+                                </svg>
+                                <i></i><i></i>
+                              </div>
+                              <span class="scr-hint">Zbliż kartę</span>
+                            </div>
+                            <div class="scr scr-read">
+                              <svg class="scr-ring" viewBox="0 0 100 100">
+                                <circle class="bg" cx="50" cy="50" r="42" />
+                                <circle class="fg" cx="50" cy="50" r="42" />
+                              </svg>
+                              <span class="scr-hint">Odczyt karty</span>
+                            </div>
+                            <div class="scr scr-ok">
+                              <svg class="scr-check" viewBox="0 0 52 52">
+                                <circle cx="26" cy="26" r="24" />
+                                <path d="M14 27l8 8 16-17" />
+                              </svg>
+                              <b class="scr-ok-t">Zatwierdzono</b>
+                              <span class="scr-sub">0,00 zł · Stonekeep</span>
+                            </div>
+                          </div>
+                          <div class="pos-soft"><i></i><i></i><i></i></div>
+                          <div class="pos-keys">
+                            <i><b>1</b><small>QZ</small></i
+                            ><i><b>2</b><small>ABC</small></i
+                            ><i><b>3</b><small>DEF</small></i
+                            ><i><b>4</b><small>GHI</small></i
+                            ><i><b>5</b><small>JKL</small></i
+                            ><i><b>6</b><small>MNO</small></i
+                            ><i><b>7</b><small>PRS</small></i
+                            ><i><b>8</b><small>TUV</small></i
+                            ><i><b>9</b><small>WXY</small></i
+                            ><i class="pr"
+                              ><svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                              >
+                                <path d="M7 9V4h10v5M7 17H4v-7h16v7h-3M7 14h10v6H7z" /></svg></i
+                            ><i><b>0</b><small>_</small></i
+                            ><i><b>.</b><small></small></i>
+                          </div>
+                          <div class="pos-fkeys">
+                            <i class="r"></i><i class="y"></i><i class="g"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="flip-btn" id="flipBtn" aria-pressed="false">
+                Odwróć kartę
+              </button>
+              <p class="egg" id="eggMsg" role="status" aria-live="polite" hidden></p>
+              <aside class="narr" id="narr" aria-live="polite">
+                <p class="label">Co się dzieje</p>
+                <ol>
+                  <li data-s="0">
+                    <b>1</b>
+                    <div>
+                      <strong>Zbliżasz kartę</strong
+                      ><small>Terminal czeka na kartę bezstykową.</small>
+                    </div>
+                  </li>
+                  <li data-s="1">
+                    <b>2</b>
+                    <div>
+                      <strong>Terminal odczytuje kartę</strong
+                      ><small>Imię i dane karty trafiają do terminala.</small>
+                    </div>
+                  </li>
+                  <li data-s="2">
+                    <b>3</b>
+                    <div>
+                      <strong>Płatność zatwierdzona</strong
+                      ><small>0,00 zł. Demo jest bezpłatne.</small>
+                    </div>
+                  </li>
+                </ol>
+                <button type="button" class="theater-cta" id="theaterCta" hidden>
+                  <span>Zobacz, dokąd poszły dane</span><i aria-hidden="true"></i>
+                </button>
+              </aside>
+              <button type="button" class="theater-x" id="theaterX" aria-label="Zamknij podgląd">
+                &#10005;
+              </button>
+            </div>
+
+            <div class="cmd-wrap">
+              <p class="cmd-note">
+                Albo zacznij od razu, za darmo i bez konta. Skaner działa lokalnie i niczego nie
+                wysyła (<a
+                  href="https://www.npmjs.com/package/@stonekeep/cli"
+                  target="_blank"
+                  rel="noopener"
+                  >npm</a
+                >).
+              </p>
+              <div class="cmd">
+                <code id="cmdText">npx @stonekeep/cli init</code>
+                <button type="button" class="copy" id="copyBtn">Kopiuj</button>
+              </div>
+            </div>
+          </div>
+
+          <form class="form reveal" id="demoForm" novalidate>
+            <div class="progress" aria-hidden="true">
+              <span id="stepNo">I</span><span class="of"> / V</span>
+              <div class="bars"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+            </div>
+
+            <div class="steps" id="steps">
+              <fieldset class="step on" data-step="0">
+                <legend>Jak mamy się do Ciebie zwracać?</legend>
+                <div class="field">
+                  <label for="f-name">Imię i nazwisko</label>
+                  <input id="f-name" name="name" autocomplete="name" required />
+                </div>
+                <div class="field">
+                  <label for="f-company">Firma lub projekt <small>(opcjonalnie)</small></label>
+                  <input id="f-company" name="company" autocomplete="organization" />
+                </div>
+              </fieldset>
+
+              <fieldset class="step" data-step="1">
+                <legend>Gdzie możemy do Ciebie napisać?</legend>
+                <div class="field">
+                  <label for="f-email">E-mail</label>
+                  <input id="f-email" name="email" type="email" autocomplete="email" required />
+                </div>
+                <p class="hint">Odpowiemy w ciągu dwóch dni roboczych. Bez newslettera.</p>
+                <div class="hp" aria-hidden="true">
+                  <label for="f-hp">Nie wypełniaj tego pola</label>
+                  <input id="f-hp" name="website" tabindex="-1" autocomplete="off" />
+                </div>
+              </fieldset>
+
+              <fieldset class="step" data-step="2">
+                <legend>Ilu was jest?</legend>
+                <input type="hidden" id="f-size" value="Tylko ja" />
+                <div class="opts" id="sizeOpts" role="radiogroup" aria-label="Wielkość zespołu">
+                  <button
+                    type="button"
+                    class="opt on"
+                    role="radio"
+                    aria-checked="true"
+                    data-v="Tylko ja"
+                  >
+                    <b>1</b><span>Tylko ja</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="opt"
+                    role="radio"
+                    aria-checked="false"
+                    data-v="2–5 osób"
+                  >
+                    <b>2–5</b><span>osób</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="opt"
+                    role="radio"
+                    aria-checked="false"
+                    data-v="6–20 osób"
+                  >
+                    <b>6–20</b><span>osób</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="opt"
+                    role="radio"
+                    aria-checked="false"
+                    data-v="Więcej"
+                  >
+                    <b>20+</b><span>osób</span>
+                  </button>
+                </div>
+              </fieldset>
+
+              <fieldset class="step" data-step="3">
+                <legend>Co chcesz mieć pod kontrolą?</legend>
+                <div class="chips" id="scopeChips">
+                  <label class="chipx"
+                    ><input type="checkbox" value="Wnioski osób" /><span>Wnioski osób</span></label
+                  >
+                  <label class="chipx"
+                    ><input type="checkbox" value="Wycieki" /><span>Wycieki</span></label
+                  >
+                  <label class="chipx"
+                    ><input type="checkbox" value="Dokumenty" /><span>Dokumenty</span></label
+                  >
+                  <label class="chipx"
+                    ><input type="checkbox" value="Rejestr czynności" /><span
+                      >Rejestr czynności</span
+                    ></label
+                  >
+                  <label class="chipx"
+                    ><input type="checkbox" value="Usługi zewnętrzne" /><span
+                      >Usługi zewnętrzne</span
+                    ></label
+                  >
+                  <label class="chipx"
+                    ><input type="checkbox" value="Zgody" /><span>Zgody</span></label
+                  >
+                </div>
+                <div class="field">
+                  <label for="f-msg">Coś jeszcze? <small>(opcjonalnie)</small></label>
+                  <textarea id="f-msg" name="message" rows="1"></textarea>
+                </div>
+              </fieldset>
+
+              <fieldset class="step" data-step="4">
+                <legend>Zgoda i gotowe.</legend>
+                <label class="consent" for="f-consent">
+                  <input id="f-consent" type="checkbox" required />
+                  <span>
+                    Zgadzam się na kontakt w sprawie demo. Administratorem danych jest
+                    <!--if:company.name-->{{company.name}}<!--/if:company.name--><!--if:company.address-->, {{company.address}}<!--/if:company.address-->;
+                    dane posłużą wyłącznie do umówienia rozmowy (art. 6 ust. 1 lit. a RODO) i
+                    usuniemy je po zakończeniu kontaktu. Zgodę możesz cofnąć w każdej chwili.
+                    Szczegóły i Twoje prawa: <a href="polityka-prywatnosci.html" target="_blank" rel="noopener">polityka prywatności</a>.
+                  </span>
+                </label>
+                <button type="submit" class="submit" id="demoSubmit">
+                  <span>Zamów demo</span><i aria-hidden="true"></i>
+                </button>
+              </fieldset>
+            </div>
+
+            <div class="step-nav">
+              <button type="button" class="back" id="backBtn" hidden>Wstecz</button>
+              <button type="button" class="next" id="nextBtn">
+                <span>Dalej</span><i aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="trail" id="trail" hidden>
+              <p class="label">Dokąd poszły Twoje dane po płatności kartą</p>
+              <p class="trail-note">
+                Przykład typowego sklepu. To symulacja: nic nie zostało nigdzie wysłane.
+              </p>
+              <ul class="trail-list" id="trailList">
+                <li data-k="db">
+                  <span class="t-ic"
+                    ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                      <ellipse cx="12" cy="5.5" rx="7" ry="2.8" />
+                      <path
+                        d="M5 5.5v13c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8v-13M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"
+                      /></svg
+                  ></span>
+                  <div><b>Baza klientów</b><small class="t-data"></small></div>
+                  <i class="t-st">zapisano</i>
+                </li>
+                <li data-k="pay">
+                  <span class="t-ic"
+                    ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                      <rect x="3" y="6" width="18" height="12" rx="2" />
+                      <path d="M3 10h18M7 15h4" /></svg
+                  ></span>
+                  <div><b>Bramka płatnicza</b><small class="t-data"></small></div>
+                  <i class="t-st">zapisano</i>
+                </li>
+                <li data-k="news">
+                  <span class="t-ic"
+                    ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                      <rect x="3" y="5" width="18" height="14" rx="2" />
+                      <path d="M3.5 7l8.5 6 8.5-6" /></svg
+                  ></span>
+                  <div><b>Newsletter</b><small class="t-data"></small></div>
+                  <i class="t-st">zapisano</i>
+                </li>
+                <li data-k="logs">
+                  <span class="t-ic"
+                    ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                      <path d="M5 5h14M5 10h14M5 15h9M5 20h6" /></svg
+                  ></span>
+                  <div><b>Logi serwera</b><small class="t-data"></small></div>
+                  <i class="t-st">zapisano</i>
+                </li>
+                <li data-k="inv">
+                  <span class="t-ic"
+                    ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                      <path d="M6 3h9l3 3v15H6z" />
+                      <path d="M9 11h6M9 15h6" /></svg
+                  ></span>
+                  <div><b>Księgowość</b><small class="t-data"></small></div>
+                  <i class="t-st">zapisano</i>
+                </li>
+              </ul>
+              <div class="invoice" id="invoice" hidden>
+                <div class="inv-paper">
+                  <div class="inv-head">
+                    <div>
+                      <b>Faktura</b>
+                      <span class="inv-no" id="invNo">FV/2026/11/0142</span>
+                    </div>
+                    <dl class="inv-dates">
+                      <dt>Wystawiono</dt>
+                      <dd id="invDate">10.11.2026</dd>
+                      <dt>Płatność</dt>
+                      <dd>karta · <span id="invCard">N° 0000</span></dd>
+                    </dl>
+                  </div>
+                  <div class="inv-parties">
+                    <div>
+                      <small>Sprzedawca</small><b>Stonekeep</b><span>RODO dla małych zespołów</span>
+                    </div>
+                    <div>
+                      <small>Nabywca</small><b id="invBuyer">Anna Kowalska</b
+                      ><span id="invMail">anna@sklep.pl</span>
+                    </div>
+                  </div>
+                  <table class="inv-tab">
+                    <thead>
+                      <tr>
+                        <th>Pozycja</th>
+                        <th>Ilość</th>
+                        <th>Wartość</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <b>Demo Stonekeep</b><small>20 minut rozmowy o Twoim projekcie</small>
+                        </td>
+                        <td>1</td>
+                        <td>0,00 zł</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <b>Skan repozytorium na żywo</b
+                          ><small>mapa danych osobowych w kodzie</small>
+                        </td>
+                        <td>1</td>
+                        <td>0,00 zł</td>
+                      </tr>
+                      <tr>
+                        <td><b>Lista porad RODO</b><small>z odwołaniem do artykułów</small></td>
+                        <td>1</td>
+                        <td>0,00 zł</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="inv-sum">
+                    <div class="inv-paid" aria-hidden="true">Opłacono</div>
+                    <dl>
+                      <dt>Netto</dt>
+                      <dd>0,00 zł</dd>
+                      <dt>VAT</dt>
+                      <dd>0,00 zł</dd>
+                      <dt class="tot">Do zapłaty</dt>
+                      <dd class="tot">0,00 zł</dd>
+                    </dl>
+                  </div>
+                  <p class="inv-words">Słownie: zero złotych 00/100. Demo jest bezpłatne.</p>
+                  <div class="inv-stamp" aria-hidden="true">Zostaje</div>
+                </div>
+                <div class="inv-note" id="invNote">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="5" y="11" width="14" height="9" rx="2" />
+                    <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+                  </svg>
+                  <div>
+                    <b>Ta faktura zostaje</b
+                    ><small
+                      >Nawet na 0,00 zł. Prawo każe ją przechować (art. 17 ust. 3 lit. b RODO), więc
+                      Stonekeep usuwa wszystko inne.</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="trail-btn" id="trailBtn" hidden>
+                <span>Usuń moje dane</span><i aria-hidden="true"></i>
+              </button>
+              <div class="trail-res" id="trailRes" hidden>
+                <b>Wyczyszczono 4 z 5 systemów.</b>
+                <p>
+                  Faktura zostaje, bo wymaga tego prawo (art. 17 ust. 3 lit. b RODO). Tak Stonekeep
+                  obsługuje wniosek o usunięcie: plan, zatwierdzenie, wykonanie.
+                </p>
+                <p class="small">
+                  Zgłoszenie o demo służy wyłącznie do kontaktu z Tobą i zostanie usunięte po jego
+                  zakończeniu.
+                </p>
+              </div>
+            </div>
+            <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span class="foot-brand">Stonekeep</span>
+      <nav class="foot-links" aria-label="Stopka">
+        <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+        <!--if:links.github--><a href="{{links.github}}" rel="noopener" data-cta="foot-github">GitHub</a><!--/if:links.github-->
+        <!--if:links.npm--><a href="{{links.npm}}" rel="noopener" data-cta="foot-npm">npm</a><!--/if:links.npm-->
+        <!--if:links.docs--><a href="{{links.docs}}" rel="noopener" data-cta="foot-docs">Dokumentacja</a><!--/if:links.docs-->
+        <!--if:contactEmail--><a id="footMail" href="mailto:{{contactEmail}}" data-cta="foot-email">{{contactEmail}}</a><!--/if:contactEmail-->
+      </nav>
+      <!--if:company.name--><p class="foot-co">
+        {{company.name}}<!--if:company.address--> · {{company.address}}<!--/if:company.address--><!--if:company.nip--> · NIP {{company.nip}}<!--/if:company.nip--><!--if:company.regon--> · REGON {{company.regon}}<!--/if:company.regon--><!--if:company.krs--> · KRS {{company.krs}}<!--/if:company.krs-->
+      </p><!--/if:company.name-->
+      <p>
+        Stonekeep pomaga wypełniać obowiązki RODO, ale nie gwarantuje zgodności z prawem i nie
+        zastępuje porady prawnej. Bez plików cookie. © 2026
+      </p>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

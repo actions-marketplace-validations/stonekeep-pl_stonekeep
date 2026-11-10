@@ -1,0 +1,41 @@
+{
+  "name": "@stonekeep/react",
+  "version": "0.7.0",
+  "description": "Stonekeep consent SDK for React: useConsent hook and an accessible <ConsentBanner>.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "keywords": [
+    "gdpr",
+    "rodo",
+    "privacy",
+    "compliance",
+    "poland"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

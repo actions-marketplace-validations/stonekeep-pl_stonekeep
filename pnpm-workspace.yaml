@@ -1,0 +1,8 @@
+packages:
+  - packages/*
+
+# Native modules that must run their install script (prebuilt binary download / build).
+onlyBuiltDependencies:
+  - esbuild
+  - better-sqlite3
+  - argon2

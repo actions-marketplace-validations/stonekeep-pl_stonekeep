@@ -1,0 +1,32 @@
+{
+  "Comment": "Amazon SES Easy DKIM for stonekeep.pl (stack stonekeep-demo-form, eu-north-1)",
+  "Changes": [
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "cueguvnfcqyu6n6skzerahbbf3wqfatd._domainkey.stonekeep.pl.",
+        "Type": "CNAME",
+        "TTL": 1800,
+        "ResourceRecords": [{ "Value": "cueguvnfcqyu6n6skzerahbbf3wqfatd.dkim.amazonses.com" }]
+      }
+    },
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "3d4zc7eueen6ne6nzav345nx3qvdg7in._domainkey.stonekeep.pl.",
+        "Type": "CNAME",
+        "TTL": 1800,
+        "ResourceRecords": [{ "Value": "3d4zc7eueen6ne6nzav345nx3qvdg7in.dkim.amazonses.com" }]
+      }
+    },
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "roc6x7oot7quvcolyqzymryx2635bzr6._domainkey.stonekeep.pl.",
+        "Type": "CNAME",
+        "TTL": 1800,
+        "ResourceRecords": [{ "Value": "roc6x7oot7quvcolyqzymryx2635bzr6.dkim.amazonses.com" }]
+      }
+    }
+  ]
+}

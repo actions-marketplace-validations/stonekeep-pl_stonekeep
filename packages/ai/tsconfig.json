@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "@stonekeep/core": ["../core/src/index.ts"],
+      "@stonekeep/core/engine": ["../core/src/engine/index.ts"],
+      "@stonekeep/core/consent": ["../core/src/consent/index.ts"],
+      "@stonekeep/connectors": ["../connectors/src/index.ts"],
+      "@stonekeep/ai": ["../ai/src/index.ts"]
+    }
+  },
+  "include": ["src", "test"]
+}

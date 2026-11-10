@@ -1,0 +1,31 @@
+# Stonekeep connector config for the postgres-shop fixture.
+version: 1
+connector: postgres
+connection:
+  urlEnv: STONEKEEP_DATABASE_URL
+  schema: public
+subject:
+  table: users
+  key: id
+datamap: stonekeep-datamap.json
+tables:
+  support_tickets:
+    # Soft reference: not enforced by the database.
+    foreignKeys:
+      - column: requester_id
+        references: users.id
+  invoices:
+    retain:
+      reason: Invoices must be kept for 10 years (tax law)
+      reference: null
+      anonymize: [billing_email]
+mask:
+  sourceUrlEnv: STONEKEEP_SOURCE_DATABASE_URL
+  targetUrlEnv: STONEKEEP_TARGET_DATABASE_URL
+  secretEnv: STONEKEEP_MASK_SECRET
+  columns:
+    # Free text can contain anything; replace it entirely in staging.
+    support_tickets.body: token
+    # External account ids point at real production accounts; never copy them.
+    users.stripe_customer_id: token
+    users.auth0_user_id: token

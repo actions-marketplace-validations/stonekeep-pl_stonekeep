@@ -1,0 +1,42 @@
+{
+  "name": "@stonekeep/ai",
+  "version": "0.7.0",
+  "description": "Stonekeep AI setup assistant with a pre-send privacy guardrail.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "eval"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "eval": "node dist/eval-cli.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.6.0",
+    "@stonekeep/core": "workspace:*",
+    "yaml": "^2.9.1",
+    "zod": "^3.25.76"
+  },
+  "keywords": [
+    "gdpr",
+    "rodo",
+    "privacy",
+    "compliance",
+    "poland"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

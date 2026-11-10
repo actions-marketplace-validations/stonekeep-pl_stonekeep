@@ -1,0 +1,8 @@
+{
+  "minConfidence": 0.5,
+  "exclude": ["legacy/**"],
+  "overrides": {
+    "Contact.name": { "category": "identity", "note": "Contact person name" },
+    "Customer.plan": { "ignore": true, "note": "Subscription tier, not personal data" }
+  }
+}

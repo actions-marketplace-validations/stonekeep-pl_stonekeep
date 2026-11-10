@@ -1,0 +1,22 @@
+# Stonekeep: demo (PL): scenariusz i lektor
+
+Długość: 106 s. Czytaj tempem około 2,3 słowa na sekundę (kolumna "Słowa" pokazuje długość).
+Czasy odnoszą się do nagrania ekranu po odcięciu początku (patrz `out/offset.txt`).
+
+| #   | Czas         | Okno   | Na ekranie                                                     | Lektor (PL)                                                                                                                              | Słowa |
+| --- | ------------ | ------ | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| 1   | 0:00 to 0:06 | 6 s    | Pierwszy ekran z gilloszem                                     | Zgodność z RODO, której nie widać.                                                                                                       | 6     |
+| 2   | 0:06 to 0:15 | 9 s    | Trzy liczby: 72 godziny, 1 miesiąc, 20 mln euro                | Siedemdziesiąt dwie godziny na zgłoszenie wycieku. Miesiąc na odpowiedź klientowi. Kara do dwudziestu milionów euro.                     | 15    |
+| 3   | 0:15 to 0:24 | 9 s    | Scena Skan: kod, podświetlone pola, lista danych osobowych     | Stonekeep najpierw czyta Twój kod i znajduje wszystkie dane osobowe: e-mail, telefon, PESEL, nawet dane o zdrowiu.                       | 17    |
+| 4   | 0:24 to 0:33 | 9 s    | Scena Wniosek: plan usunięcia, zatwierdzenie                   | Klient prosi o usunięcie danych? Widzisz plan, zatwierdzasz, a Stonekeep czyści bazę, płatności i newsletter.                            | 15    |
+| 5   | 0:33 to 0:42 | 9 s    | Scena Wyciek: odliczanie 72 godzin i lista kroków              | Wyciek? Zegar rusza, a Stonekeep przygotowuje zgłoszenie do UODO, zanim miną siedemdziesiąt dwie godziny.                                | 14    |
+| 6   | 0:42 to 0:50 | 8 s    | Scena Dokumenty: klauzula wypełnia się danymi                  | Dokumenty po polsku, uzupełnione danymi z Twojej firmy. Gotowe do druku.                                                                 | 11    |
+| 7   | 0:50 to 0:56 | 6 s    | Lista siedmiu narzędzi                                         | Jedna konsola. Siedem narzędzi. Bez prawnika w każdym kroku.                                                                             | 9     |
+| 8   | 0:56 to 1:02 | 6 s    | Turbijon: mechanizm w ruchu                                    | Terminy i zmiany w kodzie pilnowane bez przerwy.                                                                                         | 8     |
+| 9   | 1:02 to 1:23 | 21.5 s | Wypełnianie karty, płatność na terminalu, wydruk potwierdzenia | Sprawdź na sobie. Wypełnij kartę i zapłać na terminalu. Demo jest bezpłatne. Zobacz, gdzie trafiają Twoje dane.                          | 17    |
+| 10  | 1:23 to 1:38 | 14.5 s | Pięć systemów, przycisk Usuń moje dane, wyczyszczone cztery    | Baza klientów, bramka płatnicza, newsletter, logi. Jeden przycisk i Stonekeep usuwa dane wszędzie, poza fakturą, którą zatrzymuje prawo. | 18    |
+| 11  | 1:38 to 1:46 | 8 s    | Powrót na pierwszy ekran, przycisk Zamów demo                  | Stonekeep. Zamów demo.                                                                                                                   | 3     |
+
+## Pełny tekst do jednego odczytu (do wklejenia w ElevenLabs, jeśli generujesz całość naraz)
+
+Zgodność z RODO, której nie widać. Siedemdziesiąt dwie godziny na zgłoszenie wycieku. Miesiąc na odpowiedź klientowi. Kara do dwudziestu milionów euro. Stonekeep najpierw czyta Twój kod i znajduje wszystkie dane osobowe: e-mail, telefon, PESEL, nawet dane o zdrowiu. Klient prosi o usunięcie danych? Widzisz plan, zatwierdzasz, a Stonekeep czyści bazę, płatności i newsletter. Wyciek? Zegar rusza, a Stonekeep przygotowuje zgłoszenie do UODO, zanim miną siedemdziesiąt dwie godziny. Dokumenty po polsku, uzupełnione danymi z Twojej firmy. Gotowe do druku. Jedna konsola. Siedem narzędzi. Bez prawnika w każdym kroku. Terminy i zmiany w kodzie pilnowane bez przerwy. Sprawdź na sobie. Wypełnij kartę i zapłać na terminalu. Demo jest bezpłatne. Zobacz, gdzie trafiają Twoje dane. Baza klientów, bramka płatnicza, newsletter, logi. Jeden przycisk i Stonekeep usuwa dane wszędzie, poza fakturą, którą zatrzymuje prawo. Stonekeep. Zamów demo.

@@ -1,0 +1,10 @@
+{
+  "name": "@stonekeep/site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Stonekeep promo site (static).",
+  "type": "module",
+  "scripts": {
+    "dev": "node serve.mjs"
+  }
+}

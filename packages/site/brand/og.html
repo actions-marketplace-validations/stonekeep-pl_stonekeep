@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stonekeep OG image source</title>
+    <link rel="stylesheet" href="../fonts/fonts.css" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #04060d;
+        color: #c9ccd6;
+        font-family: 'Jost', sans-serif;
+        font-weight: 300;
+      }
+      .wrap {
+        position: relative;
+        box-sizing: border-box;
+        height: 100%;
+        padding: 72px 84px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      svg.dial {
+        position: absolute;
+        right: -120px;
+        top: -90px;
+        width: 720px;
+        height: 720px;
+        opacity: 0.55;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        font-size: 20px;
+        letter-spacing: 0.5em;
+        text-transform: uppercase;
+        font-weight: 400;
+        color: #fff;
+      }
+      .top span:last-child {
+        color: #868b9c;
+        letter-spacing: 0.3em;
+      }
+      h1 {
+        position: relative;
+        margin: 0;
+        font-family: 'Bodoni Moda', serif;
+        font-weight: 400;
+        font-size: 92px;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        color: #f4f2ec;
+        font-variation-settings: 'opsz' 96;
+      }
+      h1 em {
+        background: linear-gradient(100deg, #f4f2ec, #8ea4ff 60%, #365cff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .foot {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 40px;
+      }
+      .foot p {
+        margin: 0;
+        max-width: 560px;
+        font-size: 26px;
+        line-height: 1.4;
+      }
+      code {
+        font-family: Consolas, ui-monospace, monospace;
+        font-size: 24px;
+        color: #fff;
+        padding: 14px 0;
+        border-top: 1px solid rgba(201, 204, 214, 0.3);
+        border-bottom: 1px solid rgba(201, 204, 214, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <svg class="dial" viewBox="-100 -100 200 200" aria-hidden="true">
+        <g fill="none" stroke="#c9ccd6" stroke-width="0.25">
+          <circle r="96" /><circle r="84" /><circle r="70" /><circle r="56" /><circle r="42" />
+        </g>
+        <g stroke="#868b9c" stroke-width="0.4" id="ticks"></g>
+        <path d="M0 0 L62 30" stroke="#365cff" stroke-width="1.4" stroke-linecap="round" />
+        <circle r="2.4" fill="#365cff" />
+      </svg>
+      <div class="top"><span>Stonekeep</span><span>RODO · Polska</span></div>
+      <h1>RODO dla małych zespołów<br /><em>i programistów.</em></h1>
+      <div class="foot">
+        <p>Skan kodu, wnioski osób, wycieki w&nbsp;72&nbsp;godziny i&nbsp;dokumenty po polsku.</p>
+        <code>npx @stonekeep/cli init</code>
+      </div>
+    </div>
+    <script>
+      const g = document.getElementById('ticks');
+      for (let i = 0; i < 60; i++) {
+        const a = (i / 60) * Math.PI * 2;
+        const r1 = i % 5 ? 90 : 86;
+        const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        l.setAttribute('x1', (Math.cos(a) * r1).toFixed(2));
+        l.setAttribute('y1', (Math.sin(a) * r1).toFixed(2));
+        l.setAttribute('x2', (Math.cos(a) * 95).toFixed(2));
+        l.setAttribute('y2', (Math.sin(a) * 95).toFixed(2));
+        g.appendChild(l);
+      }
+    </script>
+  </body>
+</html>

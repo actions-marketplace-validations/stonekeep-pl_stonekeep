@@ -1,0 +1,9 @@
+dist
+coverage
+node_modules
+pnpm-lock.yaml
+fixtures
+.claude
+SKILL.md
+packages/ui/test-results
+packages/server/ui

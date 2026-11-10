@@ -1,0 +1,17 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.DS_Store
+
+# Playwright
+packages/ui/e2e/.keys.json
+packages/ui/test-results/
+packages/ui/playwright-report/
+
+# Claude Code worktrees of other sessions
+.claude/worktrees/
+packages/server/ui/
+
+# demo video recordings
+packages/site/demo-video/out/

@@ -1,0 +1,5 @@
+{
+  "name": "fixture-prisma-app",
+  "private": true,
+  "description": "Stonekeep test fixture: Prisma schema"
+}

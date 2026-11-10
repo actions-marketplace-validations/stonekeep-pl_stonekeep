@@ -1,0 +1,37 @@
+{
+  "name": "@stonekeep/cli",
+  "version": "0.7.0",
+  "description": "Stonekeep CLI: scan code for personal data fields and block unmapped PII in CI.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "stonekeep": "./bin/stonekeep.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@stonekeep/core": "workspace:*",
+    "@stonekeep/connectors": "workspace:*",
+    "@stonekeep/ai": "workspace:*"
+  },
+  "keywords": [
+    "gdpr",
+    "rodo",
+    "privacy",
+    "compliance",
+    "poland"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,43 @@
+1
+00:00:00,300 --> 00:00:05,700
+Zgodność z RODO, której nie widać.
+
+2
+00:00:06,300 --> 00:00:14,700
+Siedemdziesiąt dwie godziny na zgłoszenie wycieku. Miesiąc na odpowiedź klientowi. Kara do dwudziestu milionów euro.
+
+3
+00:00:15,300 --> 00:00:23,700
+Stonekeep najpierw czyta Twój kod i znajduje wszystkie dane osobowe: e-mail, telefon, PESEL, nawet dane o zdrowiu.
+
+4
+00:00:24,300 --> 00:00:32,700
+Klient prosi o usunięcie danych? Widzisz plan, zatwierdzasz, a Stonekeep czyści bazę, płatności i newsletter.
+
+5
+00:00:33,300 --> 00:00:41,700
+Wyciek? Zegar rusza, a Stonekeep przygotowuje zgłoszenie do UODO, zanim miną siedemdziesiąt dwie godziny.
+
+6
+00:00:42,300 --> 00:00:49,700
+Dokumenty po polsku, uzupełnione danymi z Twojej firmy. Gotowe do druku.
+
+7
+00:00:50,300 --> 00:00:55,700
+Jedna konsola. Siedem narzędzi. Bez prawnika w każdym kroku.
+
+8
+00:00:56,300 --> 00:01:01,700
+Terminy i zmiany w kodzie pilnowane bez przerwy.
+
+9
+00:01:02,300 --> 00:01:23,200
+Sprawdź na sobie. Wypełnij kartę i zapłać na terminalu. Demo jest bezpłatne. Zobacz, gdzie trafiają Twoje dane.
+
+10
+00:01:23,800 --> 00:01:37,700
+Baza klientów, bramka płatnicza, newsletter, logi. Jeden przycisk i Stonekeep usuwa dane wszędzie, poza fakturą, którą zatrzymuje prawo.
+
+11
+00:01:38,300 --> 00:01:45,700
+Stonekeep. Zamów demo.

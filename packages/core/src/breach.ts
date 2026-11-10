@@ -1,0 +1,398 @@
+/**
+ * Personal data breach impact (GDPR Art. 33/34): which categories of personal
+ * data and roughly how many data subjects and records a breach of given tables
+ * affects, plus a draft notification for the supervisory authority.
+ *
+ * Pure: the database part lives in `PostgresConnector.assessBreach`. Reports
+ * contain identifiers and counts only, never data values or subject keys.
+ */
+import { compareStrings } from './text.js';
+
+/** GDPR Art. 33(1): notify the supervisory authority within 72 hours. */
+export const BREACH_NOTIFY_HOURS = 72;
+
+/** Categories whose exposure usually makes a breach high-risk (Art. 34 notice to subjects). */
+export const HIGH_RISK_CATEGORIES: ReadonlySet<string> = new Set([
+  'special_category',
+  'health',
+  'government_id',
+  'financial',
+  'credential',
+]);
+
+export type BreachRisk = 'high' | 'elevated' | 'low';
+
+export interface BreachColumn {
+  column: string;
+  category: string;
+}
+
+export interface BreachTableImpact {
+  table: string;
+  /** Rows in the affected table. */
+  rows: number;
+  /** True when rows link to the subject table through foreign keys. */
+  linked: boolean;
+  /** Distinct data subjects behind the rows, when `linked`. */
+  subjects: number | null;
+  /** Columns holding personal data, from the datamap, rules and connector config. */
+  columns: BreachColumn[];
+}
+
+export interface BreachImpact {
+  subjectTable: string;
+  /** ISO timestamp the controller became aware of the breach. */
+  discoveredAt: string;
+  /** ISO timestamp 72 hours later. */
+  notifyBy: string;
+  tables: BreachTableImpact[];
+  /** Total affected records (rows) across tables. */
+  records: number;
+  subjects: {
+    /** Distinct subjects reached through foreign keys (deduplicated across tables). */
+    linked: number;
+    /** Rows with personal data in tables that do not link to the subject table. */
+    unlinkedRows: number;
+    /** Approximate range for the notification: each unlinked row may be another person. */
+    min: number;
+    max: number;
+  };
+  categories: { category: string; columns: string[] }[];
+  risk: BreachRisk;
+  highRiskCategories: string[];
+}
+
+/** Combine per-table counts into an impact summary. */
+export function summarizeBreach(input: {
+  subjectTable: string;
+  tables: BreachTableImpact[];
+  linkedSubjects: number;
+  discoveredAt: Date;
+}): BreachImpact {
+  const byCategory = new Map<string, string[]>();
+  for (const t of input.tables) {
+    for (const c of t.columns) {
+      const list = byCategory.get(c.category) ?? [];
+      list.push(`${t.table}.${c.column}`);
+      byCategory.set(c.category, list);
+    }
+  }
+  const categories = [...byCategory.entries()]
+    .map(([category, columns]) => ({ category, columns: columns.sort(compareStrings) }))
+    .sort((a, b) => compareStrings(a.category, b.category));
+  const highRiskCategories = categories
+    .map((c) => c.category)
+    .filter((c) => HIGH_RISK_CATEGORIES.has(c));
+  const unlinkedRows = input.tables
+    .filter((t) => !t.linked && t.columns.length > 0)
+    .reduce((n, t) => n + t.rows, 0);
+  const risk: BreachRisk =
+    highRiskCategories.length > 0 ? 'high' : categories.length > 0 ? 'elevated' : 'low';
+  return {
+    subjectTable: input.subjectTable,
+    discoveredAt: input.discoveredAt.toISOString(),
+    notifyBy: new Date(
+      input.discoveredAt.getTime() + BREACH_NOTIFY_HOURS * 3_600_000,
+    ).toISOString(),
+    tables: input.tables,
+    records: input.tables.reduce((n, t) => n + t.rows, 0),
+    subjects: {
+      linked: input.linkedSubjects,
+      unlinkedRows,
+      min: input.linkedSubjects,
+      max: input.linkedSubjects + unlinkedRows,
+    },
+    categories,
+    risk,
+    highRiskCategories,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Rendering
+
+export type BreachLanguage = 'en' | 'pl';
+
+export interface BreachRenderOptions {
+  language?: BreachLanguage;
+  controller?: { name: string; contact: string };
+  dpo?: { name: string; contact: string };
+}
+
+interface Labels {
+  title: string;
+  disclaimer: string;
+  discovered: string;
+  notifyBy: string;
+  summary: string;
+  records: string;
+  subjects: string;
+  subjectsExact: (n: number) => string;
+  subjectsRange: (min: number, max: number) => string;
+  categories: string;
+  none: string;
+  risk: string;
+  riskText: Record<BreachRisk, string>;
+  tables: string;
+  table: string;
+  rows: string;
+  people: string;
+  personalData: string;
+  notLinked: string;
+  draft: string;
+  draftIntro: string;
+  a: string;
+  aText: (records: number, subjects: string, categories: string) => string;
+  b: string;
+  todo: string;
+  c: string;
+  d: string;
+  dIntro: string;
+  categoryNames: Record<string, string>;
+  consequences: Record<string, string>;
+  measures: Record<string, string>;
+  genericMeasures: string[];
+}
+
+const EN: Labels = {
+  title: 'Personal data breach: impact assessment',
+  disclaimer:
+    'Generated by Stonekeep from the database schema, the datamap and row counts. It contains no data values. Categories come from heuristic classification; the DPO must verify the scope and decide on notification.',
+  discovered: 'Breach discovered',
+  notifyBy: 'Notify the supervisory authority by (Art. 33(1), 72 hours)',
+  summary: 'Summary',
+  records: 'Affected records',
+  subjects: 'Affected data subjects (approx.)',
+  subjectsExact: (n) => `${n}`,
+  subjectsRange: (min, max) => `${min} to ${max}`,
+  categories: 'Categories of personal data',
+  none: 'none detected',
+  risk: 'Risk assessment (indicative)',
+  riskText: {
+    high: '**High risk.** The breach includes categories that usually put individuals at high risk. Notify the supervisory authority and, unless an Art. 34(3) exception applies, the data subjects without undue delay (Art. 34).',
+    elevated:
+      '**Risk to individuals is likely.** Notify the supervisory authority within 72 hours unless the breach is unlikely to result in a risk (Art. 33(1)). Assess whether Art. 34 notice to data subjects is needed.',
+    low: '**No personal data columns detected** in the affected tables. Verify this manually (free-text columns can hold personal data) and document the breach (Art. 33(5)).',
+  },
+  tables: 'Affected tables',
+  table: 'Table',
+  rows: 'Records',
+  people: 'Data subjects',
+  personalData: 'Personal data',
+  notLinked: 'not linked',
+  draft: 'Draft notification to the supervisory authority (Art. 33(3))',
+  draftIntro:
+    'Fill in the TODO items before sending to the supervisory authority (UODO in Poland, ANSPDCP in Romania, NAIH in Hungary). Information can be provided in phases (Art. 33(4)).',
+  a: '(a) Nature of the breach',
+  aText: (records, subjects, categories) =>
+    `TODO: describe what happened and how. The breach concerns approximately ${subjects} data subjects and ${records} records. Categories of personal data concerned: ${categories}.`,
+  b: '(b) Contact point for more information',
+  todo: 'TODO',
+  c: '(c) Likely consequences',
+  d: '(d) Measures taken or proposed',
+  dIntro: 'Suggested measures to consider:',
+  categoryNames: {
+    contact: 'contact details',
+    identity: 'identification data',
+    government_id: 'national ID and document numbers',
+    financial: 'financial data',
+    location: 'address and location data',
+    online_identifier: 'online identifiers',
+    demographic: 'demographic data',
+    special_category: 'special categories of data (Art. 9)',
+    health: 'data concerning health (Art. 9)',
+    credential: 'authentication data',
+    configured: 'other personal data',
+  },
+  consequences: {
+    contact: 'Phishing, spam and social-engineering attempts using the contact details.',
+    identity: 'Impersonation and targeted fraud.',
+    government_id: 'Identity theft, for example loans or accounts opened in the person’s name.',
+    financial: 'Financial fraud and unauthorised payments.',
+    location: 'Unwanted contact or physical security risks at the address.',
+    online_identifier: 'Tracking and profiling of the person’s online activity.',
+    demographic: 'Easier identity verification fraud using date of birth.',
+    special_category: 'Discrimination, reputational and psychological harm.',
+    health: 'Discrimination, reputational and psychological harm.',
+    credential: 'Account takeover, including on other services if passwords are reused.',
+  },
+  measures: {
+    credential: 'Force a password reset and revoke active sessions and tokens.',
+    financial: 'Inform the payment provider or bank; monitor for fraudulent transactions.',
+    government_id: 'Advise affected people to reserve their ID number or monitor credit activity.',
+    contact: 'Warn affected people about phishing that may use the leaked details.',
+    health: 'Offer a dedicated contact point and support for affected people.',
+    special_category: 'Offer a dedicated contact point and support for affected people.',
+  },
+  genericMeasures: [
+    'TODO: contain the breach (revoke access, rotate keys, close the vulnerability).',
+    'TODO: preserve evidence and record the breach in the internal breach register (Art. 33(5)).',
+  ],
+};
+
+const PL: Labels = {
+  title: 'Naruszenie ochrony danych osobowych: ocena skutków',
+  disclaimer:
+    'Raport wygenerowany przez Stonekeep na podstawie schematu bazy danych, mapy danych i liczby rekordów. Nie zawiera wartości danych. Kategorie pochodzą z heurystycznej klasyfikacji; IOD musi zweryfikować zakres i zdecydować o zgłoszeniu.',
+  discovered: 'Stwierdzenie naruszenia',
+  notifyBy: 'Termin zgłoszenia do organu nadzorczego (art. 33 ust. 1 RODO, 72 godziny)',
+  summary: 'Podsumowanie',
+  records: 'Liczba rekordów',
+  subjects: 'Przybliżona liczba osób, których dane dotyczą',
+  subjectsExact: (n) => `${n}`,
+  subjectsRange: (min, max) => `od ${min} do ${max}`,
+  categories: 'Kategorie danych osobowych',
+  none: 'nie wykryto',
+  risk: 'Ocena ryzyka (orientacyjna)',
+  riskText: {
+    high: '**Wysokie ryzyko.** Naruszenie obejmuje kategorie danych, które zwykle powodują wysokie ryzyko dla osób fizycznych. Należy zgłosić naruszenie Prezesowi UODO oraz, o ile nie zachodzi wyjątek z art. 34 ust. 3, bez zbędnej zwłoki zawiadomić osoby, których dane dotyczą (art. 34 RODO).',
+    elevated:
+      '**Prawdopodobne ryzyko dla osób fizycznych.** Należy zgłosić naruszenie Prezesowi UODO w ciągu 72 godzin, chyba że jest mało prawdopodobne, by skutkowało ryzykiem (art. 33 ust. 1 RODO). Należy ocenić, czy konieczne jest zawiadomienie osób (art. 34 RODO).',
+    low: '**Nie wykryto kolumn z danymi osobowymi** w objętych tabelach. Należy to zweryfikować ręcznie (pola tekstowe mogą zawierać dane osobowe) i udokumentować naruszenie (art. 33 ust. 5 RODO).',
+  },
+  tables: 'Objęte tabele',
+  table: 'Tabela',
+  rows: 'Rekordy',
+  people: 'Osoby',
+  personalData: 'Dane osobowe',
+  notLinked: 'brak powiązania',
+  draft: 'Projekt zgłoszenia do Prezesa UODO (art. 33 ust. 3 RODO)',
+  draftIntro:
+    'Uzupełnij pozycje TODO przed wysłaniem zgłoszenia. Informacje można przekazywać etapami (art. 33 ust. 4 RODO).',
+  a: '(a) Charakter naruszenia',
+  aText: (records, subjects, categories) =>
+    `TODO: opisz, co się stało i w jaki sposób. Naruszenie dotyczy około ${subjects} osób i ${records} rekordów. Kategorie danych osobowych: ${categories}.`,
+  b: '(b) Punkt kontaktowy',
+  todo: 'TODO',
+  c: '(c) Możliwe konsekwencje',
+  d: '(d) Zastosowane lub proponowane środki',
+  dIntro: 'Środki do rozważenia:',
+  categoryNames: {
+    contact: 'dane kontaktowe',
+    identity: 'dane identyfikacyjne',
+    government_id: 'numery identyfikacyjne i dokumentów (np. PESEL)',
+    financial: 'dane finansowe',
+    location: 'dane adresowe i lokalizacyjne',
+    online_identifier: 'identyfikatory internetowe',
+    demographic: 'dane demograficzne',
+    special_category: 'szczególne kategorie danych (art. 9 RODO)',
+    health: 'dane dotyczące zdrowia (art. 9 RODO)',
+    credential: 'dane uwierzytelniające',
+    configured: 'inne dane osobowe',
+  },
+  consequences: {
+    contact: 'Phishing, spam i próby socjotechniczne z użyciem danych kontaktowych.',
+    identity: 'Podszywanie się pod osobę i ukierunkowane oszustwa.',
+    government_id:
+      'Kradzież tożsamości, np. zaciągnięcie kredytu lub założenie konta na dane osoby.',
+    financial: 'Oszustwa finansowe i nieautoryzowane płatności.',
+    location: 'Niechciany kontakt lub zagrożenie bezpieczeństwa fizycznego pod adresem.',
+    online_identifier: 'Śledzenie i profilowanie aktywności osoby w internecie.',
+    demographic: 'Łatwiejsze oszustwa przy weryfikacji tożsamości z użyciem daty urodzenia.',
+    special_category: 'Dyskryminacja, szkoda dla reputacji i krzywda psychiczna.',
+    health: 'Dyskryminacja, szkoda dla reputacji i krzywda psychiczna.',
+    credential: 'Przejęcie konta, także w innych serwisach, jeśli hasła były używane wielokrotnie.',
+  },
+  measures: {
+    credential: 'Wymuszenie zmiany haseł i unieważnienie aktywnych sesji i tokenów.',
+    financial:
+      'Poinformowanie dostawcy płatności lub banku; monitorowanie podejrzanych transakcji.',
+    government_id:
+      'Zalecenie osobom zastrzeżenia numeru PESEL i monitorowania historii kredytowej (np. BIK).',
+    contact: 'Ostrzeżenie osób przed phishingiem wykorzystującym ujawnione dane.',
+    health: 'Uruchomienie dedykowanego punktu kontaktowego i wsparcia dla osób.',
+    special_category: 'Uruchomienie dedykowanego punktu kontaktowego i wsparcia dla osób.',
+  },
+  genericMeasures: [
+    'TODO: ograniczenie naruszenia (odebranie dostępu, rotacja kluczy, usunięcie podatności).',
+    'TODO: zabezpieczenie dowodów i wpis do wewnętrznego rejestru naruszeń (art. 33 ust. 5 RODO).',
+  ],
+};
+
+const LABELS: Record<BreachLanguage, Labels> = { en: EN, pl: PL };
+
+function when(iso: string): string {
+  return `${iso.slice(0, 16).replace('T', ' ')} UTC`;
+}
+
+function cell(s: string): string {
+  return s.replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
+}
+
+/** Render the impact assessment and the Art. 33(3) draft as Markdown. */
+export function renderBreachMarkdown(
+  impact: BreachImpact,
+  options: BreachRenderOptions = {},
+): string {
+  const l = LABELS[options.language ?? 'en'];
+  const name = (c: string) => l.categoryNames[c] ?? c;
+  const s = impact.subjects;
+  const subjects = s.min === s.max ? l.subjectsExact(s.min) : l.subjectsRange(s.min, s.max);
+  const categories =
+    impact.categories.length > 0
+      ? impact.categories.map((c) => name(c.category)).join(', ')
+      : l.none;
+
+  const out: string[] = [
+    `# ${l.title}`,
+    '',
+    `> ${l.disclaimer}`,
+    '',
+    `- **${l.discovered}:** ${when(impact.discoveredAt)}`,
+    `- **${l.notifyBy}:** ${when(impact.notifyBy)}`,
+    '',
+    `## ${l.summary}`,
+    '',
+    `- **${l.records}:** ${impact.records}`,
+    `- **${l.subjects}:** ${subjects}`,
+    `- **${l.categories}:** ${categories}`,
+    '',
+    `### ${l.risk}`,
+    '',
+    l.riskText[impact.risk],
+    '',
+    `## ${l.tables}`,
+    '',
+    `| ${l.table} | ${l.rows} | ${l.people} | ${l.personalData} |`,
+    '| --- | ---: | ---: | --- |',
+    ...impact.tables.map(
+      (t) =>
+        `| \`${cell(t.table)}\` | ${t.rows} | ${t.linked ? String(t.subjects ?? 0) : `_${l.notLinked}_`} | ${
+          t.columns.length > 0
+            ? t.columns.map((c) => `\`${cell(c.column)}\` (${name(c.category)})`).join(', ')
+            : `_${l.none}_`
+        } |`,
+    ),
+    '',
+    `## ${l.draft}`,
+    '',
+    l.draftIntro,
+    '',
+    `### ${l.a}`,
+    '',
+    l.aText(impact.records, subjects, categories),
+    '',
+    `### ${l.b}`,
+    '',
+  ];
+  if (options.dpo) out.push(`- ${cell(options.dpo.name)}, ${cell(options.dpo.contact)}`);
+  if (options.controller) {
+    out.push(`- ${cell(options.controller.name)}, ${cell(options.controller.contact)}`);
+  }
+  if (!options.dpo && !options.controller) out.push(`- ${l.todo}`);
+  out.push('', `### ${l.c}`, '');
+  const consequences = impact.categories
+    .map((c) => l.consequences[c.category])
+    .filter((x): x is string => x !== undefined);
+  out.push(...[...new Set(consequences)].map((x) => `- ${x}`), `- ${l.todo}`, '');
+  out.push(`### ${l.d}`, '', ...l.genericMeasures.map((m) => `- ${m}`));
+  const measures = [
+    ...new Set(
+      impact.categories
+        .map((c) => l.measures[c.category])
+        .filter((x): x is string => x !== undefined),
+    ),
+  ];
+  if (measures.length > 0) out.push('', l.dIntro, '', ...measures.map((m) => `- ${m}`));
+  return `${out.join('\n').trimEnd()}\n`;
+}

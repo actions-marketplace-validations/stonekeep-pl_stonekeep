@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Polityka prywatności · Stonekeep</title>
+    <meta name="description" content="Kto administruje danymi z formularza Stonekeep, w jakim celu, jak długo i jakie masz prawa." />
+    <meta name="theme-color" content="#04060d" />
+    <!--if:siteUrl--><link rel="canonical" href="{{siteUrl}}/polityka-prywatnosci.html" /><!--/if:siteUrl-->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="stylesheet" href="fonts/fonts.css" />
+    <style>
+      :root {
+        --ink: #04060d;
+        --silver: #c9ccd6;
+        --silver-soft: #868b9c;
+        --hair: rgba(201, 204, 214, 0.16);
+        --accent: #8ea4ff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--ink);
+        color: var(--silver);
+        font-family: 'Jost', 'Futura', system-ui, sans-serif;
+        font-weight: 300;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+      }
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 56px 16px 96px;
+      }
+      a {
+        color: var(--accent);
+      }
+      .back {
+        font-size: 0.72rem;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #fff;
+      }
+      h1 {
+        margin: 48px 0 8px;
+        font-family: 'Bodoni Moda', 'Times New Roman', serif;
+        font-weight: 400;
+        font-size: clamp(2.2rem, 7vw, 3.6rem);
+        line-height: 1.05;
+        color: #f4f2ec;
+      }
+      h2 {
+        margin: 44px 0 10px;
+        padding-top: 22px;
+        border-top: 1px solid var(--hair);
+        font-family: 'Bodoni Moda', 'Times New Roman', serif;
+        font-weight: 400;
+        font-size: 1.45rem;
+        color: #f4f2ec;
+      }
+      .meta {
+        color: var(--silver-soft);
+        font-size: 0.9rem;
+      }
+      ul {
+        padding-left: 1.2em;
+      }
+      li + li {
+        margin-top: 6px;
+      }
+      strong {
+        font-weight: 500;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      Wzór przygotowany na podstawie tego, co strona faktycznie robi (formularz demo, brak cookies,
+      opcjonalna analityka bez cookies). Przed publikacją niech sprawdzi go prawnik lub IOD,
+      a dane administratora i podmiotów przetwarzających uzupełnij w config.js.
+    -->
+    <main>
+      <a class="back" href="./">← Stonekeep</a>
+      <h1>Polityka prywatności</h1>
+      <p class="meta">Obowiązuje od {{privacy.updated}}</p>
+
+      <h2>1. Administrator danych</h2>
+      <p>
+        Administratorem Twoich danych osobowych jest <strong>{{company.name}}</strong>, {{company.address}}<!--if:company.nip-->,
+        NIP {{company.nip}}<!--/if:company.nip--><!--if:company.regon-->, REGON {{company.regon}}<!--/if:company.regon--><!--if:company.krs-->,
+        KRS {{company.krs}}<!--/if:company.krs-->.
+        W sprawach danych osobowych napisz na <a href="mailto:{{contactEmail}}">{{contactEmail}}</a>.
+      </p>
+
+      <h2>2. Jakie dane zbieramy i po co</h2>
+      <p>
+        Zbieramy dane tylko wtedy, gdy wyślesz formularz „Zamów demo”: imię i nazwisko, adres e-mail,
+        nazwę firmy lub projektu (opcjonalnie), wielkość zespołu, wybrane obszary zainteresowania i
+        treść wiadomości (opcjonalnie). Zapisujemy też adres strony, z której wysłano formularz.
+      </p>
+      <p>
+        Używamy ich wyłącznie po to, żeby odpowiedzieć na zgłoszenie i umówić rozmowę o demo.
+        Podstawą jest Twoja zgoda (art. 6 ust. 1 lit. a RODO). Nie wysyłamy newslettera, nie
+        profilujemy i nie podejmujemy decyzji w sposób zautomatyzowany.
+      </p>
+      <p>
+        Podanie danych jest dobrowolne, ale bez imienia i adresu e-mail nie możemy odpowiedzieć.
+      </p>
+
+      <h2>3. Jak długo przechowujemy dane</h2>
+      <p>
+        Do zakończenia kontaktu w sprawie demo, nie dłużej niż {{privacy.retentionMonths}} miesięcy od
+        ostatniej wiadomości, albo do cofnięcia zgody, jeśli nastąpi wcześniej. Jeśli zostaniesz
+        naszym klientem, dalsze przetwarzanie opisze umowa.
+      </p>
+
+      <h2>4. Komu przekazujemy dane</h2>
+      <p>Dane widzimy tylko my oraz firmy, które technicznie obsługują stronę i komunikację na nasze zlecenie (podmioty przetwarzające):</p>
+      <ul>
+        <!--if:privacy.hosting--><li>{{privacy.hosting}}</li><!--/if:privacy.hosting-->
+        <!--if:privacy.forms--><li>{{privacy.forms}}</li><!--/if:privacy.forms-->
+        <!--if:privacy.email--><li>{{privacy.email}}</li><!--/if:privacy.email-->
+      </ul>
+      <p>
+        Jeśli któryś z tych podmiotów przetwarza dane poza Europejskim Obszarem Gospodarczym, odbywa się
+        to na podstawie decyzji Komisji Europejskiej stwierdzającej odpowiedni poziom ochrony (np. EU-US
+        Data Privacy Framework) lub standardowych klauzul umownych. Na żądanie wyślemy szczegóły.
+      </p>
+      <p>Nie sprzedajemy danych i nie udostępniamy ich w celach marketingowych.</p>
+
+      <h2>5. Twoje prawa</h2>
+      <ul>
+        <li>dostęp do danych i otrzymanie ich kopii (art. 15 RODO),</li>
+        <li>sprostowanie danych (art. 16),</li>
+        <li>usunięcie danych (art. 17),</li>
+        <li>ograniczenie przetwarzania (art. 18),</li>
+        <li>przeniesienie danych (art. 20),</li>
+        <li>cofnięcie zgody w dowolnym momencie, bez wpływu na zgodność z prawem wcześniejszego przetwarzania (art. 7 ust. 3).</li>
+      </ul>
+      <p>
+        Wystarczy wiadomość na <a href="mailto:{{contactEmail}}">{{contactEmail}}</a>. Odpowiemy bez
+        zbędnej zwłoki, najpóźniej w ciągu miesiąca (art. 12 ust. 3).
+      </p>
+      <p>
+        Masz też prawo wnieść skargę do Prezesa Urzędu Ochrony Danych Osobowych, ul. Stawki 2,
+        00-193 Warszawa, <a href="https://uodo.gov.pl" rel="noopener">uodo.gov.pl</a>.
+      </p>
+
+      <h2>6. Pliki cookie i statystyki</h2>
+      <p>
+        Strona nie używa plików cookie ani pamięci przeglądarki do śledzenia. Czcionki i pozostałe zasoby
+        są serwowane z naszego serwera, bez zewnętrznych dostawców.
+      </p>
+      <!--if:analytics.src--><p>
+        Liczymy odwiedziny narzędziem statystycznym, które nie używa plików cookie i nie zapisuje
+        identyfikatorów pozwalających rozpoznać Cię między wizytami. Widzimy tylko zbiorcze liczby:
+        odsłony, źródła wejść, kraj, typ urządzenia i kliknięcia w przyciski. Nie zapisujemy treści
+        formularza w statystykach.
+      </p><!--/if:analytics.src-->
+      <p>
+        Serwer strony, jak każdy serwer WWW, technicznie otrzymuje Twój adres IP, aby wysłać stronę.
+        Dostawca hostingu może przechowywać go krótko w logach w celu zapewnienia bezpieczeństwa.
+      </p>
+
+      <h2>7. Zmiany</h2>
+      <p>
+        Gdy zmienimy sposób przetwarzania danych, zaktualizujemy tę stronę i datę na górze.
+      </p>
+    </main>
+  </body>
+</html>

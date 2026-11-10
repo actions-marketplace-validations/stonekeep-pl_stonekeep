@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Stonekeep icon source</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: #04060d;
+      }
+      img {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- size comes from ?s=N: headless windows have a minimum size, so 100vw would be too big -->
+    <img id="i" src="../favicon.svg" alt="" />
+    <script>
+      const s = Number(new URLSearchParams(location.search).get('s')) || 512;
+      const i = document.getElementById('i');
+      i.width = s;
+      i.height = s;
+    </script>
+  </body>
+</html>

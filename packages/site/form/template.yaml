@@ -1,0 +1,159 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Stonekeep demo form: a Lambda function URL that receives the site's demo form as JSON and e-mails it
+  to the owner through Amazon SES. Nothing is stored; the request body is never logged.
+
+Parameters:
+  ToEmail:
+    Type: String
+    Description: Where demo requests are sent. Also used as the SES sender, so it must be verified (SES e-mails a link).
+  AllowedOrigin:
+    Type: String
+    Default: https://stonekeep.pl
+  MailDomain:
+    Type: String
+    Default: stonekeep.pl
+    Description: Domain of ToEmail. SES signs its mail with DKIM once the three CNAMEs in the outputs are in DNS.
+
+Resources:
+  Sender:
+    Type: AWS::SES::EmailIdentity
+    Properties:
+      EmailIdentity: !Ref ToEmail
+
+  # Easy DKIM for the whole domain: mail from ToEmail is then signed as stonekeep.pl, so it passes
+  # DMARC and is far less likely to land in spam. Verified when the DNS records below exist.
+  Domain:
+    Type: AWS::SES::EmailIdentity
+    Properties:
+      EmailIdentity: !Ref MailDomain
+      DkimSigningAttributes:
+        NextSigningKeyLength: RSA_2048_BIT
+
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: { Service: lambda.amazonaws.com }
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals: { 'aws:SourceAccount': !Ref AWS::AccountId }
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: send-demo-mail
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ses:SendEmail
+                Resource: !Sub arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/${ToEmail}
+
+  Fn:
+    Type: AWS::Lambda::Function
+    Properties:
+      Description: Stonekeep demo form -> e-mail
+      Runtime: nodejs20.x
+      Architectures: [arm64]
+      Handler: index.handler
+      MemorySize: 128
+      Timeout: 10
+      Role: !GetAtt Role.Arn
+      Environment:
+        Variables:
+          TO_EMAIL: !Ref ToEmail
+          ALLOWED_ORIGIN: !Ref AllowedOrigin
+      Code:
+        ZipFile: |
+          // ASCII only on purpose: Polish letters are \u escapes, so the code survives whatever file
+          // encoding the AWS CLI uses to read this template. Tested by packages/site/form/test.mjs, which runs this exact code with a fake SES client.
+          const { SESv2Client, SendEmailCommand } = require('@aws-sdk/client-sesv2');
+          const ses = new SESv2Client({});
+          const LIMITS = { name: 120, email: 200, company: 160, size: 40, message: 3000, source: 300 };
+          const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          const res = (statusCode, body) => ({ statusCode, headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+          const clean = (v, max) => String(v ?? '').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, '').trim().slice(0, max);
+          exports.handler = async (event) => {
+            const method = event.requestContext?.http?.method;
+            if (method === 'OPTIONS') return { statusCode: 204 };
+            if (method !== 'POST') return res(405, { error: 'method' });
+            const origin = event.headers?.origin ?? '';
+            if (origin !== process.env.ALLOWED_ORIGIN) return res(403, { error: 'origin' });
+            let raw = event.body ?? '';
+            if (event.isBase64Encoded) raw = Buffer.from(raw, 'base64').toString('utf8');
+            if (raw.length > 8000) return res(413, { error: 'size' });
+            let d;
+            try { d = JSON.parse(raw); } catch { return res(400, { error: 'json' }); }
+            if (d.website) return res(200, { ok: true });
+            const f = {};
+            for (const [k, max] of Object.entries(LIMITS)) f[k] = clean(d[k], max);
+            if (!f.name || !EMAIL.test(f.email)) return res(400, { error: 'fields' });
+            const text = [
+              `Imi\u0119 i nazwisko: ${f.name}`, `E-mail: ${f.email}`, f.company ? `Firma: ${f.company}` : null,
+              `Zesp\u00f3\u0142: ${f.size || '-'}`, '', f.message || '(brak wiadomo\u015bci)', '', `Strona: ${f.source || '-'}`,
+              '', 'Zgoda na kontakt (art. 6 ust. 1 lit. a RODO) zaznaczona w formularzu.',
+              'Usu\u0144 t\u0119 wiadomo\u015b\u0107 po zako\u0144czeniu kontaktu (polityka prywatno\u015bci).',
+            ].filter((x) => x !== null).join('\n');
+            await ses.send(new SendEmailCommand({
+              FromEmailAddress: `Stonekeep formularz <${process.env.TO_EMAIL}>`,
+              Destination: { ToAddresses: [process.env.TO_EMAIL] },
+              ReplyToAddresses: [f.email],
+              Content: { Simple: {
+                Subject: { Data: `Demo Stonekeep: ${f.name}${f.company ? ` (${f.company})` : ''}`.slice(0, 180), Charset: 'UTF-8' },
+                Body: { Text: { Data: text, Charset: 'UTF-8' } },
+              } },
+            }));
+            console.log('demo request sent');
+            return res(200, { ok: true });
+          };
+
+  Logs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${Fn}
+      RetentionInDays: 14
+
+  Url:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn: !Ref Fn
+      AuthType: NONE
+      Cors:
+        AllowOrigins: [!Ref AllowedOrigin]
+        AllowMethods: [POST]
+        AllowHeaders: [content-type, accept]
+        MaxAge: 86400
+
+  UrlPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref Fn
+      Action: lambda:InvokeFunctionUrl
+      Principal: '*'
+      FunctionUrlAuthType: NONE
+
+  # Public function URLs also need InvokeFunction, limited to calls that come through the URL.
+  InvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref Fn
+      Action: lambda:InvokeFunction
+      Principal: '*'
+      InvokedViaFunctionUrl: true
+
+Outputs:
+  Endpoint:
+    Description: Put this in packages/site/config.js as demoEndpoint
+    Value: !GetAtt Url.FunctionUrl
+  Dkim1:
+    Description: DKIM CNAME 1 (name -> value)
+    Value: !Sub '${Domain.DkimDNSTokenName1} -> ${Domain.DkimDNSTokenValue1}'
+  Dkim2:
+    Description: DKIM CNAME 2 (name -> value)
+    Value: !Sub '${Domain.DkimDNSTokenName2} -> ${Domain.DkimDNSTokenValue2}'
+  Dkim3:
+    Description: DKIM CNAME 3 (name -> value)
+    Value: !Sub '${Domain.DkimDNSTokenName3} -> ${Domain.DkimDNSTokenValue3}'

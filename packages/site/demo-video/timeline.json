@@ -1,0 +1,94 @@
+{
+  "title": "Stonekeep: demo (PL)",
+  "length_seconds": 106,
+  "scenes": [
+    {
+      "id": 1,
+      "name": "hero",
+      "from": 0,
+      "to": 6,
+      "screen": "Pierwszy ekran z gilloszem",
+      "vo": "Zgodność z RODO, której nie widać."
+    },
+    {
+      "id": 2,
+      "name": "stawka",
+      "from": 6,
+      "to": 15,
+      "screen": "Trzy liczby: 72 godziny, 1 miesiąc, 20 mln euro",
+      "vo": "Siedemdziesiąt dwie godziny na zgłoszenie wycieku. Miesiąc na odpowiedź klientowi. Kara do dwudziestu milionów euro."
+    },
+    {
+      "id": 3,
+      "name": "skan",
+      "from": 15,
+      "to": 24,
+      "screen": "Scena Skan: kod, podświetlone pola, lista danych osobowych",
+      "vo": "Stonekeep najpierw czyta Twój kod i znajduje wszystkie dane osobowe: e-mail, telefon, PESEL, nawet dane o zdrowiu."
+    },
+    {
+      "id": 4,
+      "name": "wniosek",
+      "from": 24,
+      "to": 33,
+      "screen": "Scena Wniosek: plan usunięcia, zatwierdzenie",
+      "vo": "Klient prosi o usunięcie danych? Widzisz plan, zatwierdzasz, a Stonekeep czyści bazę, płatności i newsletter."
+    },
+    {
+      "id": 5,
+      "name": "wyciek",
+      "from": 33,
+      "to": 42,
+      "screen": "Scena Wyciek: odliczanie 72 godzin i lista kroków",
+      "vo": "Wyciek? Zegar rusza, a Stonekeep przygotowuje zgłoszenie do UODO, zanim miną siedemdziesiąt dwie godziny."
+    },
+    {
+      "id": 6,
+      "name": "dokumenty",
+      "from": 42,
+      "to": 50,
+      "screen": "Scena Dokumenty: klauzula wypełnia się danymi",
+      "vo": "Dokumenty po polsku, uzupełnione danymi z Twojej firmy. Gotowe do druku."
+    },
+    {
+      "id": 7,
+      "name": "funkcje",
+      "from": 50,
+      "to": 56,
+      "screen": "Lista siedmiu narzędzi",
+      "vo": "Jedna konsola. Siedem narzędzi. Bez prawnika w każdym kroku."
+    },
+    {
+      "id": 8,
+      "name": "ruch",
+      "from": 56,
+      "to": 62,
+      "screen": "Turbijon: mechanizm w ruchu",
+      "vo": "Terminy i zmiany w kodzie pilnowane bez przerwy."
+    },
+    {
+      "id": 9,
+      "name": "karta",
+      "from": 62,
+      "to": 83.5,
+      "screen": "Wypełnianie karty, płatność na terminalu, wydruk potwierdzenia",
+      "vo": "Sprawdź na sobie. Wypełnij kartę i zapłać na terminalu. Demo jest bezpłatne. Zobacz, gdzie trafiają Twoje dane."
+    },
+    {
+      "id": 10,
+      "name": "slad",
+      "from": 83.5,
+      "to": 98,
+      "screen": "Pięć systemów, przycisk Usuń moje dane, wyczyszczone cztery",
+      "vo": "Baza klientów, bramka płatnicza, newsletter, logi. Jeden przycisk i Stonekeep usuwa dane wszędzie, poza fakturą, którą zatrzymuje prawo."
+    },
+    {
+      "id": 11,
+      "name": "finał",
+      "from": 98,
+      "to": 106,
+      "screen": "Powrót na pierwszy ekran, przycisk Zamów demo",
+      "vo": "Stonekeep. Zamów demo."
+    }
+  ]
+}

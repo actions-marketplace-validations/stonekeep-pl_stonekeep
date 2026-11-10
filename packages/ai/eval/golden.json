@@ -1,0 +1,224 @@
+{
+  "$comment": "Golden set for the setup-assistant prompt: 30 schema fields (names, types and scanner classification only) with the expected masking strategy. Expected values are reviewer judgment; 'keep' means not personal data.",
+  "subject": { "table": "customers", "key": "id" },
+  "retain": ["invoices"],
+  "fields": [
+    { "entity": "customers", "field": "id", "type": "integer", "rule": null, "expected": "keep" },
+    {
+      "entity": "customers",
+      "field": "email",
+      "type": "text",
+      "rule": "email",
+      "category": "contact",
+      "expected": "email"
+    },
+    {
+      "entity": "customers",
+      "field": "first_name",
+      "type": "text",
+      "rule": "person-name",
+      "category": "identity",
+      "expected": "first-name"
+    },
+    {
+      "entity": "customers",
+      "field": "last_name",
+      "type": "text",
+      "rule": "person-name",
+      "category": "identity",
+      "expected": "last-name"
+    },
+    {
+      "entity": "customers",
+      "field": "phone",
+      "type": "varchar(32)",
+      "rule": "phone",
+      "category": "contact",
+      "expected": "phone"
+    },
+    {
+      "entity": "customers",
+      "field": "date_of_birth",
+      "type": "date",
+      "rule": "date-of-birth",
+      "category": "demographic",
+      "expected": "date"
+    },
+    {
+      "entity": "customers",
+      "field": "signup_ip",
+      "type": "inet",
+      "rule": "online-identifier",
+      "category": "online_identifier",
+      "expected": "ip"
+    },
+    {
+      "entity": "customers",
+      "field": "passport_number",
+      "type": "varchar(20)",
+      "rule": "government-id",
+      "category": "government_id",
+      "expected": "token"
+    },
+    {
+      "entity": "customers",
+      "field": "stripe_customer_id",
+      "type": "text",
+      "rule": null,
+      "expected": "token"
+    },
+    {
+      "entity": "customers",
+      "field": "created_at",
+      "type": "timestamptz",
+      "rule": null,
+      "expected": "keep"
+    },
+    {
+      "entity": "customers",
+      "field": "marketing_opt_in",
+      "type": "boolean",
+      "rule": null,
+      "expected": "keep"
+    },
+    {
+      "entity": "addresses",
+      "field": "street",
+      "type": "text",
+      "rule": "postal-address",
+      "category": "location",
+      "expected": "street"
+    },
+    {
+      "entity": "addresses",
+      "field": "city",
+      "type": "text",
+      "rule": "postal-address",
+      "category": "location",
+      "expected": "city"
+    },
+    {
+      "entity": "addresses",
+      "field": "postal_code",
+      "type": "varchar(16)",
+      "rule": "postal-address",
+      "category": "location",
+      "expected": "zip"
+    },
+    {
+      "entity": "addresses",
+      "field": "latitude",
+      "type": "numeric(9,6)",
+      "rule": "postal-address",
+      "category": "location",
+      "expected": "geo"
+    },
+    { "entity": "orders", "field": "id", "type": "integer", "rule": null, "expected": "keep" },
+    {
+      "entity": "orders",
+      "field": "customer_id",
+      "type": "integer",
+      "rule": null,
+      "expected": "keep"
+    },
+    {
+      "entity": "orders",
+      "field": "total_cents",
+      "type": "integer",
+      "rule": null,
+      "expected": "keep"
+    },
+    {
+      "entity": "orders",
+      "field": "shipping_name",
+      "type": "text",
+      "rule": "person-name",
+      "category": "identity",
+      "expected": "full-name"
+    },
+    {
+      "entity": "invoices",
+      "field": "billing_email",
+      "type": "text",
+      "rule": "email",
+      "category": "contact",
+      "expected": "email"
+    },
+    {
+      "entity": "invoices",
+      "field": "billing_name",
+      "type": "text",
+      "rule": "person-name",
+      "category": "identity",
+      "expected": "full-name"
+    },
+    {
+      "entity": "invoices",
+      "field": "vat_number",
+      "type": "varchar(32)",
+      "rule": "government-id",
+      "category": "government_id",
+      "expected": "token"
+    },
+    {
+      "entity": "invoices",
+      "field": "amount_cents",
+      "type": "integer",
+      "rule": null,
+      "expected": "keep"
+    },
+    {
+      "entity": "support_tickets",
+      "field": "body",
+      "type": "text",
+      "rule": null,
+      "expected": "token"
+    },
+    {
+      "entity": "support_tickets",
+      "field": "requester_id",
+      "type": "integer",
+      "rule": null,
+      "expected": "keep"
+    },
+    {
+      "entity": "devices",
+      "field": "device_id",
+      "type": "uuid",
+      "rule": "online-identifier",
+      "category": "online_identifier",
+      "expected": "uuid"
+    },
+    {
+      "entity": "devices",
+      "field": "push_token",
+      "type": "text",
+      "rule": "online-identifier",
+      "category": "online_identifier",
+      "expected": "token"
+    },
+    {
+      "entity": "devices",
+      "field": "last_seen_ip",
+      "type": "inet",
+      "rule": "online-identifier",
+      "category": "online_identifier",
+      "expected": "ip"
+    },
+    {
+      "entity": "profiles",
+      "field": "username",
+      "type": "text",
+      "rule": "username",
+      "category": "identity",
+      "expected": "username"
+    },
+    {
+      "entity": "profiles",
+      "field": "preferences",
+      "type": "jsonb",
+      "rule": null,
+      "expected": "keep"
+    }
+  ]
+}

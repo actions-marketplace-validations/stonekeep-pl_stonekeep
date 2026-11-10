@@ -1,0 +1,47 @@
+name: Stonekeep PII check
+description: Block unmapped personal data fields in pull requests and produce SARIF for GitHub Code Scanning.
+author: Stonekeep
+branding:
+  icon: shield
+  color: blue
+inputs:
+  path:
+    description: Directory to scan
+    default: '.'
+  strict:
+    description: Also fail on stale datamap entries and category changes
+    default: 'false'
+  sarif:
+    description: Write results to stonekeep.sarif for upload to Code Scanning
+    default: 'true'
+  version:
+    description: '@stonekeep/cli version to run'
+    default: latest
+outputs:
+  sarif-file:
+    description: Path to the SARIF report (when sarif is true)
+    value: ${{ steps.check.outputs.sarif-file }}
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - id: check
+      shell: bash
+      env:
+        KS_PATH: ${{ inputs.path }}
+        KS_STRICT: ${{ inputs.strict }}
+        KS_SARIF: ${{ inputs.sarif }}
+        KS_VERSION: ${{ inputs.version }}
+      run: |
+        args=()
+        [ "$KS_STRICT" = "true" ] && args+=(--strict)
+        status=0
+        if [ "$KS_SARIF" = "true" ]; then
+          npx --yes "@stonekeep/cli@$KS_VERSION" check "$KS_PATH" --format sarif "${args[@]}" > stonekeep.sarif || true
+          echo "sarif-file=stonekeep.sarif" >> "$GITHUB_OUTPUT"
+        fi
+        # Annotations and the final exit code.
+        npx --yes "@stonekeep/cli@$KS_VERSION" check "$KS_PATH" --format github "${args[@]}" || status=$?
+        exit $status

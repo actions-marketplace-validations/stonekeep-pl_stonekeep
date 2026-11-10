@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/lead.schema.json",
+  "title": "Lead",
+  "type": "object",
+  "properties": {
+    "workEmail": { "type": "string", "format": "email" },
+    "phone": { "type": ["string", "null"] },
+    "companyName": { "type": "string" },
+    "gender": { "type": "string" }
+  },
+  "$defs": {
+    "Consent": {
+      "type": "object",
+      "properties": {
+        "granted": { "type": "boolean" },
+        "ipAddress": { "type": "string" }
+      }
+    }
+  }
+}

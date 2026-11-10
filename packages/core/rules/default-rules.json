@@ -1,0 +1,372 @@
+{
+  "version": 1,
+  "description": "Default Stonekeep PII classification rules. Patterns are regular expressions matched against the NORMALIZED field name (snake_case, lowercase: `phoneNumber` -> `phone_number`). Classification is heuristic and is a starting point for a human review, not a legal determination.",
+  "ignore": [
+    "^(is|has|should|can|allow|enable|disable|show|hide)_",
+    "_(verified|confirmed|validated|enabled|disabled|opt_in|opted_in|optin|consent|count|template|type|format|status|provider|visibility|public|private|sent|sent_at|verified_at|confirmed_at|updated_at|changed_at|reset_at|expires_at)$"
+  ],
+  "typeAdjustments": {
+    "boolean": -0.5
+  },
+  "rules": [
+    {
+      "id": "email",
+      "category": "contact",
+      "description": "Email addresses.",
+      "match": [
+        {
+          "pattern": "^(.*_)?e_?mail(_address|_addr)?$",
+          "confidence": 0.95
+        },
+        {
+          "pattern": "(^|_)e_?mail(_|$)",
+          "confidence": 0.8
+        }
+      ],
+      "formats": ["email", "idn-email"]
+    },
+    {
+      "id": "phone",
+      "category": "contact",
+      "description": "Phone, mobile and fax numbers.",
+      "match": [
+        {
+          "pattern": "(^|_)(phone|mobile|cell|cellphone|telephone|tel|msisdn|fax|whatsapp)(_?(number|no|num|nr))?$",
+          "confidence": 0.92
+        },
+        {
+          "pattern": "(^|_)(phone|mobile)(_|$)",
+          "confidence": 0.75
+        }
+      ],
+      "formats": ["phone", "tel"]
+    },
+    {
+      "id": "person-name",
+      "category": "identity",
+      "description": "Personal names.",
+      "match": [
+        {
+          "pattern": "^(first|last|middle|full|given|family|maiden|legal|preferred|display|nick|sur|fore)_?name$",
+          "confidence": 0.9
+        },
+        {
+          "pattern": "^(customer|user|person|contact|account_holder|card_holder|cardholder|holder|owner|patient|employee|member|recipient|sender|billing|shipping|emergency_contact)_name$",
+          "confidence": 0.8
+        },
+        {
+          "pattern": "^name$",
+          "confidence": 0.5
+        }
+      ]
+    },
+    {
+      "id": "username",
+      "category": "identity",
+      "description": "Account handles that often identify a person.",
+      "match": [
+        {
+          "pattern": "^(user_?name|login|login_name|screen_name|handle)$",
+          "confidence": 0.7
+        }
+      ]
+    },
+    {
+      "id": "government-id",
+      "category": "government_id",
+      "description": "Passport, national ID, tax ID, social security and driver's license numbers.",
+      "match": [
+        {
+          "pattern": "(^|_)passport(_?(number|no|num|nr|id))?($|_)",
+          "confidence": 0.97
+        },
+        {
+          "pattern": "(^|_)(ssn|social_security(_number|_no)?|social_insurance(_number)?|sin_number|nino|national_id(_number)?|national_insurance(_number)?|tax_id|taxpayer_id|tin|itin|vat_number|vat_id|aadhaar|pesel|cpf|nif|bsn|personnummer|personal_id(_number|_code)?|id_card(_number)?|identity_(number|card|document)|drivers?_licen[cs]e(_number|_no)?|driving_licen[cs]e(_number)?|licen[cs]e_number)($|_)",
+          "confidence": 0.95
+        }
+      ]
+    },
+    {
+      "id": "financial",
+      "category": "financial",
+      "description": "Bank accounts, payment cards and income data.",
+      "match": [
+        {
+          "pattern": "(^|_)(iban|bic|swift(_code)?|account_number|bank_account(_number|_no)?|routing_number|sort_code|card_number|credit_card(_number)?|debit_card(_number)?|cc_number|pan|cvv|cvc|card_cvv|card_expiry)($|_)",
+          "confidence": 0.93
+        },
+        {
+          "pattern": "(^|_)(salary|income|net_worth|credit_score)($|_)",
+          "confidence": 0.8
+        }
+      ]
+    },
+    {
+      "id": "postal-address",
+      "category": "location",
+      "description": "Postal addresses, postcodes and precise geolocation.",
+      "match": [
+        {
+          "pattern": "(^|_)(street(_address)?|address(_line)?(_?[0-9])?|home_address|billing_address|shipping_address|mailing_address|postal_address|residential_address)$",
+          "confidence": 0.85
+        },
+        {
+          "pattern": "(^|_)(postal_code|post_code|postcode|zip(_code)?|zipcode)$",
+          "confidence": 0.8
+        },
+        {
+          "pattern": "(^|_)(lat|latitude|lng|lon|longitude|geo_?location|geo_?point|coordinates|gps(_location)?)$",
+          "confidence": 0.75
+        },
+        {
+          "pattern": "^(city|town)$",
+          "confidence": 0.55
+        }
+      ],
+      "exclude": [
+        "(^|_)(e_?mail|ip|mac|wallet|web|url|server|remote|contract|bitcoin|eth|crypto)_address(_|$)"
+      ]
+    },
+    {
+      "id": "online-identifier",
+      "category": "online_identifier",
+      "description": "IP addresses, device and advertising identifiers.",
+      "match": [
+        {
+          "pattern": "(^|_)(ip|ip_address|ipv4|ipv6|ip_addr|remote_addr|client_ip|last_ip|mac_address|device_id|device_token|push_token|advertising_id|idfa|gaid|user_agent|cookie_id|browser_fingerprint|fingerprint)($|_)",
+          "confidence": 0.8
+        }
+      ],
+      "formats": ["ipv4", "ipv6"],
+      "formatConfidence": 0.9
+    },
+    {
+      "id": "date-of-birth",
+      "category": "demographic",
+      "description": "Dates of birth and age.",
+      "match": [
+        {
+          "pattern": "(^|_)(date_of_birth|dob|birth_?date|birth_?day|birth_year|born_on|born_at)($|_)",
+          "confidence": 0.95
+        },
+        {
+          "pattern": "^age$",
+          "confidence": 0.6
+        }
+      ]
+    },
+    {
+      "id": "demographic",
+      "category": "demographic",
+      "description": "Gender, nationality and similar demographic attributes.",
+      "match": [
+        {
+          "pattern": "(^|_)(gender|sex|nationality|citizenship|marital_status|place_of_birth|birth_place|mother_tongue|native_language)($|_)",
+          "confidence": 0.8
+        }
+      ]
+    },
+    {
+      "id": "special-category",
+      "category": "special_category",
+      "description": "Data that many regimes treat as especially sensitive (e.g. GDPR Art. 9).",
+      "match": [
+        {
+          "pattern": "(^|_)(ethnicity|ethnic_origin|race|religion|religious_belief|political_(opinion|affiliation|party)|sexual_orientation|trade_union(_membership)?|union_member(ship)?)($|_)",
+          "confidence": 0.9
+        }
+      ]
+    },
+    {
+      "id": "biometric",
+      "category": "special_category",
+      "description": "Biometric and genetic data.",
+      "match": [
+        {
+          "pattern": "(^|_)(biometric(_data|_template)?|face_(id|template|encoding|embedding)|facial_(image|template|geometry)|fingerprint_(data|template|hash|image)|iris_scan|retina_scan|voice_?print|dna|genetic(_data|_test)?)($|_)",
+          "confidence": 0.95
+        }
+      ]
+    },
+    {
+      "id": "health",
+      "category": "health",
+      "description": "Health and medical data.",
+      "match": [
+        {
+          "pattern": "(^|_)(diagnosis|diagnoses|medical(_history|_record|_condition|_notes)?|health_(record|condition|data|insurance(_number|_id)?)|allerg(y|ies)|medications?|prescriptions?|blood_type|disabilit(y|ies)|symptoms?|icd_?10)($|_)",
+          "confidence": 0.85
+        }
+      ]
+    },
+    {
+      "id": "credential",
+      "category": "credential",
+      "description": "Passwords, secrets and authentication factors tied to a person.",
+      "match": [
+        {
+          "pattern": "(^|_)(password|passwd|pwd|password_hash|hashed_password|passcode|pin|pin_code|security_answer|secret_answer|otp_secret|mfa_secret|totp_secret|recovery_codes?)($|_)",
+          "confidence": 0.85
+        },
+        {
+          "pattern": "(^|_)(api_key|access_token|refresh_token|auth_token|session_token|private_key)($|_)",
+          "confidence": 0.75
+        }
+      ]
+    },
+    {
+      "id": "cee-government-id",
+      "category": "government_id",
+      "description": "National identifiers used in Poland, Romania, Hungary and the wider CEE region: PESEL/NIP/dowod osobisty (PL), CNP/buletin (RO), adoazonosito jel/TAJ/szemelyi igazolvany (HU), rodne cislo (CZ/SK), EGN (BG), OIB (HR), EMSO (SI), Baltic personal codes.",
+      "match": [
+        {
+          "pattern": "(^|_)(nr_|numer_)?pesel($|_)",
+          "confidence": 0.97
+        },
+        {
+          "pattern": "(^|_)(cnp|cod_numeric_personal)($|_)",
+          "confidence": 0.97
+        },
+        {
+          "pattern": "(^|_)(adoazonosito(_jel)?|taj(_szam)?|szemelyi_(szam|azonosito|igazolvany(_szam)?)|utlevel(_szam)?)($|_)",
+          "confidence": 0.95
+        },
+        {
+          "pattern": "(^|_)(rodne_cislo|egn|oib|emso|asmens_kodas|isikukood|personas_kods)($|_)",
+          "confidence": 0.95
+        },
+        {
+          "pattern": "(^|_)(dowod(_osobisty)?|(nr|numer|seria)_dowodu|numer_paszportu|nr_paszportu|paszport)($|_)",
+          "confidence": 0.95
+        },
+        {
+          "pattern": "(^|_)(serie_(ci|buletin)|numar_(ci|buletin)|buletin|carte_identitate|serie_pasaport|numar_pasaport|pasaport)($|_)",
+          "confidence": 0.95
+        },
+        {
+          "pattern": "(^|_)(prawo_jazdy|nr_prawa_jazdy|permis_(de_)?conducere|jogositvany(_szam)?)($|_)",
+          "confidence": 0.9
+        },
+        {
+          "pattern": "^(nip|nip_number|numer_nip|nr_nip)$",
+          "confidence": 0.85
+        },
+        {
+          "pattern": "^(regon|cui|cif|adoszam)$",
+          "confidence": 0.7
+        }
+      ]
+    },
+    {
+      "id": "cee-person-name",
+      "category": "identity",
+      "description": "Personal names in Polish (imie, nazwisko), Romanian (nume, prenume), Hungarian (vezeteknev, keresztnev) and Czech/Slovak (jmeno, prijmeni).",
+      "match": [
+        {
+          "pattern": "(^|_)(imie|imiona|drugie_imie|nazwisko|nazwisko_rodowe|imie_i_nazwisko|nazwisko_panienskie)($|_)",
+          "confidence": 0.92
+        },
+        {
+          "pattern": "(^|_)(prenume|nume_complet|nume_si_prenume|nume_familie)($|_)",
+          "confidence": 0.92
+        },
+        {
+          "pattern": "^(nume|nume_client|nume_utilizator)$",
+          "confidence": 0.8
+        },
+        {
+          "pattern": "(^|_)(vezeteknev|keresztnev|utonev|csaladi_nev|szuletesi_nev|anyja_neve|teljes_nev)($|_)",
+          "confidence": 0.92
+        },
+        {
+          "pattern": "(^|_)(jmeno|prijmeni|krestni_jmeno|meno|priezvisko)($|_)",
+          "confidence": 0.85
+        },
+        {
+          "pattern": "^nev$",
+          "confidence": 0.6
+        }
+      ]
+    },
+    {
+      "id": "cee-contact",
+      "category": "contact",
+      "description": "Phone and email fields in Polish, Romanian and Hungarian.",
+      "match": [
+        {
+          "pattern": "(^|_)(telefon|telefonu|numer_telefonu|nr_telefonu|telefon_komorkowy|komorka|numar_(de_)?telefon|telefon_mobil|telefonszam|mobilszam)($|_)",
+          "confidence": 0.9
+        },
+        {
+          "pattern": "(^|_)(adres_e_?mail|adresa_(de_)?e_?mail|e_?mail_cim|e_?mail_adresa)($|_)",
+          "confidence": 0.9
+        }
+      ]
+    },
+    {
+      "id": "cee-address",
+      "category": "location",
+      "description": "Postal address fields in Polish, Romanian and Hungarian.",
+      "match": [
+        {
+          "pattern": "(^|_)(adres|adres_zamieszkania|adres_zameldowania|adres_korespondencyjny|ulica|kod_pocztowy|miejsce_zamieszkania)($|_)",
+          "confidence": 0.85
+        },
+        {
+          "pattern": "(^|_)(adresa|domiciliu|resedinta|strada|cod_postal)($|_)",
+          "confidence": 0.85
+        },
+        {
+          "pattern": "(^|_)(lakcim|lakhely|tartozkodasi_hely|iranyitoszam|utca|szekhely_cim)($|_)",
+          "confidence": 0.85
+        },
+        {
+          "pattern": "^(miejscowosc|localitate|telepules|obec)$",
+          "confidence": 0.55
+        }
+      ],
+      "exclude": ["(^|_)(adres|adresa)_(ip|url|www|e_?mail|mac|serwera|server)($|_)"]
+    },
+    {
+      "id": "cee-demographic",
+      "category": "demographic",
+      "description": "Date of birth, sex and citizenship in Polish, Romanian, Hungarian and Czech.",
+      "match": [
+        {
+          "pattern": "(^|_)(data_urodzenia|miejsce_urodzenia|data_nasterii|locul_nasterii|szuletesi_(datum|ido|hely)|datum_narozeni)($|_)",
+          "confidence": 0.95
+        },
+        {
+          "pattern": "(^|_)(plec|obywatelstwo|cetatenie|allampolgarsag|narodowosc|nationalitate)($|_)",
+          "confidence": 0.8
+        }
+      ]
+    },
+    {
+      "id": "cee-financial",
+      "category": "financial",
+      "description": "Bank account fields in Polish, Romanian and Hungarian.",
+      "match": [
+        {
+          "pattern": "(^|_)(numer_konta|nr_konta|nr_rachunku|numer_rachunku|rachunek_bankowy|konto_bankowe|cont_bancar|numar_cont|bankszamlaszam|szamlaszam)($|_)",
+          "confidence": 0.93
+        },
+        {
+          "pattern": "(^|_)(wynagrodzenie|pensja|salariu|venit|fizetes|jovedelem)($|_)",
+          "confidence": 0.8
+        }
+      ]
+    },
+    {
+      "id": "cee-credential",
+      "category": "credential",
+      "description": "Passwords and secrets named in Polish (haslo), Romanian (parola) and Hungarian (jelszo).",
+      "match": [
+        {
+          "pattern": "(^|_)(haslo|haslo_hash|hash_hasla|parola|parola_hash|jelszo|jelszo_hash|kod_pin|pin_kod)($|_)",
+          "confidence": 0.85
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+openapi: 3.1.0
+info:
+  title: Fixture API
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Contact:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        primary:
+          type: string
+          format: email
+        name:
+          type: string
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+            postalCode:
+              type: string
+            country:
+              type: string
+        devices:
+          type: array
+          items:
+            type: object
+            properties:
+              lastSeenIp:
+                type: string
+                format: ipv4
+    Health:
+      type: object
+      properties:
+        status:
+          type: string
