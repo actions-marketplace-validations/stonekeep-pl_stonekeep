@@ -1,0 +1,28 @@
+# Runs the repository's own GitHub Action (action.yml) against a fixture, the way users run it.
+name: Action self-test
+
+on:
+  push:
+    branches: [main]
+    paths: [action.yml, .github/workflows/action-selftest.yml, fixtures/**]
+  pull_request:
+    paths: [action.yml, .github/workflows/action-selftest.yml, fixtures/**]
+
+permissions:
+  contents: read
+
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: stonekeep
+        uses: ./
+        with:
+          path: fixtures/sql-migrations
+      - name: SARIF report was written
+        env:
+          SARIF: ${{ steps.stonekeep.outputs.sarif-file }}
+        run: |
+          test "$SARIF" = stonekeep.sarif
+          node -e "const r=require('./stonekeep.sarif'); if (r.version !== '2.1.0') process.exit(1)"

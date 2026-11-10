@@ -3,7 +3,7 @@
 # The commercial server and console live in a separate private repository.
 name: Release
 on:
-  push: { tags: ['v*'] }
+  push: { tags: ['npm-v*'] } # v* tags are GitHub Action releases
 permissions: { contents: read, id-token: write }
 jobs:
   publish:

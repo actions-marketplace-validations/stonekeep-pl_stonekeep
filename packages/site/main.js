@@ -966,7 +966,7 @@
 
   /* ---------- copy command (demo block + free-start steps) ---------- */
   const copyPairs = [[$('#copyBtn'), $('#cmdText')]];
-  $$('[data-copy]').forEach((btn) => copyPairs.push([btn, btn.parentElement.querySelector('[data-copy-src]')]));
+  $$('[data-copy]').forEach((btn) => copyPairs.push([btn, (btn.closest('.cmd, .gha-code') ?? btn.parentElement).querySelector('[data-copy-src]')]));
   copyPairs.forEach(([copyBtn, src]) => {
     if (!copyBtn || !src) return;
     copyBtn.addEventListener('click', async () => {

@@ -46,6 +46,7 @@
         <a href="#start" data-cta="nav-free">Za darmo</a>
         <a href="#cennik">Cennik</a>
         <a href="#faq">FAQ</a>
+        <!--if:links.github--><a href="{{links.github}}" rel="noopener" data-cta="nav-github">GitHub</a><!--/if:links.github-->
       </nav>
       <a class="nav-cta" href="#demo" data-cta="nav"><span>Zamów demo</span></a>
     </header>
@@ -485,6 +486,39 @@
             <p>Nowa kolumna z danymi osobowymi bez wpisu w mapie zatrzymuje build. Działa w GitHub Actions i GitLab CI.</p>
           </li>
         </ol>
+        <!--if:links.github-->
+        <div class="gha reveal">
+          <div class="gha-text">
+            <p class="label">Albo w GitHub Actions</p>
+            <h3>Kontrola RODO w każdym pull requeście</h3>
+            <p>
+              Gotowa akcja z GitHub Marketplace: komentarze przy linii, która dodała nowe dane osobowe,
+              i raport SARIF w zakładce Security. Działa na runnerze, czyta tylko schematy.
+            </p>
+            <p class="gha-links">
+              <a href="https://github.com/marketplace/actions/stonekeep-pii-check" rel="noopener" data-cta="gha-marketplace">GitHub Marketplace</a>
+              <a href="{{links.github}}" rel="noopener" data-cta="gha-repo">Repozytorium</a>
+            </p>
+          </div>
+          <div class="gha-code">
+            <div class="gha-bar"><span>.github/workflows/stonekeep.yml</span><button type="button" class="copy" data-copy>Kopiuj</button></div>
+            <pre data-copy-src>on: [pull_request]
+permissions:
+  contents: read
+  security-events: write
+jobs:
+  pii-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: stonekeep-pl/stonekeep@v0
+      - uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: stonekeep.sarif</pre>
+          </div>
+        </div>
+        <!--/if:links.github-->
         <p class="start-links reveal">
           <!--if:links.github--><a href="{{links.github}}" data-cta="github" rel="noopener">Kod na GitHubie</a><!--/if:links.github-->
           <!--if:links.npm--><a href="{{links.npm}}" data-cta="npm" rel="noopener">Pakiet npm</a><!--/if:links.npm-->

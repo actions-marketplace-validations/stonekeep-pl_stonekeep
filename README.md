@@ -149,14 +149,37 @@ stonekeep.config.json   @your-org/privacy
 
 ### GitHub Action and Code Scanning
 
+[Stonekeep PII check](https://github.com/marketplace/actions/stonekeep-pii-check) runs the check in a
+pull request, adds inline annotations on the line that introduced unmapped personal data and writes
+`stonekeep.sarif` for GitHub Code Scanning.
+
 ```yaml
-- uses: actions/checkout@v4
-- uses: <your-org>/stonekeep@v0 # root action.yml, writes stonekeep.sarif
-- uses: github/codeql-action/upload-sarif@v3
-  if: always()
-  with:
-    sarif_file: stonekeep.sarif
+# .github/workflows/stonekeep.yml
+name: Stonekeep
+on: [pull_request]
+permissions:
+  contents: read
+  security-events: write # only for the SARIF upload
+jobs:
+  pii-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: stonekeep-pl/stonekeep@v0
+      - uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: stonekeep.sarif
 ```
+
+| Input     | Default  | Meaning                                                    |
+| --------- | -------- | ---------------------------------------------------------- |
+| `path`    | `.`      | Directory to scan                                          |
+| `strict`  | `false`  | Also fail on stale datamap entries and category changes    |
+| `sarif`   | `true`   | Write `stonekeep.sarif` for Code Scanning                  |
+| `version` | `latest` | `@stonekeep/cli` version to run (pin it, e.g. `0.7.0`)     |
+
+The action runs locally on the runner and reads schema definitions only, never data values.
 
 Use `stonekeep check --format sarif` directly in other CI systems. To suppress one field, put a
 `stonekeep-ignore` comment on its line or the line above.

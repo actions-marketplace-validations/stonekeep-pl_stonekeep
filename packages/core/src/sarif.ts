@@ -73,7 +73,7 @@ export function toSarif(check: CheckResult, strict = false): SarifLog {
           driver: {
             name: 'Stonekeep',
             version: VERSION,
-            informationUri: 'https://github.com/',
+            informationUri: 'https://github.com/stonekeep-pl/stonekeep',
             rules: RULES,
           },
         },
