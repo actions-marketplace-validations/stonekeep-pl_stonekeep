@@ -37,9 +37,9 @@ window.STONEKEEP_SITE = {
 
   // Links shown in the navigation, the free-start section and the footer. Empty ones are hidden.
   links: {
-    github: '', // e.g. 'https://github.com/your-org/stonekeep'
+    github: 'https://github.com/stonekeep-pl/stonekeep',
     npm: 'https://www.npmjs.com/package/@stonekeep/cli',
-    docs: '', // e.g. the docs folder on GitHub
+    docs: 'https://github.com/stonekeep-pl/stonekeep/tree/main/packages/docs',
   },
 
   // Cookie-free analytics (no consent banner needed). Leave src empty to load nothing.
