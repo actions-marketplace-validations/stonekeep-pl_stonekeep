@@ -25,4 +25,4 @@ jobs:
           SARIF: ${{ steps.stonekeep.outputs.sarif-file }}
         run: |
           test "$SARIF" = stonekeep.sarif
-          node -e "const r=require('./stonekeep.sarif'); if (r.version !== '2.1.0') process.exit(1)"
+          node -e "const r = JSON.parse(require('fs').readFileSync('stonekeep.sarif', 'utf8')); if (r.version !== '2.1.0') process.exit(1)"

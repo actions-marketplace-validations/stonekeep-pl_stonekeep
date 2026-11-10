@@ -13,8 +13,10 @@
   // Never pass form contents here: only event names and coarse, non-personal properties.
   function track(name, props) {
     try {
-      if (typeof window.plausible === 'function') window.plausible(name, props ? { props } : undefined);
-      else if (window.umami && typeof window.umami.track === 'function') window.umami.track(name, props);
+      if (typeof window.plausible === 'function')
+        window.plausible(name, props ? { props } : undefined);
+      else if (window.umami && typeof window.umami.track === 'function')
+        window.umami.track(name, props);
     } catch {
       /* analytics must never break the page */
     }
@@ -165,7 +167,8 @@
         if (p >= 0) {
           // digit i locks once p passes its threshold, left to right
           let s = '';
-          for (let i = 0; i < n; i++) s += p > 0.55 + (0.45 * (i + 1)) / (n + 1) ? final[i] : rnd(1);
+          for (let i = 0; i < n; i++)
+            s += p > 0.55 + (0.45 * (i + 1)) / (n + 1) ? final[i] : rnd(1);
           el.textContent = s;
         }
         // frames slow down towards the end, like a reel losing speed
@@ -741,7 +744,8 @@
         return li.offsetTop + rn.offsetTop + rn.offsetHeight * 0.55;
       });
       // nodes sit just left of the numerals, inside the column's left padding
-      const x = items[0].offsetLeft + rn0.offsetLeft + parseFloat(getComputedStyle(rn0).paddingLeft) - 14;
+      const x =
+        items[0].offsetLeft + rn0.offsetLeft + parseFloat(getComputedStyle(rn0).paddingLeft) - 14;
       nodes.forEach((c, i) => {
         c.setAttribute('cx', String(x));
         c.setAttribute('cy', ys[i].toFixed(1));
@@ -760,7 +764,10 @@
     // draw a wire once both of its ends have been revealed
     function syncDrawn() {
       wires.forEach((w) =>
-        w.g.classList.toggle('drawn', items[w.a].classList.contains('in') && items[w.b].classList.contains('in')),
+        w.g.classList.toggle(
+          'drawn',
+          items[w.a].classList.contains('in') && items[w.b].classList.contains('in'),
+        ),
       );
       nodes.forEach((c, i) => c.classList.toggle('on', items[i].classList.contains('in')));
     }
@@ -807,7 +814,9 @@
       layout();
       syncDrawn();
     };
-    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(relayout);
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(
+      relayout,
+    );
     relayout();
     let rt;
     addEventListener('resize', () => {
@@ -966,7 +975,12 @@
 
   /* ---------- copy command (demo block + free-start steps) ---------- */
   const copyPairs = [[$('#copyBtn'), $('#cmdText')]];
-  $$('[data-copy]').forEach((btn) => copyPairs.push([btn, (btn.closest('.cmd, .gha-code') ?? btn.parentElement).querySelector('[data-copy-src]')]));
+  $$('[data-copy]').forEach((btn) =>
+    copyPairs.push([
+      btn,
+      (btn.closest('.cmd, .gha-code') ?? btn.parentElement).querySelector('[data-copy-src]'),
+    ]),
+  );
   copyPairs.forEach(([copyBtn, src]) => {
     if (!copyBtn || !src) return;
     copyBtn.addEventListener('click', async () => {

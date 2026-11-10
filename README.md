@@ -172,12 +172,12 @@ jobs:
           sarif_file: stonekeep.sarif
 ```
 
-| Input     | Default  | Meaning                                                    |
-| --------- | -------- | ---------------------------------------------------------- |
-| `path`    | `.`      | Directory to scan                                          |
-| `strict`  | `false`  | Also fail on stale datamap entries and category changes    |
-| `sarif`   | `true`   | Write `stonekeep.sarif` for Code Scanning                  |
-| `version` | `latest` | `@stonekeep/cli` version to run (pin it, e.g. `0.7.0`)     |
+| Input     | Default  | Meaning                                                 |
+| --------- | -------- | ------------------------------------------------------- |
+| `path`    | `.`      | Directory to scan                                       |
+| `strict`  | `false`  | Also fail on stale datamap entries and category changes |
+| `sarif`   | `true`   | Write `stonekeep.sarif` for Code Scanning               |
+| `version` | `latest` | `@stonekeep/cli` version to run (pin it, e.g. `0.7.0`)  |
 
 The action runs locally on the runner and reads schema definitions only, never data values.
 

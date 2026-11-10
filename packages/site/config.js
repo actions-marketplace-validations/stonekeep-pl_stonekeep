@@ -54,7 +54,8 @@ window.STONEKEEP_SITE = {
   // Processors named in the privacy policy. Fill in what you actually use.
   privacy: {
     hosting: 'Amazon Web Services EMEA SARL (hosting strony, Amazon CloudFront)', // e.g. 'Cloudflare, Inc. (hosting strony)'
-    forms: 'Amazon Web Services EMEA SARL (obsługa formularza i wysyłka wiadomości, Amazon SES, region Sztokholm)', // e.g. 'Formspree, Inc. (obsługa formularza)'
+    forms:
+      'Amazon Web Services EMEA SARL (obsługa formularza i wysyłka wiadomości, Amazon SES, region Sztokholm)', // e.g. 'Formspree, Inc. (obsługa formularza)'
     email: 'OVH SAS (poczta e-mail)', // e.g. 'Google Ireland Ltd. (poczta e-mail)'
     retentionMonths: 12, // how long demo requests are kept at most after the last message
     updated: '2026-11-10', // date shown on the policy; change it whenever the policy changes

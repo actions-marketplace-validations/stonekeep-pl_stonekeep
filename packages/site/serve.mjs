@@ -27,6 +27,7 @@ createServer((req, res) => {
     file = join(root, 'index.html');
   const type = types[extname(file)] ?? 'application/octet-stream';
   res.writeHead(200, { 'content-type': type });
-  if (extname(file) === '.html') return res.end(render(readFileSync(file, 'utf8'), loadConfig(root)));
+  if (extname(file) === '.html')
+    return res.end(render(readFileSync(file, 'utf8'), loadConfig(root)));
   createReadStream(file).pipe(res);
 }).listen(port, '127.0.0.1', () => console.log(`Promo site: http://127.0.0.1:${port}`));

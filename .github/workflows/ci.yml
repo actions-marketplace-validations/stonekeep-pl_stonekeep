@@ -32,4 +32,3 @@ jobs:
           # Integration tests must use real Postgres via testcontainers here
           # (no silent fallback to PGlite on CI).
           STONEKEEP_TEST_REQUIRE_DOCKER: '1'
-

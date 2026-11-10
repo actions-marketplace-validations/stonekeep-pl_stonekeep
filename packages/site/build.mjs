@@ -19,7 +19,9 @@ for (const w of warnings) console.warn(`warning: ${w}`);
 if (errors.length) {
   for (const e of errors) console[draft ? 'warn' : 'error'](`${draft ? 'warning' : 'error'}: ${e}`);
   if (!draft) {
-    console.error('\nFill these in packages/site/config.js, or run with --draft for a preview build.');
+    console.error(
+      '\nFill these in packages/site/config.js, or run with --draft for a preview build.',
+    );
     process.exit(1);
   }
 }
@@ -44,13 +46,22 @@ mkdirSync(out, { recursive: true });
 // Cache busting: assets keep their names but pages ask for `name?v=<content hash>`, so a new deploy is
 // picked up at once even by browsers that still hold the previous file in their cache.
 const versioned = ['style.css', 'main.js', 'config.js', 'fonts/fonts.css'];
-const hash = (f) => createHash('sha256').update(readFileSync(join(root, f))).digest('hex').slice(0, 10);
+const hash = (f) =>
+  createHash('sha256')
+    .update(readFileSync(join(root, f)))
+    .digest('hex')
+    .slice(0, 10);
 const bust = (html) =>
   versioned.reduce(
-    (h, f) => h.replace(new RegExp(`((?:href|src)=")${f.replace(/[./]/g, '\\$&')}"`, 'g'), `$1${f}?v=${hash(f)}"`),
+    (h, f) =>
+      h.replace(
+        new RegExp(`((?:href|src)=")${f.replace(/[./]/g, '\\$&')}"`, 'g'),
+        `$1${f}?v=${hash(f)}"`,
+      ),
     html,
   );
-for (const page of pages) writeFileSync(join(out, page), bust(render(readFileSync(join(root, page), 'utf8'), cfg)));
+for (const page of pages)
+  writeFileSync(join(out, page), bust(render(readFileSync(join(root, page), 'utf8'), cfg)));
 for (const a of assets) {
   if (!existsSync(join(root, a))) {
     console.error(`error: missing ${a}`);
@@ -63,7 +74,9 @@ for (const a of assets) {
 const base = cfg.siteUrl ?? '';
 writeFileSync(
   join(out, 'robots.txt'),
-  draft ? 'User-agent: *\nDisallow: /\n' : `User-agent: *\nAllow: /\n\nSitemap: ${base}/sitemap.xml\n`,
+  draft
+    ? 'User-agent: *\nDisallow: /\n'
+    : `User-agent: *\nAllow: /\n\nSitemap: ${base}/sitemap.xml\n`,
 );
 const today = new Date().toISOString().slice(0, 10);
 writeFileSync(
@@ -79,7 +92,13 @@ if (draft) {
   // belt and braces: a draft must never be indexed even if robots.txt is ignored
   for (const page of pages) {
     const p = join(out, page);
-    writeFileSync(p, readFileSync(p, 'utf8').replace('<head>', '<head>\n    <meta name="robots" content="noindex" />'));
+    writeFileSync(
+      p,
+      readFileSync(p, 'utf8').replace(
+        '<head>',
+        '<head>\n    <meta name="robots" content="noindex" />',
+      ),
+    );
   }
 }
 console.log(`Built ${draft ? 'DRAFT ' : ''}site in ${out}`);

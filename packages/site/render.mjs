@@ -10,14 +10,19 @@ import vm from 'node:vm';
 
 export function loadConfig(root) {
   const sandbox = { window: {} };
-  vm.runInNewContext(readFileSync(join(root, 'config.js'), 'utf8'), sandbox, { filename: 'config.js' });
+  vm.runInNewContext(readFileSync(join(root, 'config.js'), 'utf8'), sandbox, {
+    filename: 'config.js',
+  });
   return sandbox.window.STONEKEEP_SITE ?? {};
 }
 
 const get = (cfg, path) => path.split('.').reduce((v, k) => (v == null ? undefined : v[k]), cfg);
 const present = (v) => v !== undefined && v !== null && String(v).trim() !== '';
 const esc = (s) =>
-  String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  String(s).replace(
+    /[&<>"']/g,
+    (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+  );
 const text = (html) =>
   html
     .replace(/<[^>]+>/g, '')
@@ -56,9 +61,15 @@ function jsonLd(html, cfg) {
     url,
     publisher: url ? { '@id': `${url}#org` } : undefined,
   };
-  const faq = [...html.matchAll(/<details class="faq-item"[^>]*>\s*<summary>([\s\S]*?)<\/summary>\s*<div class="faq-a">([\s\S]*?)<\/div>\s*<\/details>/g)].map(
-    ([, q, a]) => ({ '@type': 'Question', name: text(q), acceptedAnswer: { '@type': 'Answer', text: text(a) } }),
-  );
+  const faq = [
+    ...html.matchAll(
+      /<details class="faq-item"[^>]*>\s*<summary>([\s\S]*?)<\/summary>\s*<div class="faq-a">([\s\S]*?)<\/div>\s*<\/details>/g,
+    ),
+  ].map(([, q, a]) => ({
+    '@type': 'Question',
+    name: text(q),
+    acceptedAnswer: { '@type': 'Answer', text: text(a) },
+  }));
   const graph = [org, app];
   if (faq.length) graph.push({ '@type': 'FAQPage', mainEntity: faq });
   const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, (_, v) =>
@@ -89,21 +100,37 @@ const isHttps = (v) => /^https:\/\/[^\s"'<>]+$/.test(v);
 export function validate(cfg) {
   const errors = [];
   const warnings = [];
-  if (!present(cfg.siteUrl)) errors.push('siteUrl is empty (canonical, Open Graph, sitemap need it)');
+  if (!present(cfg.siteUrl))
+    errors.push('siteUrl is empty (canonical, Open Graph, sitemap need it)');
   else if (!isHttps(cfg.siteUrl) || cfg.siteUrl.endsWith('/'))
     errors.push('siteUrl must look like https://example.pl (https, no trailing slash)');
-  if (!present(cfg.contactEmail)) errors.push('contactEmail is empty (footer, privacy policy, form fallback)');
-  if (!present(cfg.company?.name)) errors.push('company.name is empty (data controller in the privacy policy)');
-  if (!present(cfg.company?.address)) errors.push('company.address is empty (data controller in the privacy policy)');
-  if (!present(cfg.demoEndpoint)) warnings.push('demoEndpoint is empty: demo requests fall back to an e-mail link');
+  if (!present(cfg.contactEmail))
+    errors.push('contactEmail is empty (footer, privacy policy, form fallback)');
+  if (!present(cfg.company?.name))
+    errors.push('company.name is empty (data controller in the privacy policy)');
+  if (!present(cfg.company?.address))
+    errors.push('company.address is empty (data controller in the privacy policy)');
+  if (!present(cfg.demoEndpoint))
+    warnings.push('demoEndpoint is empty: demo requests fall back to an e-mail link');
   else if (!isHttps(cfg.demoEndpoint)) errors.push('demoEndpoint must be an https URL');
-  if (!present(cfg.analytics?.src)) warnings.push('analytics.src is empty: no visits or conversions are measured');
-  if (!present(cfg.links?.github)) warnings.push('links.github is empty: the free-start section has no repository link');
-  if (!present(cfg.founder?.name)) warnings.push('founder.name is empty: the "Kto za tym stoi" section is hidden');
+  if (!present(cfg.analytics?.src))
+    warnings.push('analytics.src is empty: no visits or conversions are measured');
+  if (!present(cfg.links?.github))
+    warnings.push('links.github is empty: the free-start section has no repository link');
+  if (!present(cfg.founder?.name))
+    warnings.push('founder.name is empty: the "Kto za tym stoi" section is hidden');
   if (present(cfg.demoEndpoint) && !present(cfg.privacy?.forms))
     warnings.push('privacy.forms is empty: name the form backend in the privacy policy');
-  if (!present(cfg.privacy?.hosting)) warnings.push('privacy.hosting is empty: name the hosting provider in the privacy policy');
-  for (const key of ['links.github', 'links.npm', 'links.docs', 'founder.linkedin', 'founder.github', 'analytics.src']) {
+  if (!present(cfg.privacy?.hosting))
+    warnings.push('privacy.hosting is empty: name the hosting provider in the privacy policy');
+  for (const key of [
+    'links.github',
+    'links.npm',
+    'links.docs',
+    'founder.linkedin',
+    'founder.github',
+    'analytics.src',
+  ]) {
     const v = get(cfg, key);
     if (present(v) && !isHttps(v)) errors.push(`${key} must be an https URL`);
   }

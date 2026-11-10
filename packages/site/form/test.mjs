@@ -8,11 +8,18 @@ import vm from 'node:vm';
 
 const tpl = readFileSync(join(dirname(fileURLToPath(import.meta.url)), 'template.yaml'), 'utf8');
 // The AWS CLI on Windows reads the template in the local code page, which garbled Polish letters once.
-assert.ok(/^[\x00-\x7f]*$/.test(tpl), 'template.yaml must stay ASCII: write Polish letters as \\u escapes');
+assert.ok(
+  [...tpl].every((c) => c.charCodeAt(0) < 128),
+  'template.yaml must stay ASCII: write Polish letters as \\u escapes',
+);
 const lines = tpl.split(/\r?\n/);
 const start = lines.findIndex((l) => l.trim() === 'ZipFile: |') + 1;
 const code = [];
-for (let i = start; i < lines.length && (lines[i].startsWith('          ') || lines[i].trim() === ''); i++)
+for (
+  let i = start;
+  i < lines.length && (lines[i].startsWith('          ') || lines[i].trim() === '');
+  i++
+)
   code.push(lines[i].slice(10));
 
 const sent = [];
@@ -22,10 +29,9 @@ const fakeSes = {
       sent.push(cmd.input);
     }
   },
-  SendEmailCommand: class {
-    constructor(input) {
-      this.input = input;
-    }
+  // a plain function works with `new` like the SDK class
+  SendEmailCommand: function SendEmailCommand(input) {
+    this.input = input;
   },
 };
 const mod = { exports: {} };
@@ -39,8 +45,19 @@ vm.runInNewContext(code.join('\n'), {
 });
 const handler = mod.exports.handler;
 const call = (body, { origin = 'https://stonekeep.pl', method = 'POST' } = {}) =>
-  handler({ requestContext: { http: { method } }, headers: { origin }, body: typeof body === 'string' ? body : JSON.stringify(body) });
-const ok = { name: 'Jan Kowalski', email: 'jan@example.pl', company: 'Sklep', size: '2–5 osób', message: 'Zakres: Wycieki', source: 'https://stonekeep.pl/' };
+  handler({
+    requestContext: { http: { method } },
+    headers: { origin },
+    body: typeof body === 'string' ? body : JSON.stringify(body),
+  });
+const ok = {
+  name: 'Jan Kowalski',
+  email: 'jan@example.pl',
+  company: 'Sklep',
+  size: '2–5 osób',
+  message: 'Zakres: Wycieki',
+  source: 'https://stonekeep.pl/',
+};
 
 let r = await call(ok);
 assert.equal(r.statusCode, 200);
@@ -60,6 +77,9 @@ r = await call({ ...ok, website: 'spam.example' });
 assert.equal(r.statusCode, 200, 'honeypot looks like success to the bot');
 assert.equal(sent.length, 1, 'honeypot sends nothing');
 await call({ ...ok, name: 'A\u0000B'.padEnd(500, 'x') });
-assert.equal(sent.at(-1).Content.Simple.Body.Text.Data.split('\n')[0].length, 'Imię i nazwisko: '.length + 120);
+assert.equal(
+  sent.at(-1).Content.Simple.Body.Text.Data.split('\n')[0].length,
+  'Imię i nazwisko: '.length + 120,
+);
 assert.ok(!sent.at(-1).Content.Simple.Body.Text.Data.includes('\u0000'));
 console.log('form lambda: all checks passed');

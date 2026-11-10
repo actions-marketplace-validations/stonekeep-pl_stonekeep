@@ -64,7 +64,15 @@ export default tseslint.config(
     rules: { 'no-undef': 'off' },
   },
   {
-    files: ['packages/site/serve.mjs', 'packages/site/demo-video/**/*.mjs'],
+    // command-line tools of the site: build, deploy, images, form test
+    files: [
+      'packages/site/serve.mjs',
+      'packages/site/build.mjs',
+      'packages/site/deploy.mjs',
+      'packages/site/brand/**/*.mjs',
+      'packages/site/form/**/*.mjs',
+      'packages/site/demo-video/**/*.mjs',
+    ],
     rules: { 'no-console': 'off' },
   },
 );

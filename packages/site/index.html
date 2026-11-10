@@ -9,7 +9,9 @@
       content="Stonekeep prowadzi małą firmę przez RODO: skanuje kod w poszukiwaniu danych osobowych, obsługuje wnioski klientów, pilnuje 72 godzin po wycieku i przygotowuje dokumenty po polsku. Start za darmo."
     />
     <meta name="theme-color" content="#04060d" />
-    <!--if:siteUrl--><link rel="canonical" href="{{siteUrl}}/" /><!--/if:siteUrl-->
+    <!--if:siteUrl-->
+    <link rel="canonical" href="{{siteUrl}}/" />
+    <!--/if:siteUrl-->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pl_PL" />
     <meta property="og:site_name" content="Stonekeep" />
@@ -18,21 +20,45 @@
       property="og:description"
       content="Skan kodu, wnioski osób, wycieki w 72 godziny i dokumenty po polsku. Bez działu prawnego. Start za darmo: npx @stonekeep/cli init"
     />
-    <!--if:siteUrl--><meta property="og:url" content="{{siteUrl}}/" />
-    <meta property="og:image" content="{{siteUrl}}/og.png" /><!--/if:siteUrl-->
+    <!--if:siteUrl-->
+    <meta property="og:url" content="{{siteUrl}}/" />
+    <meta property="og:image" content="{{siteUrl}}/og.png" />
+    <!--/if:siteUrl-->
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Stonekeep: RODO dla małych zespołów. Skan kodu, wnioski, wycieki, dokumenty." />
+    <meta
+      property="og:image:alt"
+      content="Stonekeep: RODO dla małych zespołów. Skan kodu, wnioski, wycieki, dokumenty."
+    />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
-    <link rel="preload" href="fonts/jost-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="fonts/bodoni-moda-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href="fonts/jost-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="fonts/bodoni-moda-latin-opsz-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="stylesheet" href="fonts/fonts.css" />
     <link rel="stylesheet" href="style.css" />
-    <!--if:analytics.src--><script defer src="{{analytics.src}}" data-domain="{{analytics.domain}}" data-website-id="{{analytics.websiteId}}"></script><!--/if:analytics.src-->
+    <!--if:analytics.src-->
+    <script
+      defer
+      src="{{analytics.src}}"
+      data-domain="{{analytics.domain}}"
+      data-website-id="{{analytics.websiteId}}"
+    ></script>
+    <!--/if:analytics.src-->
     <!--jsonld-->
   </head>
   <body>
@@ -46,7 +72,9 @@
         <a href="#start" data-cta="nav-free">Za darmo</a>
         <a href="#cennik">Cennik</a>
         <a href="#faq">FAQ</a>
-        <!--if:links.github--><a href="{{links.github}}" rel="noopener" data-cta="nav-github">GitHub</a><!--/if:links.github-->
+        <!--if:links.github--><a href="{{links.github}}" rel="noopener" data-cta="nav-github"
+          >GitHub</a
+        ><!--/if:links.github-->
       </nav>
       <a class="nav-cta" href="#demo" data-cta="nav"><span>Zamów demo</span></a>
     </header>
@@ -462,28 +490,48 @@
           <p class="label">III &nbsp; Zacznij za darmo</p>
           <h2 id="start-h">Pięć minut.<br /><em>Bez konta i bez serwera.</em></h2>
           <p class="sec-lede">
-            Skaner, kontrola w CI i dokumenty po polsku są darmowe i open source (Apache-2.0). Działają lokalnie
-            na Twoim komputerze: czytają definicje tabel, nigdy wartości danych, i niczego nigdzie nie wysyłają.
+            Skaner, kontrola w CI i dokumenty po polsku są darmowe i open source (Apache-2.0).
+            Działają lokalnie na Twoim komputerze: czytają definicje tabel, nigdy wartości danych, i
+            niczego nigdzie nie wysyłają.
           </p>
         </header>
         <ol class="start-steps">
           <li class="reveal">
             <b>1</b>
             <h3>Zmapuj dane w projekcie</h3>
-            <div class="cmd"><code data-copy-src>npx @stonekeep/cli init</code><button type="button" class="copy" data-copy>Kopiuj</button></div>
-            <p>Skanuje migracje SQL, Prisma, TypeORM, JSON Schema i OpenAPI. Zapisuje mapę danych, konfigurację, szablon rejestru czynności i workflow CI.</p>
+            <div class="cmd">
+              <code data-copy-src>npx @stonekeep/cli init</code
+              ><button type="button" class="copy" data-copy>Kopiuj</button>
+            </div>
+            <p>
+              Skanuje migracje SQL, Prisma, TypeORM, JSON Schema i OpenAPI. Zapisuje mapę danych,
+              konfigurację, szablon rejestru czynności i workflow CI.
+            </p>
           </li>
           <li class="reveal">
             <b>2</b>
             <h3>Dostań porady i dokumenty</h3>
-            <div class="cmd"><code data-copy-src>npx @stonekeep/cli porady</code><button type="button" class="copy" data-copy>Kopiuj</button></div>
-            <p>Porady dla Twojego projektu z odwołaniem do artykułów RODO, a <code class="inl">dokumenty</code> tworzy pakiet: klauzulę informacyjną, procedury, pisma i checklisty.</p>
+            <div class="cmd">
+              <code data-copy-src>npx @stonekeep/cli porady</code
+              ><button type="button" class="copy" data-copy>Kopiuj</button>
+            </div>
+            <p>
+              Porady dla Twojego projektu z odwołaniem do artykułów RODO, a
+              <code class="inl">dokumenty</code> tworzy pakiet: klauzulę informacyjną, procedury,
+              pisma i checklisty.
+            </p>
           </li>
           <li class="reveal">
             <b>3</b>
             <h3>Pilnuj w każdym pull requeście</h3>
-            <div class="cmd"><code data-copy-src>npx @stonekeep/cli check</code><button type="button" class="copy" data-copy>Kopiuj</button></div>
-            <p>Nowa kolumna z danymi osobowymi bez wpisu w mapie zatrzymuje build. Działa w GitHub Actions i GitLab CI.</p>
+            <div class="cmd">
+              <code data-copy-src>npx @stonekeep/cli check</code
+              ><button type="button" class="copy" data-copy>Kopiuj</button>
+            </div>
+            <p>
+              Nowa kolumna z danymi osobowymi bez wpisu w mapie zatrzymuje build. Działa w GitHub
+              Actions i GitLab CI.
+            </p>
           </li>
         </ol>
         <!--if:links.github-->
@@ -492,17 +540,26 @@
             <p class="label">Albo w GitHub Actions</p>
             <h3>Kontrola RODO w każdym pull requeście</h3>
             <p>
-              Gotowa akcja z GitHub Marketplace: komentarze przy linii, która dodała nowe dane osobowe,
-              i raport SARIF w zakładce Security. Działa na runnerze, czyta tylko schematy.
+              Gotowa akcja z GitHub Marketplace: komentarze przy linii, która dodała nowe dane
+              osobowe, i raport SARIF w zakładce Security. Działa na runnerze, czyta tylko schematy.
             </p>
             <p class="gha-links">
-              <a href="https://github.com/marketplace/actions/stonekeep-pii-check" rel="noopener" data-cta="gha-marketplace">GitHub Marketplace</a>
+              <a
+                href="https://github.com/marketplace/actions/stonekeep-pii-check"
+                rel="noopener"
+                data-cta="gha-marketplace"
+                >GitHub Marketplace</a
+              >
               <a href="{{links.github}}" rel="noopener" data-cta="gha-repo">Repozytorium</a>
             </p>
           </div>
           <div class="gha-code">
-            <div class="gha-bar"><span>.github/workflows/stonekeep.yml</span><button type="button" class="copy" data-copy>Kopiuj</button></div>
-            <pre data-copy-src>on: [pull_request]
+            <div class="gha-bar">
+              <span>.github/workflows/stonekeep.yml</span
+              ><button type="button" class="copy" data-copy>Kopiuj</button>
+            </div>
+            <pre data-copy-src>
+on: [pull_request]
 permissions:
   contents: read
   security-events: write
@@ -520,9 +577,14 @@ jobs:
         </div>
         <!--/if:links.github-->
         <p class="start-links reveal">
-          <!--if:links.github--><a href="{{links.github}}" data-cta="github" rel="noopener">Kod na GitHubie</a><!--/if:links.github-->
-          <!--if:links.npm--><a href="{{links.npm}}" data-cta="npm" rel="noopener">Pakiet npm</a><!--/if:links.npm-->
-          <!--if:links.docs--><a href="{{links.docs}}" data-cta="docs" rel="noopener">Dokumentacja</a><!--/if:links.docs-->
+          <!--if:links.github--><a href="{{links.github}}" data-cta="github" rel="noopener"
+            >Kod na GitHubie</a
+          ><!--/if:links.github-->
+          <!--if:links.npm--><a href="{{links.npm}}" data-cta="npm" rel="noopener">Pakiet npm</a
+          ><!--/if:links.npm-->
+          <!--if:links.docs--><a href="{{links.docs}}" data-cta="docs" rel="noopener"
+            >Dokumentacja</a
+          ><!--/if:links.docs-->
           <span>Wymaga Node.js 20+</span>
         </p>
       </section>
@@ -571,31 +633,74 @@ jobs:
         <div class="faq">
           <details class="faq-item">
             <summary>Czy Stonekeep gwarantuje zgodność z RODO?</summary>
-            <div class="faq-a"><p>Nie. Stonekeep pomaga wypełniać obowiązki: znajduje dane osobowe, prowadzi przez wnioski i wycieki, przygotowuje dokumenty. Rozpoznawanie pól jest heurystyczne i wymaga przeglądu przez człowieka. Narzędzie nie zastępuje porady prawnej ani inspektora ochrony danych.</p></div>
+            <div class="faq-a">
+              <p>
+                Nie. Stonekeep pomaga wypełniać obowiązki: znajduje dane osobowe, prowadzi przez
+                wnioski i wycieki, przygotowuje dokumenty. Rozpoznawanie pól jest heurystyczne i
+                wymaga przeglądu przez człowieka. Narzędzie nie zastępuje porady prawnej ani
+                inspektora ochrony danych.
+              </p>
+            </div>
           </details>
           <details class="faq-item">
             <summary>Czy moje dane trafiają do Stonekeep?</summary>
-            <div class="faq-a"><p>Nie. Skaner czyta tylko definicje tabel i schematy, nigdy wartości danych. Wszystko działa lokalnie, bez telemetrii. Polecenia na bazie danych łączą się wyłącznie z bazami wskazanymi w Twojej konfiguracji.</p></div>
+            <div class="faq-a">
+              <p>
+                Nie. Skaner czyta tylko definicje tabel i schematy, nigdy wartości danych. Wszystko
+                działa lokalnie, bez telemetrii. Polecenia na bazie danych łączą się wyłącznie z
+                bazami wskazanymi w Twojej konfiguracji.
+              </p>
+            </div>
           </details>
           <details class="faq-item">
             <summary>Czy Stonekeep może coś usunąć przez pomyłkę?</summary>
-            <div class="faq-a"><p>Polecenia, które zmieniają dane, domyślnie tylko pokazują plan. Usuwają dopiero z flagą <code>--apply</code>, w jednej transakcji, którą każdy błąd wycofuje. W konsoli usunięcie zatwierdza druga osoba, wpisując numer wniosku.</p></div>
+            <div class="faq-a">
+              <p>
+                Polecenia, które zmieniają dane, domyślnie tylko pokazują plan. Usuwają dopiero z
+                flagą <code>--apply</code>, w jednej transakcji, którą każdy błąd wycofuje. W
+                konsoli usunięcie zatwierdza druga osoba, wpisując numer wniosku.
+              </p>
+            </div>
           </details>
           <details class="faq-item">
             <summary>Jakie technologie obsługuje?</summary>
-            <div class="faq-a"><p>Skaner: migracje SQL, Prisma, TypeORM, JSON Schema i OpenAPI. Eksport, usuwanie i maskowanie: PostgreSQL. Usługi zewnętrzne: Stripe, PayU, Przelewy24, Mailchimp i Auth0. Rozpoznaje też polskie nazwy pól, takie jak pesel, nip, imie i nazwisko.</p></div>
+            <div class="faq-a">
+              <p>
+                Skaner: migracje SQL, Prisma, TypeORM, JSON Schema i OpenAPI. Eksport, usuwanie i
+                maskowanie: PostgreSQL. Usługi zewnętrzne: Stripe, PayU, Przelewy24, Mailchimp i
+                Auth0. Rozpoznaje też polskie nazwy pól, takie jak pesel, nip, imie i nazwisko.
+              </p>
+            </div>
           </details>
           <details class="faq-item">
             <summary>Co z danymi, które prawo każe przechowywać, na przykład fakturami?</summary>
-            <div class="faq-a"><p>W konfiguracji zaznaczasz tabele z obowiązkiem przechowywania. Przy usuwaniu takie wiersze zostają, ale są odłączone od osoby, a wskazane pola są anonimizowane (art. 17 ust. 3 RODO).</p></div>
+            <div class="faq-a">
+              <p>
+                W konfiguracji zaznaczasz tabele z obowiązkiem przechowywania. Przy usuwaniu takie
+                wiersze zostają, ale są odłączone od osoby, a wskazane pola są anonimizowane (art.
+                17 ust. 3 RODO).
+              </p>
+            </div>
           </details>
           <details class="faq-item">
             <summary>Czy to zastępuje inspektora ochrony danych (IOD)?</summary>
-            <div class="faq-a"><p>Nie. Jeśli masz IOD, Stonekeep oszczędza mu czas: daje aktualną mapę danych, rejestr i gotowe projekty dokumentów. Jeśli nie musisz go mieć, pomaga zrozumieć i wykonać obowiązki samodzielnie.</p></div>
+            <div class="faq-a">
+              <p>
+                Nie. Jeśli masz IOD, Stonekeep oszczędza mu czas: daje aktualną mapę danych, rejestr
+                i gotowe projekty dokumentów. Jeśli nie musisz go mieć, pomaga zrozumieć i wykonać
+                obowiązki samodzielnie.
+              </p>
+            </div>
           </details>
           <details class="faq-item">
             <summary>Ile to kosztuje?</summary>
-            <div class="faq-a"><p>Skaner, kontrola w CI, porady i dokumenty są darmowe i open source. Za wdrożenie konsoli, połączenia z usługami i wsparcie dla zespołu ustalamy cenę po krótkiej rozmowie.</p></div>
+            <div class="faq-a">
+              <p>
+                Skaner, kontrola w CI, porady i dokumenty są darmowe i open source. Za wdrożenie
+                konsoli, połączenia z usługami i wsparcie dla zespołu ustalamy cenę po krótkiej
+                rozmowie.
+              </p>
+            </div>
           </details>
         </div>
       </section>
@@ -604,16 +709,35 @@ jobs:
       <!-- KTO ZA TYM STOI -->
       <section class="sec sec-alt" id="kto" aria-labelledby="kto-h">
         <div class="who reveal">
-          <!--if:founder.photo--><img class="who-img" src="{{founder.photo}}" alt="{{founder.name}}" width="200" height="200" loading="lazy" /><!--/if:founder.photo-->
+          <!--if:founder.photo--><img
+            class="who-img"
+            src="{{founder.photo}}"
+            alt="{{founder.name}}"
+            width="200"
+            height="200"
+            loading="lazy"
+          /><!--/if:founder.photo-->
           <div>
             <p class="label">Kto za tym stoi</p>
             <h2 id="kto-h">{{founder.name}}</h2>
             <p class="who-role">{{founder.role}}</p>
             <p class="who-bio">{{founder.bio}}</p>
             <p class="who-links">
-              <!--if:founder.linkedin--><a href="{{founder.linkedin}}" rel="noopener" data-cta="founder-linkedin">LinkedIn</a><!--/if:founder.linkedin-->
-              <!--if:founder.github--><a href="{{founder.github}}" rel="noopener" data-cta="founder-github">GitHub</a><!--/if:founder.github-->
-              <!--if:contactEmail--><a href="mailto:{{contactEmail}}" data-cta="founder-email">{{contactEmail}}</a><!--/if:contactEmail-->
+              <!--if:founder.linkedin--><a
+                href="{{founder.linkedin}}"
+                rel="noopener"
+                data-cta="founder-linkedin"
+                >LinkedIn</a
+              ><!--/if:founder.linkedin-->
+              <!--if:founder.github--><a
+                href="{{founder.github}}"
+                rel="noopener"
+                data-cta="founder-github"
+                >GitHub</a
+              ><!--/if:founder.github-->
+              <!--if:contactEmail--><a href="mailto:{{contactEmail}}" data-cta="founder-email"
+                >{{contactEmail}}</a
+              ><!--/if:contactEmail-->
             </p>
           </div>
         </div>
@@ -1015,10 +1139,13 @@ jobs:
                   <input id="f-consent" type="checkbox" required />
                   <span>
                     Zgadzam się na kontakt w sprawie demo. Administratorem danych jest
-                    <!--if:company.name-->{{company.name}}<!--/if:company.name--><!--if:company.address-->, {{company.address}}<!--/if:company.address-->;
-                    dane posłużą wyłącznie do umówienia rozmowy (art. 6 ust. 1 lit. a RODO) i
-                    usuniemy je po zakończeniu kontaktu. Zgodę możesz cofnąć w każdej chwili.
-                    Szczegóły i Twoje prawa: <a href="polityka-prywatnosci.html" target="_blank" rel="noopener">polityka prywatności</a>.
+                    <!--if:company.name-->{{company.name}}<!--/if:company.name--><!--if:company.address-->,
+                    {{company.address}}<!--/if:company.address-->; dane posłużą wyłącznie do
+                    umówienia rozmowy (art. 6 ust. 1 lit. a RODO) i usuniemy je po zakończeniu
+                    kontaktu. Zgodę możesz cofnąć w każdej chwili. Szczegóły i Twoje prawa:
+                    <a href="polityka-prywatnosci.html" target="_blank" rel="noopener"
+                      >polityka prywatności</a
+                    >.
                   </span>
                 </label>
                 <button type="submit" class="submit" id="demoSubmit">
@@ -1200,14 +1327,27 @@ jobs:
       <span class="foot-brand">Stonekeep</span>
       <nav class="foot-links" aria-label="Stopka">
         <a href="polityka-prywatnosci.html">Polityka prywatności</a>
-        <!--if:links.github--><a href="{{links.github}}" rel="noopener" data-cta="foot-github">GitHub</a><!--/if:links.github-->
-        <!--if:links.npm--><a href="{{links.npm}}" rel="noopener" data-cta="foot-npm">npm</a><!--/if:links.npm-->
-        <!--if:links.docs--><a href="{{links.docs}}" rel="noopener" data-cta="foot-docs">Dokumentacja</a><!--/if:links.docs-->
-        <!--if:contactEmail--><a id="footMail" href="mailto:{{contactEmail}}" data-cta="foot-email">{{contactEmail}}</a><!--/if:contactEmail-->
+        <!--if:links.github--><a href="{{links.github}}" rel="noopener" data-cta="foot-github"
+          >GitHub</a
+        ><!--/if:links.github-->
+        <!--if:links.npm--><a href="{{links.npm}}" rel="noopener" data-cta="foot-npm">npm</a
+        ><!--/if:links.npm-->
+        <!--if:links.docs--><a href="{{links.docs}}" rel="noopener" data-cta="foot-docs"
+          >Dokumentacja</a
+        ><!--/if:links.docs-->
+        <!--if:contactEmail--><a id="footMail" href="mailto:{{contactEmail}}" data-cta="foot-email"
+          >{{contactEmail}}</a
+        ><!--/if:contactEmail-->
       </nav>
-      <!--if:company.name--><p class="foot-co">
-        {{company.name}}<!--if:company.address--> · {{company.address}}<!--/if:company.address--><!--if:company.nip--> · NIP {{company.nip}}<!--/if:company.nip--><!--if:company.regon--> · REGON {{company.regon}}<!--/if:company.regon--><!--if:company.krs--> · KRS {{company.krs}}<!--/if:company.krs-->
-      </p><!--/if:company.name-->
+      <!--if:company.name-->
+      <p class="foot-co">
+        {{company.name}}<!--if:company.address-->
+        · {{company.address}}<!--/if:company.address--><!--if:company.nip-->
+        · NIP {{company.nip}}<!--/if:company.nip--><!--if:company.regon-->
+        · REGON {{company.regon}}<!--/if:company.regon--><!--if:company.krs-->
+        · KRS {{company.krs}}<!--/if:company.krs-->
+      </p>
+      <!--/if:company.name-->
       <p>
         Stonekeep pomaga wypełniać obowiązki RODO, ale nie gwarantuje zgodności z prawem i nie
         zastępuje porady prawnej. Bez plików cookie. © 2026

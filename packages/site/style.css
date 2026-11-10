@@ -4705,7 +4705,9 @@ canvas.tb-plane {
   color: var(--silver);
   padding-bottom: 4px;
   border-bottom: 1px solid var(--hair-dark);
-  transition: border-color 0.5s var(--ease), color 0.5s var(--ease);
+  transition:
+    border-color 0.5s var(--ease),
+    color 0.5s var(--ease);
 }
 .cta-2:hover {
   color: #fff;

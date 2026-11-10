@@ -2,13 +2,13 @@
 
 Static site (HTML, CSS, JS) in Polish. No dependencies; Node 20+ only.
 
-| Command | What it does |
-|---|---|
-| `node packages/site/serve.mjs` | Preview on port 4173 (or `PORT=...`), templates filled from `config.js` on every request |
-| `node packages/site/build.mjs` | Publishable build in `packages/site/dist` (stops while a required field is empty) |
-| `node packages/site/build.mjs --draft` | Preview build: allows empty fields, blocks indexing (`noindex`, `Disallow: /`) |
+| Command                                     | What it does                                                                               |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `node packages/site/serve.mjs`              | Preview on port 4173 (or `PORT=...`), templates filled from `config.js` on every request   |
+| `node packages/site/build.mjs`              | Publishable build in `packages/site/dist` (stops while a required field is empty)          |
+| `node packages/site/build.mjs --draft`      | Preview build: allows empty fields, blocks indexing (`noindex`, `Disallow: /`)             |
 | `node packages/site/deploy.mjs [--dry-run]` | Build, upload `dist/` to S3 and invalidate CloudFront for stonekeep.pl (needs the AWS CLI) |
-| `node packages/site/brand/make-images.mjs` | Re-renders `og.png` and the PNG icons (needs Edge or Chrome, and Pillow) |
+| `node packages/site/brand/make-images.mjs`  | Re-renders `og.png` and the PNG icons (needs Edge or Chrome, and Pillow)                   |
 
 ## Before publishing
 
