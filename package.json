@@ -9,7 +9,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "pnpm -r --filter ./packages/** run build",
+    "build": "pnpm -r run build",
     "typecheck": "tsc -p packages/core/tsconfig.json && tsc -p packages/connectors/tsconfig.json && tsc -p packages/cli/tsconfig.json && tsc -p packages/react/tsconfig.json && tsc -p packages/ai/tsconfig.json && tsc -p packages/mcp/tsconfig.json",
     "lint": "eslint .",
     "format": "prettier --write .",
