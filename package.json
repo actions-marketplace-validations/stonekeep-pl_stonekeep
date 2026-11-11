@@ -22,7 +22,7 @@
     "@electric-sql/pglite": "^0.3.16",
     "@electric-sql/pglite-socket": "^0.0.15",
     "@eslint/js": "^9.36.0",
-    "@testcontainers/postgresql": "^11.14.0",
+    "@testcontainers/postgresql": "^12.2.1",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.8",
