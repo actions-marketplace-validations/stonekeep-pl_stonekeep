@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^10.6.0",
-    "better-sqlite3": "^12.11.1",
+    "better-sqlite3": "^13.0.3",
     "fflate": "^0.8.3",
     "pg": "^8.23.1",
     "yaml": "^2.8.1",
