@@ -1,7 +1,7 @@
 {
   "name": "stonekeep-monorepo",
   "private": true,
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Stonekeep: automated user data compliance tooling (open core).",
   "type": "module",
   "packageManager": "pnpm@10.18.0",

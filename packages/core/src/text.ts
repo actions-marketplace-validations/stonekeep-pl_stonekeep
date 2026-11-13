@@ -56,7 +56,8 @@ export function maskSql(text: string): string {
     } else if (c === "'") {
       let j = i + 1;
       while (j < n) {
-        if (text[j] === '\\') j += 2;
+        if (text[j] === '\\' && !(text[j + 1] === "'" && endsLiteral(text, j + 2))) j += 2;
+        else if (text[j] === '\\') j++;
         else if (text[j] === "'" && text[j + 1] === "'") j += 2;
         else if (text[j] === "'") break;
         else j++;
@@ -64,8 +65,19 @@ export function maskSql(text: string): string {
       const stop = Math.min(j, n);
       out += "'" + blank(text.slice(i + 1, stop)) + (stop < n ? "'" : '');
       i = stop + 1;
+    } else if (c === '"' || c === '`') {
+      // Quoted identifier: copy as is, so a quote or `--` inside a name starts nothing.
+      let j = i + 1;
+      while (j < n) {
+        if (text[j] === c && text[j + 1] === c) j += 2;
+        else if (text[j] === c || text[j] === '\n') break;
+        else j++;
+      }
+      const stop = Math.min(j + 1, n);
+      out += text.slice(i, stop);
+      i = stop;
     } else if (c === '$') {
-      const tag = /^\$[A-Za-z_]*\$/.exec(text.slice(i, i + 64));
+      const tag = /^\$(?:[A-Za-z_][A-Za-z0-9_]*)?\$/.exec(text.slice(i, i + 64));
       if (tag) {
         const end = text.indexOf(tag[0], i + tag[0].length);
         const stop = end === -1 ? n : end + tag[0].length;
@@ -81,6 +93,20 @@ export function maskSql(text: string): string {
     }
   }
   return out;
+}
+
+/**
+ * True when the text at `at` can only follow a finished string literal: the end of the input,
+ * or optional spaces and then `,`, `)`, `;` or a line break. Tells `'C:\\'` (standard SQL, the
+ * backslash is an ordinary character) from `'it\\'s'` (MySQL escape, the literal goes on).
+ */
+function endsLiteral(text: string, at: number): boolean {
+  for (let i = at; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === ' ' || ch === '\t') continue;
+    return ch === ',' || ch === ')' || ch === ';' || ch === '\n' || ch === '\r';
+  }
+  return true;
 }
 
 /**

@@ -14,12 +14,12 @@ Static site (HTML, CSS, JS) in Polish. No dependencies; Node 20+ only.
 
 Fill in [`config.js`](config.js):
 
-- **Required:** `siteUrl`, `contactEmail`, `company.name`, `company.address`. They feed canonical, Open
+- **Required:** `siteUrl`, `contactEmail`, `company.name` (`company.address` is optional). They feed canonical, Open
   Graph, the sitemap, the footer, the consent text and the privacy policy.
 - `demoEndpoint`: URL that receives the demo form as JSON (Formspree, Basin or your own server). While
   it is empty, a submitted form tells the visitor nothing was sent and offers an e-mail link instead.
 - `analytics`: cookie-free Plausible or Umami. Events: `CTA` (with `where`), `Copy command`,
-  `Form step`, `Demo request`, `Demo request failed`. Form contents never go to analytics.
+  `Demo request`, `Demo request failed`. Form contents never go to analytics.
 - `links`, `founder`, `privacy`: optional; empty ones hide their links or sections.
 
 Have a lawyer or DPO check [`polityka-prywatnosci.html`](polityka-prywatnosci.html) before going live.

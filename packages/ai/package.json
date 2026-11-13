@@ -1,6 +1,6 @@
 {
   "name": "@stonekeep/ai",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Stonekeep AI setup assistant with a pre-send privacy guardrail.",
   "license": "Apache-2.0",
   "type": "module",

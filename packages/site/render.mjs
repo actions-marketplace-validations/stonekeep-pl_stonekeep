@@ -109,7 +109,9 @@ export function validate(cfg) {
   if (!present(cfg.company?.name))
     errors.push('company.name is empty (data controller in the privacy policy)');
   if (!present(cfg.company?.address))
-    errors.push('company.address is empty (data controller in the privacy policy)');
+    warnings.push(
+      'company.address is empty: the privacy policy names the controller without a postal address',
+    );
   if (!present(cfg.demoEndpoint))
     warnings.push('demoEndpoint is empty: demo requests fall back to an e-mail link');
   else if (!isHttps(cfg.demoEndpoint)) errors.push('demoEndpoint must be an https URL');

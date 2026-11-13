@@ -1,6 +1,6 @@
 {
   "name": "@stonekeep/cli",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Stonekeep CLI: scan code for personal data fields and block unmapped PII in CI.",
   "license": "Apache-2.0",
   "type": "module",

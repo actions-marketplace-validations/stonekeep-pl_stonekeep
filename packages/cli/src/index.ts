@@ -90,6 +90,7 @@ Options (check):
   -d, --datamap <file>   Datamap to compare against (default: <path>/stonekeep-datamap.json)
       --format <fmt>     text | json | github | sarif (default: github on GitHub Actions, else text)
       --strict           Also fail on stale entries and category changes
+      --allow-incomplete Pass even when some schema files could not be read or parsed
 
 Options (init):
       --lang <l>         pl | en (default: pl)
@@ -201,6 +202,7 @@ function runScan(
           schemaFields: result.schemaFieldCount,
           datamap: flags.dryRun ? null : config.datamapPath,
           warnings: result.warnings,
+          incomplete: result.incomplete,
           fields: map.fields,
         },
         null,
@@ -211,6 +213,11 @@ function runScan(
   }
 
   for (const w of result.warnings) io.stderr(`warning: ${w}\n`);
+  for (const w of result.incomplete) io.stderr(`incomplete: ${w}\n`);
+  if (result.incomplete.length > 0)
+    io.stderr(
+      'The scan does not cover the whole repository: fix the files above or list them under "exclude". `stonekeep check` fails until then.\n',
+    );
   io.stdout(
     `Stonekeep scan: ${result.filesScanned} files, ${result.schemaFieldCount} schema fields, ${map.fields.length} personal data fields\n`,
   );
@@ -223,7 +230,13 @@ function runScan(
 
 type Format = 'text' | 'json' | 'github' | 'sarif';
 
-function printCheck(result: CheckResult, format: Format, strict: boolean, io: Io): void {
+function printCheck(
+  result: CheckResult,
+  format: Format,
+  strict: boolean,
+  allowIncomplete: boolean,
+  io: Io,
+): void {
   if (format === 'sarif') {
     io.stdout(`${JSON.stringify(toSarif(result, strict), null, 2)}
 `);
@@ -240,6 +253,7 @@ function printCheck(result: CheckResult, format: Format, strict: boolean, io: Io
           stale: result.stale,
           changed: result.changed.map(({ id, mapped, detected }) => ({ id, mapped, detected })),
           warnings: result.warnings,
+          incomplete: result.incomplete,
         },
         null,
         2,
@@ -249,6 +263,11 @@ function printCheck(result: CheckResult, format: Format, strict: boolean, io: Io
   }
 
   if (format === 'github') {
+    for (const problem of result.incomplete) {
+      io.stdout(
+        `::${allowIncomplete ? 'warning' : 'error'} title=Stonekeep::${problem.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A')}\n`,
+      );
+    }
     for (const f of result.unmapped) {
       io.stdout(
         ghAnnotation(
@@ -270,6 +289,16 @@ function printCheck(result: CheckResult, format: Format, strict: boolean, io: Io
   }
 
   for (const w of result.warnings) io.stderr(`warning: ${w}\n`);
+  if (result.incomplete.length > 0) {
+    io.stdout(
+      `${allowIncomplete ? 'WARN' : 'FAIL'}  ${result.incomplete.length} schema source${result.incomplete.length === 1 ? '' : 's'} could not be read, so the check does not cover the whole repository:\n`,
+    );
+    for (const problem of result.incomplete) io.stdout(`  ${problem}\n`);
+    if (!allowIncomplete)
+      io.stdout(
+        '\nFix the files above, list them under "exclude" in stonekeep.config.json if they hold no schema, or pass --allow-incomplete.\n',
+      );
+  }
   if (result.unmapped.length > 0) {
     io.stdout(
       `FAIL  Stonekeep check: ${result.unmapped.length} unmapped personal data field${result.unmapped.length === 1 ? '' : 's'}\n`,
@@ -306,6 +335,7 @@ function runCheck(
     datamap?: string | undefined;
     format?: string | undefined;
     strict: boolean;
+    allowIncomplete: boolean;
   },
   io: Io,
 ): number {
@@ -327,8 +357,11 @@ function runCheck(
     datamapPath: flags.datamap !== undefined ? resolve(io.cwd, flags.datamap) : undefined,
   });
   const datamap = readDataMap(config.datamapPath);
-  const result = check(config, datamap, { strict: flags.strict });
-  printCheck(result, format, flags.strict, io);
+  const result = check(config, datamap, {
+    strict: flags.strict,
+    allowIncomplete: flags.allowIncomplete,
+  });
+  printCheck(result, format, flags.strict, flags.allowIncomplete, io);
   return result.ok ? EXIT_OK : EXIT_UNMAPPED;
 }
 
@@ -348,6 +381,7 @@ export async function main(argv: readonly string[], io: Io = defaultIo()): Promi
         'dry-run': { type: 'boolean', default: false },
         json: { type: 'boolean', default: false },
         strict: { type: 'boolean', default: false },
+        'allow-incomplete': { type: 'boolean', default: false },
         connector: { type: 'string' },
         subject: { type: 'string' },
         'subject-env': { type: 'string' },
@@ -465,6 +499,7 @@ export async function main(argv: readonly string[], io: Io = defaultIo()): Promi
             datamap: values.datamap,
             format: values.format,
             strict: values.strict,
+            allowIncomplete: values['allow-incomplete'],
           },
           io,
         );

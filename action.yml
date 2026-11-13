@@ -11,6 +11,9 @@ inputs:
   strict:
     description: Also fail on stale datamap entries and category changes
     default: 'false'
+  allow-incomplete:
+    description: Pass even when some schema files could not be read or parsed
+    default: 'false'
   sarif:
     description: Write results to stonekeep.sarif for upload to Code Scanning
     default: 'true'
@@ -32,11 +35,13 @@ runs:
       env:
         KS_PATH: ${{ inputs.path }}
         KS_STRICT: ${{ inputs.strict }}
+        KS_ALLOW_INCOMPLETE: ${{ inputs.allow-incomplete }}
         KS_SARIF: ${{ inputs.sarif }}
         KS_VERSION: ${{ inputs.version }}
       run: |
         args=()
         [ "$KS_STRICT" = "true" ] && args+=(--strict)
+        [ "$KS_ALLOW_INCOMPLETE" = "true" ] && args+=(--allow-incomplete)
         status=0
         if [ "$KS_SARIF" = "true" ]; then
           npx --yes "@stonekeep/cli@$KS_VERSION" check "$KS_PATH" --format sarif "${args[@]}" > stonekeep.sarif || true

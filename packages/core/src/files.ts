@@ -55,14 +55,27 @@ export function globToRegExp(glob: string): RegExp {
 }
 
 /** Recursively list files under `root` as sorted POSIX relative paths. Symlinks are not followed. */
-export function listFiles(root: string, exclude: readonly string[] = []): string[] {
+export function listFiles(
+  root: string,
+  exclude: readonly string[] = [],
+  /** Called with the relative path of a directory that could not be listed; it is then skipped. */
+  onUnreadable?: (dirRel: string, error: unknown) => void,
+): string[] {
   const excluded = exclude.map(globToRegExp);
   const skipDirs = new Set(DEFAULT_EXCLUDED_DIRS);
   const isExcluded = (rel: string): boolean => excluded.some((re) => re.test(rel));
   const out: string[] = [];
 
   const walk = (dirAbs: string, dirRel: string): void => {
-    const entries = readdirSync(dirAbs, { withFileTypes: true });
+    let entries;
+    try {
+      entries = readdirSync(dirAbs, { withFileTypes: true });
+    } catch (error) {
+      // the root must be readable; a subdirectory that is not is reported and skipped
+      if (dirRel === '' || !onUnreadable) throw error;
+      onUnreadable(dirRel, error);
+      return;
+    }
     for (const entry of entries) {
       const rel = dirRel ? `${dirRel}/${entry.name}` : entry.name;
       if (entry.isDirectory()) {

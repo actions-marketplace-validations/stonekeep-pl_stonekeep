@@ -1,6 +1,6 @@
 {
   "name": "@stonekeep/mcp",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Stonekeep MCP server: scan, plan and dry-run tools for AI coding agents (no destructive tools).",
   "license": "Apache-2.0",
   "type": "module",

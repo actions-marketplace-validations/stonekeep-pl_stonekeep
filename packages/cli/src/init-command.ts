@@ -237,6 +237,7 @@ export function runInitCommand(path: string, flags: InitFlags, io: Io): number {
   const config = loadConfig(root);
   const result = scan(config);
   for (const w of result.warnings) io.stderr(`warning: ${w}\n`);
+  for (const w of result.incomplete) io.stderr(`incomplete: ${w}\n`);
   if (result.filesScanned === 0) {
     io.stderr(`${t.noSchemas}\n`);
     return 2;

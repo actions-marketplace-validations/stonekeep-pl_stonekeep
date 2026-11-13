@@ -1,6 +1,6 @@
 {
   "name": "@stonekeep/connectors",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Stonekeep SaaS connectors (Stripe, Auth0, ...) and the deletion orchestrator.",
   "license": "Apache-2.0",
   "type": "module",
