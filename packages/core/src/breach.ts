@@ -315,8 +315,9 @@ function when(iso: string): string {
   return `${iso.slice(0, 16).replace('T', ' ')} UTC`;
 }
 
+/** Text for a Markdown table cell. The backslash is escaped first, or `\|` would become `\\|`. */
 function cell(s: string): string {
-  return s.replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
+  return s.replace(/\\/g, '\\\\').replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
 }
 
 /** Render the impact assessment and the Art. 33(3) draft as Markdown. */

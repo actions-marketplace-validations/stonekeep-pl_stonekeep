@@ -7,8 +7,12 @@ import fc from 'fast-check';
 import { afterAll, describe, expect, it } from 'vitest';
 import {
   check,
+  coarseType,
   createDataMap,
   loadConfig,
+  normalizeName,
+  renderBreachMarkdown,
+  type BreachImpact,
   parsePrisma,
   parseSchemaDocument,
   parseSql,
@@ -404,6 +408,37 @@ describe('parsers never throw and never loop on arbitrary input', () => {
       }),
       { numRuns: 400 },
     );
+  });
+
+  it('normalizes names and types in linear time', () => {
+    const started = Date.now();
+    expect(normalizeName('A'.repeat(200_000))).toBe('a'.repeat(200_000));
+    expect(normalizeName(`x${'_'.repeat(200_000)}`)).toBe('x');
+    expect(normalizeName(`${'_'.repeat(200_000)}x${'-'.repeat(200_000)}`)).toBe('x');
+    expect(coarseType(`string${' '.repeat(200_000)}x`)).toBe('string');
+    expect(Date.now() - started).toBeLessThan(2000);
+    // same results as before the rewrite
+    expect(normalizeName('HTTPServerID')).toBe('http_server_id');
+    expect(normalizeName('__Phone-Number__')).toBe('phone_number');
+    expect(coarseType('String | null')).toBe('string');
+    expect(coarseType('Date|undefined')).toBe('date');
+    expect(coarseType('number | null | undefined')).toBe('number');
+  });
+
+  it('escapes backslashes in breach report table cells', () => {
+    const impact = {
+      subjectTable: 'users',
+      discoveredAt: '2026-11-13T09:12:00.000Z',
+      notifyBy: '2026-11-16T09:12:00.000Z',
+      tables: [],
+      records: 0,
+      subjects: { linked: 0, unlinkedRows: 0, min: 0, max: 0 },
+      categories: [],
+      risk: 'low',
+      highRiskCategories: [],
+    } as unknown as BreachImpact;
+    const md = renderBreachMarkdown(impact, { dpo: { name: 'a\\|b', contact: 'c|d' } });
+    expect(md).toContain('a\\\\\\|b, c\\|d');
   });
 
   it('gives the same result every time', () => {

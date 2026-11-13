@@ -55,7 +55,7 @@ const bust = (html) =>
   versioned.reduce(
     (h, f) =>
       h.replace(
-        new RegExp(`((?:href|src)=")${f.replace(/[./]/g, '\\$&')}"`, 'g'),
+        new RegExp(`((?:href|src)=")${f.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')}"`, 'g'),
         `$1${f}?v=${hash(f)}"`,
       ),
     html,

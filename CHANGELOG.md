@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+Fixes for the four open CodeQL alerts.
+
+- `normalizeName` and `coarseType` run in linear time. Two regular expressions backtracked
+  quadratically on a long run of capitals, underscores or spaces.
+- Breach report: a backslash in a table cell is escaped before the `|`, so `\|` in a name cannot
+  break out of the cell.
+- Site build: file names are fully escaped before they go into a regular expression, and tags are
+  stripped from FAQ text repeatedly until none are left.
+
 ## 0.8.0
 
 The scanner no longer passes by skipping. Either it reads a schema, or it says that it could not

@@ -23,9 +23,17 @@ const esc = (s) =>
     /[&<>"']/g,
     (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
   );
+// Removing tags once can leave a new tag behind (`<scr<b>ipt>`), so repeat until nothing changes.
+const stripTags = (html) => {
+  let out = html;
+  for (;;) {
+    const next = out.replace(/<[^>]*>/g, '');
+    if (next === out) return out;
+    out = next;
+  }
+};
 const text = (html) =>
-  html
-    .replace(/<[^>]+>/g, '')
+  stripTags(html)
     .replace(/\s+/g, ' ')
     .replace(/&nbsp;/g, ' ')
     .replace(/&quot;/g, '"')
