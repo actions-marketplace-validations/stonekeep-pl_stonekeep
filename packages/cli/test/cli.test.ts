@@ -276,6 +276,47 @@ describe('stonekeep init', () => {
   });
 });
 
+describe('stonekeep check: incomplete scans', () => {
+  it('fails when a schema file cannot be parsed, unless --allow-incomplete is passed', async () => {
+    const dir = copyFixture('sql-migrations');
+    expect((await run(['check', dir])).code).toBe(EXIT_OK);
+    writeFileSync(
+      join(dir, 'migrations', '011_broken.sql'),
+      'CREATE TABLE half (\n  email text,\n',
+    );
+
+    const failed = await run(['check', dir, '--format', 'text']);
+    expect(failed.code).toBe(EXIT_UNMAPPED);
+    expect(failed.stdout).toContain('FAIL  1 schema source could not be read');
+    expect(failed.stdout).toContain('011_broken.sql');
+    expect(failed.stdout).not.toContain('OK    Stonekeep check');
+
+    const json = await run(['check', dir, '--format', 'json']);
+    const parsed = JSON.parse(json.stdout) as { ok: boolean; incomplete: string[] };
+    expect(parsed.ok).toBe(false);
+    expect(parsed.incomplete).toHaveLength(1);
+
+    const github = await run(['check', dir, '--format', 'github']);
+    expect(github.stdout).toContain('::error title=Stonekeep::');
+
+    const allowed = await run(['check', dir, '--allow-incomplete', '--format', 'text']);
+    expect(allowed.code).toBe(EXIT_OK);
+    expect(allowed.stdout).toContain('WARN  1 schema source could not be read');
+  });
+
+  it('reads a UTF-16 migration instead of skipping it', async () => {
+    const dir = copyFixture('sql-migrations');
+    const ddl = 'ALTER TABLE users ADD COLUMN secondary_email text;\r\n';
+    writeFileSync(
+      join(dir, 'migrations', '012_utf16.sql'),
+      Buffer.concat([Buffer.from([0xff, 0xfe]), Buffer.from(ddl, 'utf16le')]),
+    );
+    const result = await run(['check', dir, '--format', 'text']);
+    expect(result.code).toBe(EXIT_UNMAPPED);
+    expect(result.stdout).toContain('users.secondary_email');
+  });
+});
+
 describe('stonekeep porady and dokumenty', () => {
   it('gives advice in Polish and writes the document pack without overwriting', async () => {
     const dir = copyFixture('prisma-app');

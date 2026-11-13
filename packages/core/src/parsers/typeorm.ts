@@ -2,46 +2,45 @@ import { LineIndex, findMatching, maskCodeComments } from '../text.js';
 import type { SchemaField } from '../types.js';
 import type { SourceFile } from './sql.js';
 
-const ENTITY = /@(?:Entity|ViewEntity|ChildEntity)\s*\(/g;
-const CLASS = /\bclass\s+(\w+)[^{]*\{/y;
-const COLUMN_DECORATOR =
-  /@(Column|PrimaryColumn|PrimaryGeneratedColumn|CreateDateColumn|UpdateDateColumn|DeleteDateColumn|VersionColumn|ObjectIdColumn|ViewColumn)\s*\(/g;
+const COLUMN_DECORATORS =
+  'Column|PrimaryColumn|PrimaryGeneratedColumn|CreateDateColumn|UpdateDateColumn|DeleteDateColumn|VersionColumn|ObjectIdColumn|ViewColumn';
+const CLASS = /\bclass\s+([\p{L}_$][\p{L}\p{N}_$]*)[^{;]*\{/gu;
+const COLUMN_DECORATOR = new RegExp(String.raw`@(${COLUMN_DECORATORS})\s*\(`, 'g');
+const LOOKS_LIKE = new RegExp(
+  String.raw`@(?:Entity|ViewEntity|ChildEntity|${COLUMN_DECORATORS})\s*\(`,
+);
 const OTHER_DECORATOR = /\s*@[\w.]+\s*/y;
 const PROPERTY =
-  /\s*(?:(?:public|private|protected|readonly|declare|override|static|accessor)\s+)*(\w+)\s*[!?]?\s*(?::\s*([^;=\n]+))?/y;
+  /\s*(?:(?:public|private|protected|readonly|declare|override|static|accessor)\s+)*([\p{L}_$][\p{L}\p{N}_$]*)\s*[!?]?\s*(?::\s*([^;=\n]+))?/uy;
 const NAME_OPTION = /\bname\s*:\s*['"`]([^'"`]+)['"`]/;
 const TYPE_OPTION = /\btype\s*:\s*['"`]([^'"`]+)['"`]/;
 const POSITIONAL_TYPE = /^\s*['"`]([^'"`]+)['"`]/;
 
-/** Quick pre-filter so we only parse files that declare TypeORM entities. */
+/**
+ * Quick pre-filter so we only parse files that declare TypeORM entities or columns. A base or
+ * embedded class has `@Column` fields but no `@Entity`, and its columns end up in real tables.
+ */
 export function looksLikeTypeOrm(content: string): boolean {
-  return /@(?:Entity|ViewEntity|ChildEntity)\s*\(/.test(content);
+  return LOOKS_LIKE.test(content);
 }
 
-/** Parse TypeORM entity classes decorated with `@Entity` and `@Column`-family decorators. */
+/**
+ * Parse classes that carry `@Column`-family decorators: entities, and also base and embedded
+ * classes without `@Entity`, whose columns are inherited by or embedded into entities.
+ */
 export function parseTypeOrm(files: readonly SourceFile[]): SchemaField[] {
   const fields: SchemaField[] = [];
   for (const file of files) {
     const text = maskCodeComments(file.content);
     const lines = new LineIndex(file.content);
-    for (const entity of text.matchAll(ENTITY)) {
-      const argsOpen = entity.index + entity[0].length - 1;
-      const argsClose = findMatching(text, argsOpen);
-      if (argsClose === -1) continue;
-
-      // Skip any further decorators/whitespace/`export default abstract` before `class`.
-      let pos = argsClose + 1;
-      const classSearch = /\bclass\s/g;
-      classSearch.lastIndex = pos;
-      const classAt = classSearch.exec(text);
-      if (!classAt) continue;
-      pos = classAt.index;
-      CLASS.lastIndex = pos;
-      const cls = CLASS.exec(text);
-      if (!cls?.[1]) continue;
+    let nextClassFrom = 0;
+    for (const cls of text.matchAll(CLASS)) {
+      // a class nested inside the previous one was already read as part of its body
+      if (!cls[1] || cls.index < nextClassFrom) continue;
       const bodyOpen = cls.index + cls[0].length - 1;
       const bodyClose = findMatching(text, bodyOpen);
       if (bodyClose === -1) continue;
+      nextClassFrom = bodyClose;
       const body = text.slice(bodyOpen, bodyClose);
 
       for (const dec of body.matchAll(COLUMN_DECORATOR)) {
@@ -60,6 +59,7 @@ export function parseTypeOrm(files: readonly SourceFile[]): SchemaField[] {
           cursor = text[after] === '(' ? findMatching(text, after) + 1 : after;
           if (cursor === 0) break;
         }
+        if (cursor === 0) continue;
         PROPERTY.lastIndex = cursor;
         const prop = PROPERTY.exec(text);
         if (!prop?.[1]) continue;

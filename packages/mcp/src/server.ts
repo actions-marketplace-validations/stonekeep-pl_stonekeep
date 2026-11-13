@@ -116,6 +116,7 @@ export function createStonekeepMcpServer(options: StonekeepMcpOptions): McpServe
                 hint: 'No stonekeep-datamap.json yet: run `stonekeep scan` to create it.',
               },
           warnings: result.warnings,
+          incomplete: result.incomplete,
         });
       } catch (error) {
         return failure(error);

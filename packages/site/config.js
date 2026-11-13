@@ -15,11 +15,11 @@ window.STONEKEEP_SITE = {
   // REQUIRED. Public contact address (footer, privacy policy, form fallback). Mailbox hosted at OVH.
   contactEmail: 'kontakt@stonekeep.pl',
 
-  // REQUIRED (name, address). The data controller shown in the privacy policy and consent text.
+  // REQUIRED (name). The data controller shown in the privacy policy and consent text.
   // For a JDG: 'Imię Nazwisko Stonekeep' style business name from CEIDG.
   company: {
     name: 'Sarmat Dzarakhokhov Stonekeep',
-    address: 'ul. Akademicka 5, 02-038 Warszawa', // e.g. 'ul. Przykładowa 1, 00-001 Warszawa'
+    address: '', // optional, shown in the footer, consent text and privacy policy; e.g. 'ul. Przykładowa 1, 00-001 Warszawa'
     nip: '', // optional; never put a PESEL here, it is not needed on the site
     regon: '',
     krs: '', // only for a company registered in KRS
@@ -28,10 +28,10 @@ window.STONEKEEP_SITE = {
   // Who the visitor talks to. The "Kto za tym stoi" section is hidden while name is empty.
   founder: {
     name: 'Sarmat Dzarakhokhov',
-    role: 'Założyciel', // e.g. 'Założyciel, programista'
-    bio: 'Student cyberbezpieczeństwa na Politechnice Warszawskiej. Buduję Stonekeep, żeby małe zespoły mogły ogarnąć RODO bez działu prawnego.', // one or two sentences, Polish
+    role: '', // optional; e.g. 'Założyciel, programista'
+    bio: '', // optional; one or two sentences, Polish
     photo: '', // path inside packages/site, e.g. 'img/founder.jpg' (square, at least 400 px)
-    linkedin: 'https://www.linkedin.com/in/sarmatsec',
+    linkedin: '',
     github: '',
   },
 

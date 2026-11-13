@@ -128,6 +128,9 @@ Options:
 - `--format text|json|github`: choose the output format. The default is `github` when
   `GITHUB_ACTIONS=true`, which adds inline PR annotations, and `text` otherwise.
 - `--strict`: also fail on stale entries and category changes.
+- `--allow-incomplete`: pass even when some schema files could not be read or parsed. By default
+  `check` fails in that case, because a check that skipped part of the schema cannot say that all
+  personal data is mapped. The files are listed either way.
 
 ## CI/CD integration
 
@@ -172,12 +175,13 @@ jobs:
           sarif_file: stonekeep.sarif
 ```
 
-| Input     | Default  | Meaning                                                 |
-| --------- | -------- | ------------------------------------------------------- |
-| `path`    | `.`      | Directory to scan                                       |
-| `strict`  | `false`  | Also fail on stale datamap entries and category changes |
-| `sarif`   | `true`   | Write `stonekeep.sarif` for Code Scanning               |
-| `version` | `latest` | `@stonekeep/cli` version to run (pin it, e.g. `0.7.0`)  |
+| Input              | Default  | Meaning                                                 |
+| ------------------ | -------- | ------------------------------------------------------- |
+| `path`             | `.`      | Directory to scan                                       |
+| `strict`           | `false`  | Also fail on stale datamap entries and category changes |
+| `allow-incomplete` | `false`  | Pass even when some schema files could not be read      |
+| `sarif`            | `true`   | Write `stonekeep.sarif` for Code Scanning               |
+| `version`          | `latest` | `@stonekeep/cli` version to run (pin it, e.g. `0.8.0`)  |
 
 The action runs locally on the runner and reads schema definitions only, never data values.
 

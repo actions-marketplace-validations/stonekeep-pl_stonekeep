@@ -38,6 +38,7 @@ export {
   fieldId,
   MAX_FILE_BYTES,
   type ScanResult,
+  decodeSource,
 } from './scanner.js';
 export {
   createDataMap,
